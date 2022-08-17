@@ -1,0 +1,510 @@
+import 'package:codeline_infotech/controllers/get_all_fev_student_controller.dart';
+import 'package:codeline_infotech/controllers/get_all_students_controller.dart';
+import 'package:codeline_infotech/screens/add_new_student.dart';
+import 'package:codeline_infotech/screens/favourite_screen.dart';
+import 'package:codeline_infotech/screens/login_screen.dart';
+import 'package:codeline_infotech/screens/student_details.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:intl/intl.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
+import 'package:sizer/sizer.dart';
+
+import '../constant/colors.dart';
+import '../constant/progress_indicator.dart';
+import '../models/req/update_Isfavourite_res_Model.dart';
+import '../repo/update_Isfavourite_repo.dart';
+
+class AllLangStudentList extends StatefulWidget {
+  AllLangStudentList({Key? key}) : super(key: key);
+
+  @override
+  State<AllLangStudentList> createState() => _AllLangStudentListState();
+}
+
+class _AllLangStudentListState extends State<AllLangStudentList> {
+  List<String> items = ["All", "C", "C++", "DART", "FLUTTER"];
+
+  bool isFavourite = false;
+
+  final searchController = TextEditingController();
+
+  GetAllStudentsController getAllStudentsController =
+      Get.put(GetAllStudentsController());
+
+  GetAllFevStudentController getAllFevStudentController =
+      Get.put(GetAllFevStudentController());
+
+  String isSelected = 'All';
+  var isItemSelected = 0;
+
+  final scrollDirection = Axis.horizontal;
+
+  AutoScrollController? autoScrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    autoScrollController = AutoScrollController(
+        viewportBoundaryGetter: () =>
+            Rect.fromLTRB(0, 0, 0, MediaQuery.of(context).padding.bottom),
+        axis: scrollDirection);
+  }
+
+  Future _scrollToIndex(int index) async {
+    await autoScrollController!
+        .scrollToIndex(index, preferPosition: AutoScrollPosition.begin);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+    return Scaffold(
+      backgroundColor: AppColor.whiteColor,
+      appBar: AppBar(
+        elevation: 0.0,
+        backgroundColor: AppColor.whiteColor,
+        actions: [
+          Padding(
+            padding: EdgeInsets.all(8.0.sp),
+            child: GestureDetector(
+              onTap: () {
+                getAllFevStudentController.onInit();
+                Get.to(FavouriteScreen());
+              },
+              child: Icon(
+                Icons.favorite_outline_rounded,
+                size: 20.sp,
+                color: AppColor.blackColor,
+              ),
+            ),
+          ),
+          // Padding(
+          //   padding: EdgeInsets.only(right: width * 0.017.w),
+          //   child: Icon(
+          //     Icons.help_outline,
+          //     size: 20.sp,
+          //     color: AppColor.blackColor,
+          //   ),
+          // ),
+          Padding(
+            padding: EdgeInsets.all(8.0.sp),
+            child: GestureDetector(
+              onTap: () async {
+                await GetStorage().remove('token');
+                Get.offAll(LogInScreen());
+              },
+              child: Icon(
+                Icons.logout,
+                size: 20.sp,
+                color: AppColor.blackColor,
+              ),
+            ),
+          ),
+        ],
+      ),
+      drawer: Drawer(),
+      body: GetBuilder(builder: (GetAllStudentsController controller) {
+        if (controller.isLoading == true) {
+          return AppProgressLoader();
+        }
+
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: height * 0.002.h,
+            ),
+            Padding(
+                padding: EdgeInsets.symmetric(horizontal: width * 0.017.w),
+                child: Container(
+                  child: TextFormField(
+                    controller: searchController,
+                    decoration: InputDecoration(
+                      prefixIcon: Padding(
+                        padding: EdgeInsets.all(12.0),
+                        child: Image(
+                          image: AssetImage("assets/images/icons.png"),
+                          height: 5,
+                          width: 5,
+                          //fit: BoxFit.fill,
+                        ),
+                      ),
+                      contentPadding: EdgeInsets.symmetric(
+                          vertical: 17.0.sp, horizontal: 11.0.sp),
+                      hintText: "Search Student",
+                      hintStyle: TextStyle(
+                          color: AppColor.secondaryColor,
+                          fontSize: 14.sp,
+                          fontFamily: "Inter",
+                          fontWeight: FontWeight.w500),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: AppColor.greyColor),
+                        borderRadius: BorderRadius.circular(10.0.sp),
+                      ),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: AppColor.greyColor),
+                        borderRadius: BorderRadius.circular(10.0.sp),
+                      ),
+                    ),
+                  ),
+                )),
+            SizedBox(
+              height: height * 0.003.h,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: width * 0.017.w),
+              child: Container(
+                  height: height * 0.0082.h,
+                  child: ListView(
+                    scrollDirection: scrollDirection,
+                    controller: autoScrollController,
+                    children: List.generate(items.length, (index) {
+                      return AutoScrollTag(
+                        key: ValueKey(index),
+                        controller: autoScrollController!,
+                        index: index,
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              isSelected = items[index];
+                              isItemSelected = index;
+                            });
+                            _scrollToIndex(isItemSelected);
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(right: width * 0.016.w),
+                            height: height * 0.008.h,
+                            width: width * 0.10.w,
+                            decoration: BoxDecoration(
+                              color: isSelected == items[index]
+                                  ? AppColor.primaryColor
+                                  : AppColor.backgroundColor,
+                              borderRadius: BorderRadius.circular(10.sp),
+                            ),
+                            child: Center(
+                              child: Text(
+                                "${items[index]}",
+                                style: TextStyle(
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "Inter",
+                                  color: isSelected == items[index]
+                                      ? Colors.white
+                                      : Colors.grey,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
+                  )
+                  /*ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    physics: BouncingScrollPhysics(),
+                    itemCount: items.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isSelected = items[index];
+                          });
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(right: width * 0.016.w),
+                          height: height * 0.008.h,
+                          width: width * 0.10.w,
+                          decoration: BoxDecoration(
+                            color: isSelected == items[index]
+                                ? AppColor.primaryColor
+                                : AppColor.backgroundColor,
+                            borderRadius: BorderRadius.circular(10.sp),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "${items[index]}",
+                              style: TextStyle(
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w500,
+                                fontFamily: "Inter",
+                                color: isSelected == items[index]
+                                    ? Colors.white
+                                    : Colors.grey,
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  )*/
+                  ),
+            ),
+            SizedBox(
+              height: height * 0.004.h,
+            ),
+            Flexible(
+              child: ListView.builder(
+                itemCount: isSelected != 'All'
+                    ? controller.allStudentList!.data!
+                        .where((element) => element.currentCourse == isSelected)
+                        .toList()
+                        .length
+                    : controller.allStudentList!.data!.length,
+                shrinkWrap: true,
+                physics: BouncingScrollPhysics(),
+                itemBuilder: (BuildContext context, int index) {
+                  DateTime? now = getAllStudentsController
+                      .allStudentList!.data![index].joiningDate;
+                  String formattedDate = DateFormat('yyyy-MM-dd').format(now!);
+
+                  var value = controller.allStudentList!.data![index];
+
+                  return buildGestureDetector(
+                      data: isSelected != 'All'
+                          ? controller.allStudentList!.data!
+                              .where((element) =>
+                                  element.currentCourse == isSelected)
+                              .toList()
+                          : controller.allStudentList!.data!,
+                      index: index,
+                      formattedDate: formattedDate,
+                      value: value);
+                },
+              ),
+            ),
+            SizedBox(
+              height: height * 0.004.h,
+            ),
+          ],
+        );
+      }),
+      floatingActionButton: FloatingActionButton(
+          elevation: 0.0,
+          backgroundColor: AppColor.primaryColor,
+          child: Icon(
+            Icons.add,
+            size: 30.sp,
+            color: AppColor.whiteColor,
+          ),
+          onPressed: () async {
+            if (GetStorage().read("role") == "admin" ||
+                GetStorage().read("role") == "hr") {
+              Get.to(AddNewStudentScreen())!.then((value) {
+                if (value['update']) getAllStudentsController.onInit();
+
+                print("Get new API calls");
+              });
+            }
+          }),
+    );
+  }
+
+  Padding buildGestureDetector(
+      {List<dynamic>? data, int? index, String? formattedDate, var value}) {
+    print('data------${data?.length}');
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+    return Padding(
+      padding: EdgeInsets.only(bottom: height * 0.003.h),
+      child: Container(
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: width * 0.017.w),
+              child: GestureDetector(
+                onTap: () {
+                  print("Std_id: ${data![index!].studentId!}");
+
+                  Get.to(StudentDetails(
+                      studentId: int.parse(data[index].studentId!)));
+                },
+                child: Container(
+                  height: height * 0.02.h,
+                  child: Stack(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Container(
+                            height: height * 0.019.h,
+                            width: width * 0.08.w,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.sp),
+                                image: DecorationImage(
+                                    image: NetworkImage(
+                                        data![index!].avatar.toString()),
+                                    fit: BoxFit.fill)),
+                          ),
+                          SizedBox(
+                            width: width * 0.035.sp,
+                          ),
+                          Container(
+                            height: height * 0.02.h,
+                            width: width * 0.15.w,
+                            //color: Colors.yellow,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: height * 0.0025.h,
+                                ),
+                                Text(
+                                  "${data[index].fullName.toString()}",
+                                  style: TextStyle(
+                                    color: AppColor.blackColor,
+                                    fontSize: 18.sp,
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: "Inter",
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: height * 0.0012.h),
+                                  child: Text(
+                                    "${data[index].email.toString()}",
+                                    style: TextStyle(
+                                        fontSize: 13.sp,
+                                        fontWeight: FontWeight.w400,
+                                        fontFamily: "Inter",
+                                        color: Color(0xff868585)),
+                                  ),
+                                ),
+                                Text(
+                                  "Joining at : ${formattedDate}",
+                                  style: TextStyle(
+                                      fontSize: 13.sp,
+                                      fontWeight: FontWeight.w400,
+                                      fontFamily: "Inter",
+                                      color: Color(0xff868585)),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      Positioned(
+                          top: -10,
+                          right: -10,
+                          child: IconButton(
+                              onPressed: () async {
+                                print(
+                                    "IDF-------${int.parse(getAllStudentsController.allStudentList!.data![index].studentId!)}");
+                                if (getAllStudentsController.allStudentList!
+                                        .data![index].favorite ==
+                                    "0") {
+                                  print("IF CONDITION");
+                                  getAllStudentsController.updateIsFav(
+                                      index, true);
+                                  isFavourite = true;
+
+                                  print(
+                                      "ADD FAVOURITE-----------${isFavourite}");
+                                } else {
+                                  print("ELSE CONDITION");
+                                  getAllStudentsController.updateIsFav(
+                                      index, false);
+                                  isFavourite = false;
+
+                                  print(
+                                      "REMOVE FAVOURITE-----------${isFavourite}");
+                                }
+                                UpdateIsFavouriteResModel
+                                    updateIsFavouriteResModel =
+                                    UpdateIsFavouriteResModel();
+                                updateIsFavouriteResModel.studentId = int.parse(
+                                    getAllStudentsController.allStudentList!
+                                        .data![index].studentId!);
+                                updateIsFavouriteResModel.favourite =
+                                    isFavourite == true ? 1 : 0;
+
+                                await UpdateIsfavouriteRepo
+                                    .updateIsfavouriterepo(
+                                        updateIsFavouriteResModel);
+                              },
+                              icon: Icon(
+                                getAllStudentsController.allStudentList!
+                                            .data![index].favorite ==
+                                        "1"
+                                    ? Icons.favorite
+                                    : Icons.favorite_outline_rounded,
+                                color: getAllStudentsController.allStudentList!
+                                            .data![index].favorite ==
+                                        "1"
+                                    ? AppColor.primaryColor
+                                    : AppColor.secondaryColor,
+                              )) /*GetBuilder(
+                            builder: (GetStudentsDetailsController controller) {
+                              return IconButton(
+                                  onPressed: () async {
+                                    print(
+                                        "IDF-------${int.parse(getAllStudentsController.allStudentList!.data![index].studentId!)}");
+                                    if (getAllStudentsController.allStudentList!
+                                            .data![index].favorite ==
+                                        "0") {
+                                      print("IF CONDITION");
+                                      isFavourite = true;
+                                      getAllStudentsController.onInit();
+                                      print(
+                                          "ADD FAVOURITE-----------${isFavourite}");
+                                    } else {
+                                      print("ELSE CONDITION");
+                                      isFavourite = false;
+                                      getAllStudentsController.onInit();
+                                      print(
+                                          "REMOVE FAVOURITE-----------${isFavourite}");
+                                    }
+                                    UpdateIsFavouriteResModel
+                                        updateIsFavouriteResModel =
+                                        UpdateIsFavouriteResModel();
+                                    updateIsFavouriteResModel.studentId =
+                                        int.parse(getAllStudentsController
+                                            .allStudentList!
+                                            .data![index]
+                                            .studentId!);
+                                    updateIsFavouriteResModel.favourite =
+                                        isFavourite == true ? 1 : 0;
+
+                                    await UpdateIsfavouriteRepo
+                                        .updateIsfavouriterepo(
+                                            updateIsFavouriteResModel);
+                                  },
+                                  icon: Icon(
+                                    getAllStudentsController.allStudentList!
+                                                .data![index].favorite ==
+                                            "1"
+                                        ? Icons.favorite
+                                        : Icons.favorite_outline_rounded,
+                                    color: getAllStudentsController
+                                                .allStudentList!
+                                                .data![index]
+                                                .favorite ==
+                                            "1"
+                                        ? AppColor.primaryColor
+                                        : AppColor.secondaryColor,
+                                  ));
+                            },
+                          )*/
+                          )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: height * 0.003.h,
+            ),
+            Divider(
+              height: 2,
+              color: AppColor.secondaryColor,
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
