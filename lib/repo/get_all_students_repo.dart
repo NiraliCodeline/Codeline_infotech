@@ -4,7 +4,7 @@ import 'package:codeline_infotech/constant/api_routes.dart';
 import '../models/res/get_all_student_res_model.dart';
 
 class GetAllStudentsRepo {
-  static Future<GetAllStudentsResModel?> getAllStudents() async {
+  static Future<GetAllStudentsResModel?> getAllStudentsRepo() async {
     Map<String, String> header = {"Authorization": '${ApiRoutes.dataToken}'};
 
     var response = await API.apiHandlers(

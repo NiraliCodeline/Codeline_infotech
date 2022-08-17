@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:codeline_infotech/constant/colors.dart';
+import 'package:codeline_infotech/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:sizer/sizer.dart';
 
-import 'all_lang_student_list.dart';
 import 'login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -35,9 +35,7 @@ class _SplashScreenState extends State<SplashScreen>
         var token = GetStorage().read('token');
 
         print("TOKEN--------------${token}");
-        token == null
-            ? Get.offAll(LogInScreen())
-            : Get.offAll(AllLangStudentList());
+        token == null ? Get.offAll(LogInScreen()) : Get.offAll(HomeScreen());
       });
     });
   }

@@ -106,7 +106,6 @@ class _AllLangStudentListState extends State<AllLangStudentList> {
           ),
         ],
       ),
-      drawer: Drawer(),
       body: GetBuilder(builder: (GetAllStudentsController controller) {
         if (controller.isLoading == true) {
           return AppProgressLoader();
@@ -121,33 +120,52 @@ class _AllLangStudentListState extends State<AllLangStudentList> {
             Padding(
                 padding: EdgeInsets.symmetric(horizontal: width * 0.017.w),
                 child: Container(
-                  child: TextFormField(
-                    controller: searchController,
-                    decoration: InputDecoration(
-                      prefixIcon: Padding(
-                        padding: EdgeInsets.all(12.0),
-                        child: Image(
-                          image: AssetImage("assets/images/icons.png"),
-                          height: 5,
-                          width: 5,
-                          //fit: BoxFit.fill,
+                  child: Focus(
+                    autofocus: true,
+                    onFocusChange: (hasFocus) {
+                      if (hasFocus) {
+                        print("Hello $hasFocus");
+                      } else {
+                        print("Hello $hasFocus");
+                      }
+                    },
+                    child: TextFormField(
+                      onChanged: onSearchTextChanged,
+                      controller: searchController,
+                      decoration: InputDecoration(
+                        suffixIcon: IconButton(
+                          icon: const Icon(Icons.close),
+                          onPressed: () {
+                            searchController.clear();
+                            onSearchTextChanged('');
+                            FocusScope.of(context).unfocus();
+                          },
                         ),
-                      ),
-                      contentPadding: EdgeInsets.symmetric(
-                          vertical: 17.0.sp, horizontal: 11.0.sp),
-                      hintText: "Search Student",
-                      hintStyle: TextStyle(
-                          color: AppColor.secondaryColor,
-                          fontSize: 14.sp,
-                          fontFamily: "Inter",
-                          fontWeight: FontWeight.w500),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: AppColor.greyColor),
-                        borderRadius: BorderRadius.circular(10.0.sp),
-                      ),
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide(color: AppColor.greyColor),
-                        borderRadius: BorderRadius.circular(10.0.sp),
+                        prefixIcon: Padding(
+                          padding: EdgeInsets.all(12.0),
+                          child: Image(
+                            image: AssetImage("assets/images/icons.png"),
+                            height: 5,
+                            width: 5,
+                            //fit: BoxFit.fill,
+                          ),
+                        ),
+                        contentPadding: EdgeInsets.symmetric(
+                            vertical: 17.0.sp, horizontal: 11.0.sp),
+                        hintText: "Search Student",
+                        hintStyle: TextStyle(
+                            color: AppColor.secondaryColor,
+                            fontSize: 14.sp,
+                            fontFamily: "Inter",
+                            fontWeight: FontWeight.w500),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: AppColor.greyColor),
+                          borderRadius: BorderRadius.circular(10.0.sp),
+                        ),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(color: AppColor.greyColor),
+                          borderRadius: BorderRadius.circular(10.0.sp),
+                        ),
                       ),
                     ),
                   ),
@@ -160,6 +178,7 @@ class _AllLangStudentListState extends State<AllLangStudentList> {
               child: Container(
                   height: height * 0.0082.h,
                   child: ListView(
+                    physics: BouncingScrollPhysics(),
                     scrollDirection: scrollDirection,
                     controller: autoScrollController,
                     children: List.generate(items.length, (index) {
@@ -168,21 +187,25 @@ class _AllLangStudentListState extends State<AllLangStudentList> {
                         controller: autoScrollController!,
                         index: index,
                         child: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              isSelected = items[index];
-                              isItemSelected = index;
-                            });
-                            _scrollToIndex(isItemSelected);
-                          },
+                          onTap: items[index] == ""
+                              ? null
+                              : () {
+                                  setState(() {
+                                    isSelected = items[index];
+                                    isItemSelected = index;
+                                  });
+                                  _scrollToIndex(isItemSelected);
+                                },
                           child: Container(
                             margin: EdgeInsets.only(right: width * 0.016.w),
                             height: height * 0.008.h,
                             width: width * 0.10.w,
                             decoration: BoxDecoration(
-                              color: isSelected == items[index]
-                                  ? AppColor.primaryColor
-                                  : AppColor.backgroundColor,
+                              color: items[index] == ""
+                                  ? AppColor.greyColor.withOpacity(0.0)
+                                  : isSelected == items[index]
+                                      ? AppColor.primaryColor
+                                      : AppColor.backgroundColor,
                               borderRadius: BorderRadius.circular(10.sp),
                             ),
                             child: Center(
@@ -192,9 +215,11 @@ class _AllLangStudentListState extends State<AllLangStudentList> {
                                   fontSize: 12.sp,
                                   fontWeight: FontWeight.w500,
                                   fontFamily: "Inter",
-                                  color: isSelected == items[index]
-                                      ? Colors.white
-                                      : Colors.grey,
+                                  color: items[index] == ""
+                                      ? AppColor.greyColor.withOpacity(0.0)
+                                      : isSelected == items[index]
+                                          ? Colors.white
+                                          : Colors.grey,
                                 ),
                               ),
                             ),
@@ -202,79 +227,98 @@ class _AllLangStudentListState extends State<AllLangStudentList> {
                         ),
                       );
                     }),
-                  )
-                  /*ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    physics: BouncingScrollPhysics(),
-                    itemCount: items.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isSelected = items[index];
-                          });
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(right: width * 0.016.w),
-                          height: height * 0.008.h,
-                          width: width * 0.10.w,
-                          decoration: BoxDecoration(
-                            color: isSelected == items[index]
-                                ? AppColor.primaryColor
-                                : AppColor.backgroundColor,
-                            borderRadius: BorderRadius.circular(10.sp),
-                          ),
-                          child: Center(
-                            child: Text(
-                              "${items[index]}",
-                              style: TextStyle(
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w500,
-                                fontFamily: "Inter",
-                                color: isSelected == items[index]
-                                    ? Colors.white
-                                    : Colors.grey,
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  )*/
-                  ),
+                  )),
             ),
             SizedBox(
               height: height * 0.004.h,
             ),
             Flexible(
-              child: ListView.builder(
-                itemCount: isSelected != 'All'
-                    ? controller.allStudentList!.data!
-                        .where((element) => element.currentCourse == isSelected)
-                        .toList()
-                        .length
-                    : controller.allStudentList!.data!.length,
-                shrinkWrap: true,
-                physics: BouncingScrollPhysics(),
-                itemBuilder: (BuildContext context, int index) {
-                  DateTime? now = getAllStudentsController
-                      .allStudentList!.data![index].joiningDate;
-                  String formattedDate = DateFormat('yyyy-MM-dd').format(now!);
+              child: getAllStudentsController.searchResult.isNotEmpty ||
+                      searchController.text.isNotEmpty
+                  ? getAllStudentsController.searchResult.isEmpty
+                      ? Center(
+                          child: Text(
+                            "No Student Found",
+                            style: TextStyle(
+                                fontSize: 13.sp,
+                                fontWeight: FontWeight.w400,
+                                fontFamily: "Inter",
+                                color:
+                                    AppColor.secondaryColor.withOpacity(0.8)),
+                          ),
+                        )
+                      : ListView.builder(
+                          itemCount: isSelected != 'All'
+                              ? controller.searchResult
+                                  .where((element) =>
+                                      element.currentCourse == isSelected)
+                                  .toList()
+                                  .length
+                              : controller.searchResult.length,
+                          shrinkWrap: true,
+                          physics: BouncingScrollPhysics(),
+                          itemBuilder: (BuildContext context, int index) {
+                            DateTime? now =
+                                controller.searchResult[index].joiningDate;
+                            String formattedDate =
+                                DateFormat('yyyy-MM-dd').format(now!);
 
-                  var value = controller.allStudentList!.data![index];
+                            var value = controller.searchResult[index];
 
-                  return buildGestureDetector(
-                      data: isSelected != 'All'
+                            return buildGestureDetector(
+                                data: isSelected != 'All'
+                                    ? controller.searchResult
+                                        .where((element) =>
+                                            element.currentCourse == isSelected)
+                                        .toList()
+                                    : controller.searchResult,
+                                index: index,
+                                formattedDate: formattedDate,
+                                value: value);
+                          },
+                        )
+                  : ListView.builder(
+                      itemCount: isSelected != 'All'
                           ? controller.allStudentList!.data!
                               .where((element) =>
                                   element.currentCourse == isSelected)
                               .toList()
-                          : controller.allStudentList!.data!,
-                      index: index,
-                      formattedDate: formattedDate,
-                      value: value);
-                },
-              ),
+                              .length
+                          : controller.allStudentList!.data!.length,
+                      shrinkWrap: true,
+                      physics: BouncingScrollPhysics(),
+                      itemBuilder: (BuildContext context, int index) {
+                        DateTime? now = getAllStudentsController
+                            .allStudentList!.data![index].joiningDate;
+                        String formattedDate =
+                            DateFormat('yyyy-MM-dd').format(now!);
+
+                        var value = controller.allStudentList!.data![index];
+
+                        return controller.allStudentList!.data!.isEmpty
+                            ? Center(
+                                child: Text(
+                                  "No Student Found",
+                                  style: TextStyle(
+                                      fontSize: 13.sp,
+                                      fontWeight: FontWeight.w400,
+                                      fontFamily: "Inter",
+                                      color: AppColor.secondaryColor
+                                          .withOpacity(0.8)),
+                                ),
+                              )
+                            : buildGestureDetector(
+                                data: isSelected != 'All'
+                                    ? (controller.allStudentList!.data!
+                                        .where((element) =>
+                                            element.currentCourse == isSelected)
+                                        .toList())
+                                    : controller.allStudentList!.data!,
+                                index: index,
+                                formattedDate: formattedDate,
+                                value: value);
+                      },
+                    ),
             ),
             SizedBox(
               height: height * 0.004.h,
@@ -506,5 +550,34 @@ class _AllLangStudentListState extends State<AllLangStudentList> {
         ),
       ),
     );
+  }
+
+  onSearchTextChanged(String text) async {
+    getAllStudentsController.searchResult.clear();
+    if (text.isEmpty) {
+      getAllStudentsController.update();
+      return;
+    }
+
+    for (var userDetail in getAllStudentsController.allStudentList!.data!) {
+      print("userDetail.fullName ${userDetail.fullName}");
+      print("text $text");
+
+      //userDetail.fullName!.split(" ")[0].toLowerCase().contains(text.toLowerCase())
+      //userDetail.fullName!.split(" ")[0].toLowerCase().contains(text.toLowerCase())
+
+      String firstName = userDetail.fullName!.split(" ")[0];
+
+      String lastName = userDetail.fullName!.split(" ").length > 1
+          ? userDetail.fullName!.split(" ")[1]
+          : "";
+
+      if (firstName.toLowerCase().contains(text.toLowerCase()) ||
+          lastName.toLowerCase().contains(text.toLowerCase())) {
+        getAllStudentsController.addSearchResult(userDetail);
+      } else {
+        getAllStudentsController.update();
+      }
+    }
   }
 }

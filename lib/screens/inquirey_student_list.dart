@@ -4,7 +4,11 @@ import 'package:codeline_infotech/screens/inquiry_details_screen.dart';
 import 'package:codeline_infotech/screens/inquiry_favourite_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
+
+import '../constant/progress_indicator.dart';
+import '../controllers/get_allInquiry_controller.dart';
 
 class InquiryStudentListScreen extends StatefulWidget {
   InquiryStudentListScreen({Key? key}) : super(key: key);
@@ -16,6 +20,9 @@ class InquiryStudentListScreen extends StatefulWidget {
 
 class _InquiryStudentListScreenState extends State<InquiryStudentListScreen> {
   final searchController = TextEditingController();
+
+  GetAllInquiryController getAllInquiryController =
+      Get.put(GetAllInquiryController());
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +46,7 @@ class _InquiryStudentListScreenState extends State<InquiryStudentListScreen> {
         actions: [
           IconButton(
               onPressed: () {
-                Get.to(InquiryFavouriteScreen());
+                Get.to(DemoLectureScreen());
               },
               icon: Image(
                 height: 20.sp,
@@ -61,136 +68,153 @@ class _InquiryStudentListScreenState extends State<InquiryStudentListScreen> {
           )
         ],
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: height * 0.003.h,
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: width * 0.017.w),
-            child: Container(
-              child: TextFormField(
-                obscureText: false,
-                controller: searchController,
-                decoration: InputDecoration(
-                  prefixIcon: Padding(
-                    padding: EdgeInsets.all(12.0),
-                    child: Image(
-                      image: AssetImage("assets/images/icons.png"),
-                      height: 5,
-                      width: 5,
-                      //fit: BoxFit.fill,
+      body: GetBuilder<GetAllInquiryController>(
+        builder: (controller) {
+          if (controller.isLoading == true) {
+            return AppProgressLoader();
+          }
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: height * 0.003.h,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: width * 0.017.w),
+                child: Container(
+                  child: TextFormField(
+                    obscureText: false,
+                    controller: searchController,
+                    decoration: InputDecoration(
+                      prefixIcon: Padding(
+                        padding: EdgeInsets.all(12.0),
+                        child: Image(
+                          image: AssetImage("assets/images/icons.png"),
+                          height: 5,
+                          width: 5,
+                          //fit: BoxFit.fill,
+                        ),
+                      ),
+                      suffixIcon: Padding(
+                        padding: EdgeInsets.all(12.0),
+                        child: Image(
+                          image: AssetImage("assets/images/Slider.png"),
+                          height: 5,
+                          width: 5,
+                          //fit: BoxFit.fill,
+                        ),
+                      ),
+                      contentPadding: EdgeInsets.symmetric(
+                          vertical: 17.0.sp, horizontal: 11.0.sp),
+                      labelText: "Search Student",
+                      labelStyle: TextStyle(
+                          color: AppColor.secondaryColor,
+                          fontSize: 14.sp,
+                          fontFamily: "Inter",
+                          fontWeight: FontWeight.w500),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: AppColor.blackColor),
+                        borderRadius: BorderRadius.circular(10.0.sp),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: AppColor.greyColor),
+                        borderRadius: BorderRadius.circular(10.0.sp),
+                      ),
                     ),
-                  ),
-                  suffixIcon: Padding(
-                    padding: EdgeInsets.all(12.0),
-                    child: Image(
-                      image: AssetImage("assets/images/Slider.png"),
-                      height: 5,
-                      width: 5,
-                      //fit: BoxFit.fill,
-                    ),
-                  ),
-                  contentPadding: EdgeInsets.symmetric(
-                      vertical: 17.0.sp, horizontal: 11.0.sp),
-                  labelText: "Search Student",
-                  labelStyle: TextStyle(
-                      color: AppColor.secondaryColor,
-                      fontSize: 14.sp,
-                      fontFamily: "Inter",
-                      fontWeight: FontWeight.w500),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: AppColor.blackColor),
-                    borderRadius: BorderRadius.circular(10.0.sp),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: AppColor.greyColor),
-                    borderRadius: BorderRadius.circular(10.0.sp),
                   ),
                 ),
               ),
-            ),
-          ),
-          SizedBox(
-            height: height * 0.004.h,
-          ),
-          Flexible(
-            child: ListView.builder(
-              physics: BouncingScrollPhysics(),
-              itemCount: 10,
-              itemBuilder: (BuildContext context, int index) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: width * 0.017.w),
-                      child: Container(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: height * 0.002.h),
-                              child: Container(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      height: height * 0.0015.h,
-                                    ),
-                                    Text(
-                                      "Keval D. Gajera",
-                                      style: TextStyle(
-                                        color: AppColor.blackColor,
-                                        fontSize: 18.sp,
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: "Inter",
+              SizedBox(
+                height: height * 0.004.h,
+              ),
+              Flexible(
+                child: ListView.builder(
+                  physics: BouncingScrollPhysics(),
+                  itemCount: getAllInquiryController
+                      .allInquiryStudentList!.data!.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    var data = getAllInquiryController
+                        .allInquiryStudentList!.data![index];
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: width * 0.017.w),
+                          child: GestureDetector(
+                            onTap: () {},
+                            child: Container(
+                              width: double.infinity,
+                              //color: Colors.orange,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: height * 0.002.h),
+                                    child: Container(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(
+                                            height: height * 0.0015.h,
+                                          ),
+                                          Text(
+                                            "${data.fullName}",
+                                            style: TextStyle(
+                                              color: AppColor.blackColor,
+                                              fontSize: 18.sp,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: "Inter",
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: height * 0.0012.h),
+                                            child: Text(
+                                              "${data.email}",
+                                              style: TextStyle(
+                                                  fontSize: 13.sp,
+                                                  fontWeight: FontWeight.w400,
+                                                  fontFamily: "Inter",
+                                                  color: Color(0xff868585)),
+                                            ),
+                                          ),
+                                          Text(
+                                            "Inquiry Date : ${DateFormat('dd-MM-yyyy').format((data.inquiryDate)!)}",
+                                            style: TextStyle(
+                                                fontSize: 13.sp,
+                                                fontWeight: FontWeight.w400,
+                                                fontFamily: "Inter",
+                                                color: Color(0xff868585)),
+                                          )
+                                        ],
                                       ),
                                     ),
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: height * 0.0012.h),
-                                      child: Text(
-                                        "kevalgajera@gmail.com",
-                                        style: TextStyle(
-                                            fontSize: 13.sp,
-                                            fontWeight: FontWeight.w400,
-                                            fontFamily: "Inter",
-                                            color: Color(0xff868585)),
-                                      ),
-                                    ),
-                                    Text(
-                                      "Inquiry Date : 22-11-2021",
-                                      style: TextStyle(
-                                          fontSize: 13.sp,
-                                          fontWeight: FontWeight.w400,
-                                          fontFamily: "Inter",
-                                          color: Color(0xff868585)),
-                                    )
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: height * 0.003.h,
-                    ),
-                    Divider(
-                      height: 2,
-                      color: AppColor.secondaryColor,
-                    )
-                  ],
-                );
-              },
-            ),
-          )
-        ],
+                        SizedBox(
+                          height: height * 0.003.h,
+                        ),
+                        Divider(
+                          height: 2,
+                          color: AppColor.secondaryColor,
+                        )
+                      ],
+                    );
+                  },
+                ),
+              )
+            ],
+          );
+        },
       ),
       floatingActionButton: FloatingActionButton(
           elevation: 0.0,

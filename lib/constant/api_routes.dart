@@ -11,9 +11,11 @@ class ApiRoutes {
   static String updateCurrentCourse = '${BaseUrl}UpdateCurrentCourse';
   static String updateBatch = '${BaseUrl}UpdateBatch';
   static String updateIsFavourite = '${BaseUrl}UpdateIsFavourite';
-
   static String uploadAvatar = '${BaseUrl}UploadAvatar';
   static String verifyCode = '${BaseUrl}VerifyCode';
   static String deleteAvatar = '${BaseUrl}DeleteAvatar';
   static String getAllFevStudent = '${BaseUrl}GetAllFevStudent';
+  static String getDashboardDetails = '${BaseUrl}GetDashboardDetails';
+  static String getAllInquiry = '${BaseUrl}GetAllInquiry';
+  static String getInquiryDetails = '${BaseUrl}GetInquiryDetails';
 }

@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
-class InquiryFavouriteScreen extends StatefulWidget {
-  const InquiryFavouriteScreen({Key? key}) : super(key: key);
+class DemoLectureScreen extends StatefulWidget {
+  const DemoLectureScreen({Key? key}) : super(key: key);
 
   @override
-  State<InquiryFavouriteScreen> createState() => _InquiryFavouriteScreenState();
+  State<DemoLectureScreen> createState() => _DemoLectureScreenState();
 }
 
-class _InquiryFavouriteScreenState extends State<InquiryFavouriteScreen> {
+class _DemoLectureScreenState extends State<DemoLectureScreen> {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;

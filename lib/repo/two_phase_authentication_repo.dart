@@ -6,11 +6,13 @@ import '../constant/api_routes.dart';
 class TwoPhaseAuthenticationRepo {
   static Future<Map<String, dynamic>> twoPhaseAuthMethod(
       {required String code}) async {
+    Map<String, String> header = {"Authorization": '${ApiRoutes.dataToken}'};
+
     var response = await API.apiHandlers(
-      Url: "${ApiRoutes.verifyCode}",
-      apiTypes: ApiTypes.Post,
-      reqBody: {"secret_code": code},
-    );
+        Url: "${ApiRoutes.verifyCode}",
+        apiTypes: ApiTypes.Post,
+        reqBody: {"secret_code": code},
+        header: header);
 
     print("TwoPhaseAuthentication response-------------$response");
 

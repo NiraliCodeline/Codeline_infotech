@@ -1,0 +1,33 @@
+import 'package:get/get.dart';
+
+import '../models/res/get_allInquiry_res_model.dart';
+import '../repo/get_allInquiry_repo.dart';
+
+class GetAllInquiryController extends GetxController {
+  var isLoading = false.obs;
+  GetAllInquiryResModel? allInquiryStudentList;
+
+  @override
+  void onInit() {
+    fetchAllInquiryStudent();
+    super.onInit();
+    update();
+  }
+
+  void fetchAllInquiryStudent() async {
+    try {
+      isLoading(true);
+      var allStudents = await GetAllInquiryRepo.getAllInquiryrepo();
+      if (allStudents != null) {
+        allInquiryStudentList = allStudents;
+
+        print(
+            "InquiryStudent:--------${allInquiryStudentList!.data![0].fullName}");
+        update();
+      }
+    } finally {
+      isLoading(false);
+      update();
+    }
+  }
+}

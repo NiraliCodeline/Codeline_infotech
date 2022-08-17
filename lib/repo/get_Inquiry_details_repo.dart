@@ -1,0 +1,23 @@
+import 'package:codeline_infotech/api_handler/handlers.dart';
+import 'package:codeline_infotech/constant/api_routes.dart';
+
+import '../models/res/get_students_details_res_model.dart';
+
+class GetInquiryDetailsRepo {
+  static Future<GetStudentsDetailsResModel?> getInquiryDetailsrepo(
+      int id) async {
+    Map<String, String> header = {"Authorization": '${ApiRoutes.dataToken}'};
+
+    var response = await API.apiHandlers(
+        Url: '${ApiRoutes.getInquiryDetails}$id',
+        apiTypes: ApiTypes.Get,
+        header: header);
+
+    print(
+        "GetInquiryDetails STUDENT-ID-----------${ApiRoutes.getInquiryDetails}$id");
+    print("GetInquiryDetails RESPONSE------------${response}");
+    print("GetInquiryDetails URL--------------${ApiRoutes.getInquiryDetails}");
+
+    return getStudentsDetailsResModelFromJson(response!);
+  }
+}
