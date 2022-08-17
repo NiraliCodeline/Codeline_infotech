@@ -1,4 +1,4 @@
-import 'package:codeline_infotech/screens/splash_screen.dart';
+import 'package:codeline_infotech/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: 'Codeline Infotech',
             theme: ThemeData.light(),
-            home: SplashScreen());
+            home: HomeScreen());
       },
     );
   }
