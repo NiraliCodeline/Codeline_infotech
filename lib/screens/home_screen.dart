@@ -3,13 +3,13 @@ import 'package:codeline_infotech/screens/all_lang_student_list.dart';
 import 'package:codeline_infotech/screens/demo_lecture_screen.dart';
 import 'package:codeline_infotech/screens/favourite_screen.dart';
 import 'package:codeline_infotech/screens/inquirey_student_list.dart';
+import 'package:countup/countup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:sizer/sizer.dart';
 
-import '../constant/progress_indicator.dart';
 import '../controllers/get_dashboard_details_controller.dart';
 import 'login_screen.dart';
 
@@ -36,9 +36,6 @@ class _HomeScreenState extends State<HomeScreen> {
       drawer: MyDrawer(),
       body: GetBuilder<GetDashboardDetailsController>(
         builder: (controller) {
-          if (controller.isLoading == true) {
-            return AppProgressLoader();
-          }
           return Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -119,8 +116,13 @@ class _HomeScreenState extends State<HomeScreen> {
                               SizedBox(
                                 height: 9.sp,
                               ),
-                              Text(
-                                "${getDashboardDetailsController.allDashboardDetailsList!.totalStudent}",
+                              Countup(
+                                begin: 0,
+                                end: getDashboardDetailsController
+                                    .allDashboardDetailsList!.totalStudent!
+                                    .toDouble(),
+                                duration: Duration(milliseconds: 1500),
+                                separator: ',',
                                 style: TextStyle(
                                   color: AppColor.blackColor,
                                   fontSize: 18.sp,
@@ -128,6 +130,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                   fontFamily: "Inter",
                                 ),
                               ),
+                              /*Text(
+                                "${getDashboardDetailsController.allDashboardDetailsList!.totalStudent}",
+                                style: TextStyle(
+                                  color: AppColor.blackColor,
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: "Inter",
+                                ),
+                              ),*/
                               Text(
                                 "Total Student",
                                 style: TextStyle(

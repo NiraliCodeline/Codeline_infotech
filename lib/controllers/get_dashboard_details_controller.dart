@@ -15,6 +15,7 @@ class GetDashboardDetailsController extends GetxController {
   }
 
   void fetchAllDashboardDetails() async {
+    await Future.delayed(Duration(seconds: 3));
     try {
       isLoading(true);
       var allStudents = await GetDashboardDetailsRepo.getDashboardDetailsrepo();

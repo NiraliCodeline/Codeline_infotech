@@ -1,4 +1,6 @@
 import 'package:codeline_infotech/constant/colors.dart';
+import 'package:codeline_infotech/models/req/start_demo_req_model.dart';
+import 'package:codeline_infotech/repo/start_demo_repo.dart';
 import 'package:codeline_infotech/screens/add_inquiry_screen.dart';
 import 'package:codeline_infotech/screens/demo_lecture_screen.dart';
 import 'package:codeline_infotech/screens/inquiry_details_screen.dart';
@@ -23,6 +25,33 @@ class _InquiryStudentListScreenState extends State<InquiryStudentListScreen> {
 
   GetAllInquiryController getAllInquiryController =
       Get.put(GetAllInquiryController());
+
+  Future StartDemoClick(var data) async {
+    DateTime today = DateTime.now();
+    var currentDate = today.day;
+    var currentMonth = today.month;
+    var currentYear = today.year;
+
+    var startDate = "${currentYear}-${currentMonth}-${currentDate}";
+
+    print("CURRENT DATE------${startDate}");
+
+    DateTime dayOfFutureDate = today.add(Duration(days: 3));
+    var futureDate = dayOfFutureDate.day;
+    var futureMonth = dayOfFutureDate.month;
+    var futureYear = dayOfFutureDate.year;
+
+    var endDate = "${futureYear}-${futureMonth}-${futureDate}";
+
+    print("FUTURE DATE------${endDate}");
+
+    StartDemoReqModel startDemoReqModel = StartDemoReqModel();
+    startDemoReqModel.inquiryId = int.parse(data.inquiryId!);
+    startDemoReqModel.startDate = startDate;
+    startDemoReqModel.endDate = endDate;
+
+    await StartDemoRepo.startDemorepo(startDemoReqModel);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -277,7 +306,22 @@ class _InquiryStudentListScreenState extends State<InquiryStudentListScreen> {
                                                     fontFamily: "Inter",
                                                   ),
                                                 ),
-                                                onPressed: () async {},
+                                                onPressed: () async {
+                                                  Get.back();
+                                                  getAllInquiryController
+                                                      .isLoading = true.obs;
+
+                                                  await StartDemoClick(data);
+
+                                                  setState(() {
+                                                    getAllInquiryController
+                                                        .allInquiryStudentList!
+                                                        .data!
+                                                        .removeAt(index);
+                                                  });
+                                                  getAllInquiryController
+                                                      .isLoading = false.obs;
+                                                },
                                               ),
                                               TextButton(
                                                 onPressed: () {

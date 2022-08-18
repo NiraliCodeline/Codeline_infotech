@@ -3,25 +3,26 @@ import 'dart:convert';
 import 'package:codeline_infotech/api_handler/handlers.dart';
 import 'package:codeline_infotech/constant/api_routes.dart';
 
-import '../models/req/start_demo_req_model.dart';
+import '../models/req/update_Iscompleted_req_model.dart';
 
-class StartDemoRepo {
-  static Future<bool> startDemorepo(StartDemoReqModel startDemoReqModel) async {
+class UpdateIsCompletedRepo {
+  static Future<bool> updateIsCompletedrepo(
+      UpdateIsCompletedReqModel updateIsCompletedReqModel) async {
     Map<String, String> header = {"Authorization": '${ApiRoutes.dataToken}'};
 
     var response = await API.apiHandlers(
-        Url: '${ApiRoutes.startDemo}',
+        Url: '${ApiRoutes.updateIsCompleted}',
         apiTypes: ApiTypes.Post,
-        reqBody: startDemoReqModel.toJson(),
+        reqBody: updateIsCompletedReqModel.toJson(),
         header: header);
 
     //print("STUDENT-ID-----------${ApiRoutes.allStudentsDetails}$id");
-    print("StartDemo RESPONSE------------${response}");
-    ("StartDemoURL--------------${ApiRoutes.startDemo}");
+    print("UpdateIsCompleted RESPONSE------------${response}");
+    ("UpdateIsCompletedURL--------------${ApiRoutes.updateIsCompleted}");
 
     if (response != null) {
       var responseData = jsonDecode(response);
-      if (responseData['demo_register'] == "successfully") return true;
+      if (responseData['Course_completed'] == "successfully") return true;
       return false;
     } else {
       return false;

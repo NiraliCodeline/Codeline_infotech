@@ -1,6 +1,6 @@
 import 'package:codeline_infotech/constant/colors.dart';
-import 'package:codeline_infotech/controllers/get_all_students_controller.dart';
 import 'package:codeline_infotech/controllers/get_students_details_controller.dart';
+import 'package:codeline_infotech/repo/update_Iscompleted_repo.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +11,7 @@ import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
 
 import '../constant/progress_indicator.dart';
+import '../models/req/update_Iscompleted_req_model.dart';
 import '../models/req/update_current_course_req_model.dart';
 import '../repo/update_current_course_repo.dart';
 
@@ -36,8 +37,6 @@ class _StudentDetailsState extends State<StudentDetails> {
 
     GetStudentsDetailsController getStudentsDetailsController =
         Get.put(GetStudentsDetailsController(widget.studentId));
-
-    GetAllStudentsController getAllStudentsController = Get.find();
 
     return Scaffold(
         backgroundColor: AppColor.whiteColor,
@@ -198,13 +197,146 @@ class _StudentDetailsState extends State<StudentDetails> {
                                                   fontFamily: "Inter",
                                                   color: Color(0xff868585)),
                                             ),
-                                            Text(
-                                              "Status : ${getStudentsDetailsController.StudentDetailsList!.studentDetails!.courseCompleted} ",
-                                              style: TextStyle(
-                                                  fontSize: 13.sp,
-                                                  fontWeight: FontWeight.w400,
-                                                  fontFamily: "Inter",
-                                                  color: Color(0xff868585)),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  "Status : ",
+                                                  style: TextStyle(
+                                                      fontSize: 13.sp,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      fontFamily: "Inter",
+                                                      color: Color(0xff868585)),
+                                                ),
+                                                GestureDetector(
+                                                  onTap: () async {
+                                                    showDialog(
+                                                        context: context,
+                                                        builder:
+                                                            (ctx) =>
+                                                                AlertDialog(
+                                                                    title: Text(
+                                                                      "Update Status",
+                                                                      style:
+                                                                          TextStyle(
+                                                                        color: AppColor
+                                                                            .blackColor,
+                                                                        fontSize:
+                                                                            16.sp,
+                                                                        fontWeight:
+                                                                            FontWeight.w600,
+                                                                        fontFamily:
+                                                                            "Inter",
+                                                                      ),
+                                                                    ),
+                                                                    content:
+                                                                        Text(
+                                                                      "Are you sure?",
+                                                                      style:
+                                                                          TextStyle(
+                                                                        color: AppColor
+                                                                            .secondaryColor,
+                                                                        fontSize:
+                                                                            13.sp,
+                                                                        fontWeight:
+                                                                            FontWeight.w600,
+                                                                        fontFamily:
+                                                                            "Inter",
+                                                                      ),
+                                                                    ),
+                                                                    actions: <
+                                                                        Widget>[
+                                                                      TextButton(
+                                                                        child:
+                                                                            Text(
+                                                                          "OK",
+                                                                          style:
+                                                                              TextStyle(
+                                                                            color:
+                                                                                AppColor.primaryColor,
+                                                                            fontSize:
+                                                                                15.sp,
+                                                                            fontWeight:
+                                                                                FontWeight.w600,
+                                                                            fontFamily:
+                                                                                "Inter",
+                                                                          ),
+                                                                        ),
+                                                                        onPressed:
+                                                                            () async {
+                                                                          Get.back();
+
+                                                                          UpdateIsCompletedReqModel
+                                                                              updateIsCompletedReqModel =
+                                                                              UpdateIsCompletedReqModel();
+                                                                          updateIsCompletedReqModel.studentId = int.parse(getStudentsDetailsController
+                                                                              .StudentDetailsList!
+                                                                              .studentDetails!
+                                                                              .studentId!);
+                                                                          if (getStudentsDetailsController.StudentDetailsList!.studentDetails!.courseCompleted ==
+                                                                              "0") {
+                                                                            updateIsCompletedReqModel.courseCompleted =
+                                                                                1;
+                                                                          } else {
+                                                                            updateIsCompletedReqModel.courseCompleted =
+                                                                                0;
+                                                                          }
+
+                                                                          await UpdateIsCompletedRepo.updateIsCompletedrepo(
+                                                                              updateIsCompletedReqModel);
+                                                                          getStudentsDetailsController
+                                                                              .onInit();
+                                                                        },
+                                                                      ),
+                                                                      TextButton(
+                                                                        onPressed:
+                                                                            () {
+                                                                          Get.back();
+                                                                        },
+                                                                        child:
+                                                                            Text(
+                                                                          "Cancel",
+                                                                          style:
+                                                                              TextStyle(
+                                                                            color:
+                                                                                AppColor.primaryColor.withOpacity(0.5),
+                                                                            fontSize:
+                                                                                15.sp,
+                                                                            fontWeight:
+                                                                                FontWeight.w600,
+                                                                            fontFamily:
+                                                                                "Inter",
+                                                                          ),
+                                                                        ),
+                                                                      )
+                                                                    ])).then(
+                                                      (_) => setState(() {}),
+                                                    );
+                                                  },
+                                                  child: Text(
+                                                    getStudentsDetailsController
+                                                                .StudentDetailsList!
+                                                                .studentDetails!
+                                                                .courseCompleted ==
+                                                            "0"
+                                                        ? "Running"
+                                                        : "Complete",
+                                                    style: TextStyle(
+                                                        fontSize: 13.sp,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        fontFamily: "Inter",
+                                                        color: getStudentsDetailsController
+                                                                    .StudentDetailsList!
+                                                                    .studentDetails!
+                                                                    .courseCompleted ==
+                                                                "0"
+                                                            ? Color(0xffFFB74B)
+                                                            : Color(
+                                                                0xff17B857)),
+                                                  ),
+                                                ),
+                                              ],
                                             )
                                           ],
                                         ),
@@ -597,9 +729,27 @@ class _StudentDetailsState extends State<StudentDetails> {
                                                 context: context,
                                                 builder: (ctx) => AlertDialog(
                                                         title: Text(
-                                                            "Update Detail"),
+                                                          "Update Course",
+                                                          style: TextStyle(
+                                                            color: AppColor
+                                                                .blackColor,
+                                                            fontSize: 16.sp,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            fontFamily: "Inter",
+                                                          ),
+                                                        ),
                                                         content: Text(
-                                                            "Are you sure?"),
+                                                          "Are you sure?",
+                                                          style: TextStyle(
+                                                            color: AppColor
+                                                                .secondaryColor,
+                                                            fontSize: 13.sp,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            fontFamily: "Inter",
+                                                          ),
+                                                        ),
                                                         actions: <Widget>[
                                                           TextButton(
                                                             child: Text(
@@ -644,13 +794,13 @@ class _StudentDetailsState extends State<StudentDetails> {
                                                                           index]);
 
                                                               print(
-                                                                  "HEllo ${getStudentsDetailsController.isLoading.value}");
+                                                                  "HELLO ${getStudentsDetailsController.isLoading.value}");
                                                               getStudentsDetailsController
                                                                       .isLoading
                                                                       .value =
                                                                   false;
                                                               print(
-                                                                  "HEllo ${getStudentsDetailsController.isLoading.value}");
+                                                                  "hello ${getStudentsDetailsController.isLoading.value}");
                                                             },
                                                           ),
                                                           TextButton(
@@ -661,7 +811,9 @@ class _StudentDetailsState extends State<StudentDetails> {
                                                               "Cancel",
                                                               style: TextStyle(
                                                                 color: AppColor
-                                                                    .primaryColor,
+                                                                    .primaryColor
+                                                                    .withOpacity(
+                                                                        0.5),
                                                                 fontSize: 15.sp,
                                                                 fontWeight:
                                                                     FontWeight
@@ -771,22 +923,16 @@ class _StudentDetailsState extends State<StudentDetails> {
                                                         "hr") {
                                                   showDialog(
                                                       context: context,
-                                                      builder: (ctx) =>
-                                                          AlertDialog(
-                                                              title: Text(
-                                                                  "Update Course"),
-                                                              content: Text(
-                                                                  "Are you sure?"),
-                                                              actions: <Widget>[
-                                                                TextButton(
-                                                                  child: Text(
-                                                                    "OK",
+                                                      builder:
+                                                          (ctx) => AlertDialog(
+                                                                  title: Text(
+                                                                    "Update BatchTime",
                                                                     style:
                                                                         TextStyle(
                                                                       color: AppColor
-                                                                          .primaryColor,
+                                                                          .blackColor,
                                                                       fontSize:
-                                                                          15.sp,
+                                                                          16.sp,
                                                                       fontWeight:
                                                                           FontWeight
                                                                               .w600,
@@ -794,53 +940,14 @@ class _StudentDetailsState extends State<StudentDetails> {
                                                                           "Inter",
                                                                     ),
                                                                   ),
-                                                                  onPressed:
-                                                                      () async {
-                                                                    updateBatchController
-                                                                        .allbatch!
-                                                                        .forEach(
-                                                                            (element) async {
-                                                                      if (element
-                                                                              .currentBatch ==
-                                                                          1) {
-                                                                        print(
-                                                                            'element.batch>>>>>${element.batch}');
-                                                                        element.currentBatch =
-                                                                            0;
-                                                                      }
-                                                                    });
-                                                                    Get.back();
-                                                                    updateBatchController.updateLocalBatch(
-                                                                        index:
-                                                                            index,
-                                                                        isDone: (updateBatchController.allbatch![index].currentBatch) ==
-                                                                                0
-                                                                            ? 1
-                                                                            : 0);
-                                                                    getStudentsDetailsController
-                                                                        .isLoading
-                                                                        .value = true;
-                                                                    await updateBatchController
-                                                                        .updateServerBatch(
-                                                                            widget.studentId);
-                                                                    getStudentsDetailsController
-                                                                        .isLoading
-                                                                        .value = false;
-                                                                  },
-                                                                ),
-                                                                TextButton(
-                                                                  onPressed:
-                                                                      () {
-                                                                    Get.back();
-                                                                  },
-                                                                  child: Text(
-                                                                    "Cancel",
+                                                                  content: Text(
+                                                                    "Are you sure?",
                                                                     style:
                                                                         TextStyle(
                                                                       color: AppColor
-                                                                          .primaryColor,
+                                                                          .secondaryColor,
                                                                       fontSize:
-                                                                          15.sp,
+                                                                          13.sp,
                                                                       fontWeight:
                                                                           FontWeight
                                                                               .w600,
@@ -848,8 +955,76 @@ class _StudentDetailsState extends State<StudentDetails> {
                                                                           "Inter",
                                                                     ),
                                                                   ),
-                                                                )
-                                                              ])).then(
+                                                                  actions: <
+                                                                      Widget>[
+                                                                    TextButton(
+                                                                      child:
+                                                                          Text(
+                                                                        "OK",
+                                                                        style:
+                                                                            TextStyle(
+                                                                          color:
+                                                                              AppColor.primaryColor,
+                                                                          fontSize:
+                                                                              15.sp,
+                                                                          fontWeight:
+                                                                              FontWeight.w600,
+                                                                          fontFamily:
+                                                                              "Inter",
+                                                                        ),
+                                                                      ),
+                                                                      onPressed:
+                                                                          () async {
+                                                                        updateBatchController
+                                                                            .allbatch!
+                                                                            .forEach((element) async {
+                                                                          if (element.currentBatch ==
+                                                                              1) {
+                                                                            print('element.batch>>>>>${element.batch}');
+                                                                            element.currentBatch =
+                                                                                0;
+                                                                          }
+                                                                        });
+                                                                        Get.back();
+                                                                        updateBatchController.updateLocalBatch(
+                                                                            index:
+                                                                                index,
+                                                                            isDone: (updateBatchController.allbatch![index].currentBatch) == 0
+                                                                                ? 1
+                                                                                : 0);
+                                                                        getStudentsDetailsController
+                                                                            .isLoading
+                                                                            .value = true;
+                                                                        await updateBatchController
+                                                                            .updateServerBatch(widget.studentId);
+                                                                        getStudentsDetailsController
+                                                                            .isLoading
+                                                                            .value = false;
+                                                                      },
+                                                                    ),
+                                                                    TextButton(
+                                                                      onPressed:
+                                                                          () {
+                                                                        Get.back();
+                                                                      },
+                                                                      child:
+                                                                          Text(
+                                                                        "Cancel",
+                                                                        style:
+                                                                            TextStyle(
+                                                                          color: AppColor
+                                                                              .primaryColor
+                                                                              .withOpacity(0.5),
+                                                                          fontSize:
+                                                                              15.sp,
+                                                                          fontWeight:
+                                                                              FontWeight.w600,
+                                                                          fontFamily:
+                                                                              "Inter",
+                                                                        ),
+                                                                      ),
+                                                                    )
+                                                                  ])).then(
                                                       (_) => setState(() {}));
                                                 }
                                               },
