@@ -121,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 end: getDashboardDetailsController
                                     .allDashboardDetailsList!.totalStudent!
                                     .toDouble(),
-                                duration: Duration(milliseconds: 1500),
+                                duration: Duration(milliseconds: 2500),
                                 separator: ',',
                                 style: TextStyle(
                                   color: AppColor.blackColor,
@@ -130,15 +130,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                   fontFamily: "Inter",
                                 ),
                               ),
-                              /*Text(
-                                "${getDashboardDetailsController.allDashboardDetailsList!.totalStudent}",
-                                style: TextStyle(
-                                  color: AppColor.blackColor,
-                                  fontSize: 18.sp,
-                                  fontWeight: FontWeight.w600,
-                                  fontFamily: "Inter",
-                                ),
-                              ),*/
                               Text(
                                 "Total Student",
                                 style: TextStyle(
@@ -181,8 +172,13 @@ class _HomeScreenState extends State<HomeScreen> {
                               SizedBox(
                                 height: 9.sp,
                               ),
-                              Text(
-                                "${getDashboardDetailsController.allDashboardDetailsList!.totalInquiry}",
+                              Countup(
+                                begin: 0,
+                                end: getDashboardDetailsController
+                                    .allDashboardDetailsList!.totalInquiry!
+                                    .toDouble(),
+                                duration: Duration(milliseconds: 2500),
+                                separator: ',',
                                 style: TextStyle(
                                   color: AppColor.blackColor,
                                   fontSize: 18.sp,
@@ -243,8 +239,13 @@ class _HomeScreenState extends State<HomeScreen> {
                               SizedBox(
                                 height: 9.sp,
                               ),
-                              Text(
-                                "${getDashboardDetailsController.allDashboardDetailsList!.currentDemo}",
+                              Countup(
+                                begin: 0,
+                                end: getDashboardDetailsController
+                                    .allDashboardDetailsList!.currentDemo!
+                                    .toDouble(),
+                                duration: Duration(milliseconds: 2500),
+                                separator: ',',
                                 style: TextStyle(
                                   color: AppColor.blackColor,
                                   fontSize: 18.sp,
@@ -294,8 +295,13 @@ class _HomeScreenState extends State<HomeScreen> {
                               SizedBox(
                                 height: 9.sp,
                               ),
-                              Text(
-                                "${getDashboardDetailsController.allDashboardDetailsList!.completedStudent}",
+                              Countup(
+                                begin: 0,
+                                end: getDashboardDetailsController
+                                    .allDashboardDetailsList!.completedStudent!
+                                    .toDouble(),
+                                duration: Duration(milliseconds: 2500),
+                                separator: ',',
                                 style: TextStyle(
                                   color: AppColor.blackColor,
                                   fontSize: 18.sp,

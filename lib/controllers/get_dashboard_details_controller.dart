@@ -9,13 +9,12 @@ class GetDashboardDetailsController extends GetxController {
 
   @override
   void onInit() {
-    fetchAllDashboardDetails();
     super.onInit();
     update();
   }
 
-  void fetchAllDashboardDetails() async {
-    await Future.delayed(Duration(seconds: 3));
+  Future<void> fetchAllDashboardDetails() async {
+    //await Future.delayed(Duration(seconds: 3));
     try {
       isLoading(true);
       var allStudents = await GetDashboardDetailsRepo.getDashboardDetailsrepo();
