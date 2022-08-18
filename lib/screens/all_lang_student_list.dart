@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
+import 'package:progressive_image/progressive_image.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:sizer/sizer.dart';
 
@@ -370,12 +371,33 @@ class _AllLangStudentListState extends State<AllLangStudentList> {
                             height: height * 0.019.h,
                             width: width * 0.08.w,
                             decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.sp),
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10.sp),
+                              child: ProgressiveImage(
+                                placeholder:
+                                    AssetImage('assets/images/Rectangle 1.png'),
+                                thumbnail: NetworkImage(
+                                    data![index!].avatar.toString()),
+                                fit: BoxFit.cover,
+                                image:
+                                    NetworkImage(data[index].avatar.toString()),
+                                height: height * 0.019.h,
+                                width: width * 0.08.w,
+                              ),
+                            ),
+                          ),
+                          /*Container(
+                            height: height * 0.019.h,
+                            width: width * 0.08.w,
+                            decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10.sp),
                                 image: DecorationImage(
                                     image: NetworkImage(
                                         data![index!].avatar.toString()),
                                     fit: BoxFit.fill)),
-                          ),
+                          ),*/
                           SizedBox(
                             width: width * 0.035.sp,
                           ),

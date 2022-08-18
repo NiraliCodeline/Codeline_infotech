@@ -29,9 +29,24 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     super.initState();
     animationController =
-        AnimationController(vsync: this, duration: Duration(seconds: 3));
+        AnimationController(vsync: this, duration: Duration(seconds: 4));
     animation = Tween(begin: 0.0, end: 1.0).animate(animationController!);
     animationController?.forward();
+
+    /*Future<dynamic>.delayed(Duration(seconds: 3), () {
+      var token = GetStorage().read('token');
+      if (token == null) {
+        Future<dynamic>.delayed(Duration(seconds: 1), () {
+          Get.offAll(LogInScreen());
+        });
+      } else {
+        getDashboardDetailsController.fetchAllDashboardDetails().then((value) {
+          Get.offAll(HomeScreen());
+        });
+      }
+
+      token == null ? Get.offAll(LogInScreen()) : Get.offAll(HomeScreen());
+    });*/
 
     getDashboardDetailsController.fetchAllDashboardDetails().then((value) {
       var token = GetStorage().read('token');

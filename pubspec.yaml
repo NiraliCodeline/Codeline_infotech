@@ -37,7 +37,7 @@ dependencies:
   get: ^4.6.5
   get_storage: ^2.0.3
   sizer: ^2.0.15
-  flutter_svg:
+  flutter_svg: ^1.0.3
   cupertino_stepper: ^0.2.1
   dotted_line: ^3.1.0
   status_change: ^2.0.0
@@ -47,9 +47,14 @@ dependencies:
   image_picker: ^0.8.5+3
   path_provider: ^2.0.11
   dio: ^4.0.6
-  scroll_to_index:
+  scroll_to_index: ^2.1.1
   loading_animation_widget: ^1.2.0+2
   countup: ^0.1.4
+  progressive_image: ^2.0.0
+
+dependency_overrides:
+  image_picker_android: 0.8.4+13
+
 
 
 
