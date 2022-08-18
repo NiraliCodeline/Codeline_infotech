@@ -1,7 +1,7 @@
 import 'package:codeline_infotech/constant/colors.dart';
 import 'package:codeline_infotech/screens/add_inquiry_screen.dart';
+import 'package:codeline_infotech/screens/demo_lecture_screen.dart';
 import 'package:codeline_infotech/screens/inquiry_details_screen.dart';
-import 'package:codeline_infotech/screens/inquiry_favourite_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -56,9 +56,7 @@ class _InquiryStudentListScreenState extends State<InquiryStudentListScreen> {
           Padding(
             padding: EdgeInsets.only(right: width * 0.010.w),
             child: IconButton(
-              onPressed: () {
-                Get.to(InquiryDetailsScreen());
-              },
+              onPressed: () {},
               icon: Icon(
                 Icons.help_outline,
                 size: 20.sp,
@@ -83,6 +81,7 @@ class _InquiryStudentListScreenState extends State<InquiryStudentListScreen> {
                 padding: EdgeInsets.symmetric(horizontal: width * 0.017.w),
                 child: Container(
                   child: TextFormField(
+                    onChanged: onSearchTextChanged,
                     obscureText: false,
                     controller: searchController,
                     decoration: InputDecoration(
@@ -128,90 +127,265 @@ class _InquiryStudentListScreenState extends State<InquiryStudentListScreen> {
                 height: height * 0.004.h,
               ),
               Flexible(
-                child: ListView.builder(
-                  physics: BouncingScrollPhysics(),
-                  itemCount: getAllInquiryController
-                      .allInquiryStudentList!.data!.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    var data = getAllInquiryController
-                        .allInquiryStudentList!.data![index];
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: width * 0.017.w),
-                          child: GestureDetector(
-                            onTap: () {},
-                            child: Container(
-                              width: double.infinity,
-                              //color: Colors.orange,
+                  child: getAllInquiryController.searchResult.isNotEmpty ||
+                          searchController.text.isNotEmpty
+                      ? getAllInquiryController.searchResult.isEmpty
+                          ? Center(
+                              child: Text(
+                                "No Student Found",
+                                style: TextStyle(
+                                    fontSize: 13.sp,
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: "Inter",
+                                    color: AppColor.secondaryColor
+                                        .withOpacity(0.8)),
+                              ),
+                            )
+                          : ListView.builder(
+                              itemCount: controller.searchResult.length,
+                              shrinkWrap: true,
+                              physics: BouncingScrollPhysics(),
+                              itemBuilder: (BuildContext context, int index) {
+                                DateTime? now =
+                                    controller.searchResult[index].inquiryDate;
+                                String formattedDate =
+                                    DateFormat('yyyy-MM-dd').format(now!);
+
+                                var value = controller.searchResult[index];
+
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: width * 0.017.w),
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          Get.to(InquiryDetailsScreen(
+                                            inquiryId:
+                                                int.parse(value.inquiryId!),
+                                          ));
+                                        },
+                                        child: Container(
+                                          width: double.infinity,
+                                          color: Colors.transparent,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical: height * 0.002.h),
+                                                child: Container(
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      SizedBox(
+                                                        height:
+                                                            height * 0.0015.h,
+                                                      ),
+                                                      Text(
+                                                        "${value.fullName}",
+                                                        style: TextStyle(
+                                                          color: AppColor
+                                                              .blackColor,
+                                                          fontSize: 18.sp,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontFamily: "Inter",
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding: EdgeInsets
+                                                            .symmetric(
+                                                                vertical:
+                                                                    height *
+                                                                        0.0012
+                                                                            .h),
+                                                        child: Text(
+                                                          "${value.email}",
+                                                          style: TextStyle(
+                                                              fontSize: 13.sp,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                              fontFamily:
+                                                                  "Inter",
+                                                              color: Color(
+                                                                  0xff868585)),
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        "Inquiry Date : ${DateFormat('dd-MM-yyyy').format((value.inquiryDate)!)}",
+                                                        style: TextStyle(
+                                                            fontSize: 13.sp,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            fontFamily: "Inter",
+                                                            color: Color(
+                                                                0xff868585)),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: height * 0.003.h,
+                                    ),
+                                    Divider(
+                                      height: 2,
+                                      color: AppColor.secondaryColor,
+                                    )
+                                  ],
+                                );
+                              },
+                            )
+                      : ListView.builder(
+                          physics: BouncingScrollPhysics(),
+                          itemCount: getAllInquiryController
+                              .allInquiryStudentList!.data!.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            var data = getAllInquiryController
+                                .allInquiryStudentList!.data![index];
+                            return Dismissible(
+                              key: ValueKey(data),
+                              direction: DismissDirection.startToEnd,
+                              onDismissed: (DismissDirection direction) {
+                                showDialog(
+                                    context: context,
+                                    builder: (ctx) => AlertDialog(
+                                            title: Text("Add To Demo"),
+                                            content: Text("Are you sure?"),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                child: Text(
+                                                  "OK",
+                                                  style: TextStyle(
+                                                    color:
+                                                        AppColor.primaryColor,
+                                                    fontSize: 15.sp,
+                                                    fontWeight: FontWeight.w600,
+                                                    fontFamily: "Inter",
+                                                  ),
+                                                ),
+                                                onPressed: () async {},
+                                              ),
+                                              TextButton(
+                                                onPressed: () {
+                                                  Get.back();
+                                                },
+                                                child: Text(
+                                                  "Cancel",
+                                                  style: TextStyle(
+                                                    color: AppColor.primaryColor
+                                                        .withOpacity(0.5),
+                                                    fontSize: 15.sp,
+                                                    fontWeight: FontWeight.w600,
+                                                    fontFamily: "Inter",
+                                                  ),
+                                                ),
+                                              )
+                                            ]));
+                              },
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
                                     padding: EdgeInsets.symmetric(
-                                        vertical: height * 0.002.h),
-                                    child: Container(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          SizedBox(
-                                            height: height * 0.0015.h,
-                                          ),
-                                          Text(
-                                            "${data.fullName}",
-                                            style: TextStyle(
-                                              color: AppColor.blackColor,
-                                              fontSize: 18.sp,
-                                              fontWeight: FontWeight.w600,
-                                              fontFamily: "Inter",
+                                        horizontal: width * 0.017.w),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Get.to(InquiryDetailsScreen(
+                                          inquiryId: int.parse(data.inquiryId!),
+                                        ));
+                                      },
+                                      child: Container(
+                                        width: double.infinity,
+                                        color: Colors.transparent,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: height * 0.002.h),
+                                              child: Container(
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    SizedBox(
+                                                      height: height * 0.0015.h,
+                                                    ),
+                                                    Text(
+                                                      "${data.fullName}",
+                                                      style: TextStyle(
+                                                        color:
+                                                            AppColor.blackColor,
+                                                        fontSize: 18.sp,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        fontFamily: "Inter",
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                              vertical: height *
+                                                                  0.0012.h),
+                                                      child: Text(
+                                                        "${data.email}",
+                                                        style: TextStyle(
+                                                            fontSize: 13.sp,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            fontFamily: "Inter",
+                                                            color: Color(
+                                                                0xff868585)),
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      "Inquiry Date : ${DateFormat('dd-MM-yyyy').format((data.inquiryDate)!)}",
+                                                      style: TextStyle(
+                                                          fontSize: 13.sp,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontFamily: "Inter",
+                                                          color: Color(
+                                                              0xff868585)),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
                                             ),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: height * 0.0012.h),
-                                            child: Text(
-                                              "${data.email}",
-                                              style: TextStyle(
-                                                  fontSize: 13.sp,
-                                                  fontWeight: FontWeight.w400,
-                                                  fontFamily: "Inter",
-                                                  color: Color(0xff868585)),
-                                            ),
-                                          ),
-                                          Text(
-                                            "Inquiry Date : ${DateFormat('dd-MM-yyyy').format((data.inquiryDate)!)}",
-                                            style: TextStyle(
-                                                fontSize: 13.sp,
-                                                fontWeight: FontWeight.w400,
-                                                fontFamily: "Inter",
-                                                color: Color(0xff868585)),
-                                          )
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
+                                  SizedBox(
+                                    height: height * 0.003.h,
+                                  ),
+                                  Divider(
+                                    height: 2,
+                                    color: AppColor.secondaryColor,
+                                  )
                                 ],
                               ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: height * 0.003.h,
-                        ),
-                        Divider(
-                          height: 2,
-                          color: AppColor.secondaryColor,
-                        )
-                      ],
-                    );
-                  },
-                ),
-              )
+                            );
+                          },
+                        ))
             ],
           );
         },
@@ -225,8 +399,42 @@ class _InquiryStudentListScreenState extends State<InquiryStudentListScreen> {
             color: AppColor.whiteColor,
           ),
           onPressed: () {
-            Get.to(AddInquiryScreen());
+            Get.to(AddInquiryScreen())!.then((value) {
+              if (value['update']) getAllInquiryController.onInit();
+
+              print("Get new InquiryAPI calls");
+            });
           }),
     );
+  }
+
+  onSearchTextChanged(String text) async {
+    getAllInquiryController.searchResult.clear();
+    if (text.isEmpty) {
+      getAllInquiryController.update();
+      return;
+    }
+
+    for (var userDetail
+        in getAllInquiryController.allInquiryStudentList!.data!) {
+      print("userDetail.fullName ${userDetail.fullName}");
+      print("text $text");
+
+      //userDetail.fullName!.split(" ")[0].toLowerCase().contains(text.toLowerCase())
+      //userDetail.fullName!.split(" ")[0].toLowerCase().contains(text.toLowerCase())
+
+      String firstName = userDetail.fullName!.split(" ")[0];
+
+      String lastName = userDetail.fullName!.split(" ").length > 1
+          ? userDetail.fullName!.split(" ")[1]
+          : "";
+
+      if (firstName.toLowerCase().contains(text.toLowerCase()) ||
+          lastName.toLowerCase().contains(text.toLowerCase())) {
+        getAllInquiryController.addSearchResult(userDetail);
+      } else {
+        getAllInquiryController.update();
+      }
+    }
   }
 }

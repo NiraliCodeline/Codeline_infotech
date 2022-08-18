@@ -4,7 +4,7 @@ import '../models/res/get_Inquiry_details_res_model.dart';
 import '../repo/get_Inquiry_details_repo.dart';
 
 class GetInquiryDetailsController extends GetxController {
-  final id;
+  final int id;
   var isLoading = false.obs;
   GetInquiryDetailsResModel? allInquiryDetailsList;
 
@@ -12,19 +12,20 @@ class GetInquiryDetailsController extends GetxController {
 
   @override
   void onInit() {
-    fetchAllInquiryStudent();
+    fetchInquiryDetailsStudent();
     super.onInit();
     update();
   }
 
-  void fetchAllInquiryStudent() async {
+  void fetchInquiryDetailsStudent() async {
     try {
       isLoading(true);
       var allStudents = await GetInquiryDetailsRepo.getInquiryDetailsrepo(id);
       if (allStudents != null) {
-        allInquiryDetailsList = allStudents as GetInquiryDetailsResModel?;
+        allInquiryDetailsList = allStudents;
 
-        print("InquiryStudent:--------${allInquiryDetailsList}");
+        print(
+            "InquiryStudentDetails:--------${allInquiryDetailsList!.inquiryDetails![0].fullName}");
         update();
       }
     } finally {

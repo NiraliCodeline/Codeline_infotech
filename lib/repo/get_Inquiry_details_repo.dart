@@ -1,10 +1,10 @@
 import 'package:codeline_infotech/api_handler/handlers.dart';
 import 'package:codeline_infotech/constant/api_routes.dart';
 
-import '../models/res/get_students_details_res_model.dart';
+import '../models/res/get_Inquiry_details_res_model.dart';
 
 class GetInquiryDetailsRepo {
-  static Future<GetStudentsDetailsResModel?> getInquiryDetailsrepo(
+  static Future<GetInquiryDetailsResModel?> getInquiryDetailsrepo(
       int id) async {
     Map<String, String> header = {"Authorization": '${ApiRoutes.dataToken}'};
 
@@ -18,6 +18,6 @@ class GetInquiryDetailsRepo {
     print("GetInquiryDetails RESPONSE------------${response}");
     print("GetInquiryDetails URL--------------${ApiRoutes.getInquiryDetails}");
 
-    return getStudentsDetailsResModelFromJson(response!);
+    return getInquiryDetailsResModelFromJson(response!);
   }
 }

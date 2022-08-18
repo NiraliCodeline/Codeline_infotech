@@ -1,15 +1,17 @@
 import 'package:codeline_infotech/constant/colors.dart';
 import 'package:codeline_infotech/screens/all_lang_student_list.dart';
+import 'package:codeline_infotech/screens/demo_lecture_screen.dart';
 import 'package:codeline_infotech/screens/favourite_screen.dart';
 import 'package:codeline_infotech/screens/inquirey_student_list.dart';
-import 'package:codeline_infotech/screens/inquiry_favourite_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:sizer/sizer.dart';
 
 import '../constant/progress_indicator.dart';
 import '../controllers/get_dashboard_details_controller.dart';
+import 'login_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -543,6 +545,10 @@ class MyDrawer extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(left: 12.sp),
             child: ListTile(
+              onTap: () async {
+                await GetStorage().remove('token');
+                Get.offAll(LogInScreen());
+              },
               leading: Image(
                   image: AssetImage("assets/images/Shutdown.png"),
                   fit: BoxFit.fill,

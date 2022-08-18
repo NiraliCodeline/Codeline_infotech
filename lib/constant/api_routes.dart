@@ -17,5 +17,8 @@ class ApiRoutes {
   static String getAllFevStudent = '${BaseUrl}GetAllFevStudent';
   static String getDashboardDetails = '${BaseUrl}GetDashboardDetails';
   static String getAllInquiry = '${BaseUrl}GetAllInquiry';
-  static String getInquiryDetails = '${BaseUrl}GetInquiryDetails';
+  static String getInquiryDetails = '${BaseUrl}GetInquiryDetails/';
+  static String addNewInquiry = '${BaseUrl}AddNewInquiry';
+  static String getAllDemo = '${BaseUrl}GetAllDemo';
+  static String startDemo = '${BaseUrl}StartDemo';
 }

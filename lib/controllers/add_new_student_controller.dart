@@ -32,8 +32,8 @@ class AddNewStudentController extends GetxController {
     update();
   }
 
-  void removeCourse(int index) {
-    course.removeAt(index);
+  void removeCourse(String course1) {
+    course.remove(course1);
     update();
   }
 }

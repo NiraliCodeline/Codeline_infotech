@@ -2,7 +2,6 @@ import 'package:codeline_infotech/controllers/get_all_fev_student_controller.dar
 import 'package:codeline_infotech/controllers/get_all_students_controller.dart';
 import 'package:codeline_infotech/screens/add_new_student.dart';
 import 'package:codeline_infotech/screens/favourite_screen.dart';
-import 'package:codeline_infotech/screens/login_screen.dart';
 import 'package:codeline_infotech/screens/student_details.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -67,42 +66,36 @@ class _AllLangStudentListState extends State<AllLangStudentList> {
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: AppColor.whiteColor,
+        leading: IconButton(
+            onPressed: () {
+              Get.back();
+            },
+            icon: Image(
+              height: 14.sp,
+              width: 154.sp,
+              image: AssetImage("assets/images/Vector.png"),
+            )),
         actions: [
-          Padding(
-            padding: EdgeInsets.all(8.0.sp),
-            child: GestureDetector(
-              onTap: () {
-                getAllFevStudentController.onInit();
-                Get.to(FavouriteScreen());
-              },
-              child: Icon(
-                Icons.favorite_outline_rounded,
-                size: 20.sp,
-                color: AppColor.blackColor,
-              ),
+          IconButton(
+            onPressed: () {
+              getAllFevStudentController.onInit();
+              Get.to(FavouriteScreen());
+            },
+            icon: Icon(
+              Icons.favorite_outline_rounded,
+              size: 20.sp,
+              color: AppColor.blackColor,
             ),
           ),
-          // Padding(
-          //   padding: EdgeInsets.only(right: width * 0.017.w),
-          //   child: Icon(
-          //     Icons.help_outline,
-          //     size: 20.sp,
-          //     color: AppColor.blackColor,
-          //   ),
-          // ),
           Padding(
-            padding: EdgeInsets.all(8.0.sp),
-            child: GestureDetector(
-              onTap: () async {
-                await GetStorage().remove('token');
-                Get.offAll(LogInScreen());
-              },
-              child: Icon(
-                Icons.logout,
-                size: 20.sp,
-                color: AppColor.blackColor,
-              ),
-            ),
+            padding: EdgeInsets.only(right: width * 0.010.w),
+            child: IconButton(
+                onPressed: () {},
+                icon: Icon(
+                  Icons.help_outline,
+                  size: 20.sp,
+                  color: AppColor.blackColor,
+                )),
           ),
         ],
       ),

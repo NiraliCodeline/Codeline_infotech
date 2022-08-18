@@ -5,6 +5,7 @@ import '../repo/get_allInquiry_repo.dart';
 
 class GetAllInquiryController extends GetxController {
   var isLoading = false.obs;
+  List<Datum> searchResult = [];
   GetAllInquiryResModel? allInquiryStudentList;
 
   @override
@@ -29,5 +30,10 @@ class GetAllInquiryController extends GetxController {
       isLoading(false);
       update();
     }
+  }
+
+  void addSearchResult(Datum value) {
+    searchResult.add(value);
+    update();
   }
 }

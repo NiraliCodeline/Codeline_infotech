@@ -7,9 +7,6 @@ class GetAllStudentsController extends GetxController {
   GetAllStudentsResModel? allStudentList;
   List<Datum> searchResult = [];
   RxBool isSearch = false.obs;
-  //RxList<Datum> allData = <Datum>[].obs;
-
-  List<Datum>? allData;
 
   @override
   void onInit() {

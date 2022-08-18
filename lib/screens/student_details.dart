@@ -97,7 +97,7 @@ class _StudentDetailsState extends State<StudentDetails> {
                     ? AppProgressLoader()
                     : Builder(builder: (context) {
                         final tagName = getStudentsDetailsController
-                            .StudentDetailsList!.studentDetails![0].course;
+                            .StudentDetailsList!.studentDetails!.course;
                         print("TAGNAME---------------------${tagName}");
                         final course = tagName!.split(',');
                         print("COURSE---------------------${course}");
@@ -133,20 +133,25 @@ class _StudentDetailsState extends State<StudentDetails> {
                                 padding: EdgeInsets.symmetric(
                                     horizontal: width * 0.017.w),
                                 child: Container(
-                                  height: height * 0.02.h,
+                                  height: height * 0.025.h,
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      Container(
-                                        height: height * 0.019.h,
-                                        width: width * 0.08.w,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10.sp),
-                                            image: DecorationImage(
-                                                image: NetworkImage(
-                                                    "${getStudentsDetailsController.StudentDetailsList!.studentDetails![0].avatar}"),
-                                                fit: BoxFit.fill)),
+                                      Padding(
+                                        padding: EdgeInsets.only(top: 5.sp),
+                                        child: Container(
+                                          height: height * 0.019.h,
+                                          width: width * 0.08.w,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10.sp),
+                                              image: DecorationImage(
+                                                  image: NetworkImage(
+                                                      "${getStudentsDetailsController.StudentDetailsList!.studentDetails!.avatar}"),
+                                                  fit: BoxFit.fill)),
+                                        ),
                                       ),
                                       SizedBox(
                                         width: width * 0.035.sp,
@@ -161,7 +166,7 @@ class _StudentDetailsState extends State<StudentDetails> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              "${getStudentsDetailsController.StudentDetailsList!.studentDetails![0].fullName}",
+                                              "${getStudentsDetailsController.StudentDetailsList!.studentDetails!.fullName}",
                                               style: TextStyle(
                                                 color: AppColor.blackColor,
                                                 fontSize: 18.sp,
@@ -170,7 +175,7 @@ class _StudentDetailsState extends State<StudentDetails> {
                                               ),
                                             ),
                                             Text(
-                                              "${getStudentsDetailsController.StudentDetailsList!.studentDetails![0].email}",
+                                              "${getStudentsDetailsController.StudentDetailsList!.studentDetails!.email}",
                                               style: TextStyle(
                                                   fontSize: 13.sp,
                                                   fontWeight: FontWeight.w400,
@@ -178,7 +183,7 @@ class _StudentDetailsState extends State<StudentDetails> {
                                                   color: Color(0xff868585)),
                                             ),
                                             Text(
-                                              "ENRL NO: CLKH${DateFormat('yyyy').format((getStudentsDetailsController.StudentDetailsList!.studentDetails![0].joiningDate)!)}${getStudentsDetailsController.StudentDetailsList!.studentDetails![0].studentId}",
+                                              "ENRL NO: CLKH${DateFormat('yyyy').format((getStudentsDetailsController.StudentDetailsList!.studentDetails!.joiningDate)!)}${getStudentsDetailsController.StudentDetailsList!.studentDetails!.studentId}",
                                               style: TextStyle(
                                                   fontSize: 13.sp,
                                                   fontWeight: FontWeight.w400,
@@ -186,7 +191,15 @@ class _StudentDetailsState extends State<StudentDetails> {
                                                   color: Color(0xff868585)),
                                             ),
                                             Text(
-                                              "Joining at : ${DateFormat('dd-MM-yyyy').format((getStudentsDetailsController.StudentDetailsList!.studentDetails![0].joiningDate)!)} ",
+                                              "Joining at : ${DateFormat('dd-MM-yyyy').format((getStudentsDetailsController.StudentDetailsList!.studentDetails!.joiningDate)!)} ",
+                                              style: TextStyle(
+                                                  fontSize: 13.sp,
+                                                  fontWeight: FontWeight.w400,
+                                                  fontFamily: "Inter",
+                                                  color: Color(0xff868585)),
+                                            ),
+                                            Text(
+                                              "Status : ${getStudentsDetailsController.StudentDetailsList!.studentDetails!.courseCompleted} ",
                                               style: TextStyle(
                                                   fontSize: 13.sp,
                                                   fontWeight: FontWeight.w400,
@@ -247,7 +260,7 @@ class _StudentDetailsState extends State<StudentDetails> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Mobile No : ${getStudentsDetailsController.StudentDetailsList!.studentDetails![0].mobile}",
+                                      "Mobile No : ${getStudentsDetailsController.StudentDetailsList!.studentDetails!.mobile}",
                                       style: TextStyle(
                                           fontSize: 13.sp,
                                           fontWeight: FontWeight.w400,
@@ -278,7 +291,7 @@ class _StudentDetailsState extends State<StudentDetails> {
                                     Container(
                                       child: Expanded(
                                           child: Text(
-                                        "${getStudentsDetailsController.StudentDetailsList!.studentDetails![0].address}",
+                                        "${getStudentsDetailsController.StudentDetailsList!.studentDetails!.address}",
                                         style: TextStyle(
                                             height: 0.17.h,
                                             fontSize: 13.sp,
@@ -486,17 +499,17 @@ class _StudentDetailsState extends State<StudentDetails> {
                                     steps: List.generate(
                                       getStudentsDetailsController
                                           .StudentDetailsList!
-                                          .studentDetails![0]
+                                          .studentDetails!
                                           .allInstallments!
                                           .length,
                                       (index) => Step(
                                           onTap: null,
                                           title:
-                                              "${getStudentsDetailsController.StudentDetailsList!.studentDetails![0].allInstallments![index].amount}",
+                                              "${getStudentsDetailsController.StudentDetailsList!.studentDetails!.allInstallments![index].amount}",
                                           iconStyle:
                                               getStudentsDetailsController
                                                           .StudentDetailsList!
-                                                          .studentDetails![0]
+                                                          .studentDetails!
                                                           .allInstallments![
                                                               index]
                                                           .completed ==
@@ -505,7 +518,7 @@ class _StudentDetailsState extends State<StudentDetails> {
                                                   : AppColor.primaryColor,
                                           icon: getStudentsDetailsController
                                                       .StudentDetailsList!
-                                                      .studentDetails![0]
+                                                      .studentDetails!
                                                       .allInstallments![index]
                                                       .completed ==
                                                   "0"
@@ -517,14 +530,14 @@ class _StudentDetailsState extends State<StudentDetails> {
                                                 ),
                                           content: getStudentsDetailsController
                                                       .StudentDetailsList!
-                                                      .studentDetails![0]
+                                                      .studentDetails!
                                                       .allInstallments![index]
                                                       .completed ==
                                                   "0"
                                               ? "N/A"
                                               : getStudentsDetailsController
                                                   .StudentDetailsList!
-                                                  .studentDetails![0]
+                                                  .studentDetails!
                                                   .allInstallments![index]
                                                   .date!
                                                   .split(" ")[0]),
@@ -670,7 +683,7 @@ class _StudentDetailsState extends State<StudentDetails> {
                                             color: course[index] ==
                                                     getStudentsDetailsController
                                                         .StudentDetailsList!
-                                                        .studentDetails![0]
+                                                        .studentDetails!
                                                         .currentCourse
                                                 ? AppColor.primaryColor
                                                 : AppColor.backgroundColor,
@@ -687,8 +700,7 @@ class _StudentDetailsState extends State<StudentDetails> {
                                                   color: course[index] ==
                                                           getStudentsDetailsController
                                                               .StudentDetailsList!
-                                                              .studentDetails![
-                                                                  0]
+                                                              .studentDetails!
                                                               .currentCourse
                                                       ? AppColor.whiteColor
                                                       : AppColor.greyColor),
@@ -857,7 +869,7 @@ class _StudentDetailsState extends State<StudentDetails> {
                                                 ),
                                                 child: Center(
                                                   child: Text(
-                                                    "${getStudentsDetailsController.StudentDetailsList!.studentDetails![0].batch![index].batch}",
+                                                    "${getStudentsDetailsController.StudentDetailsList!.studentDetails!.batch![index].batch}",
                                                     style: TextStyle(
                                                         fontSize: 12.sp,
                                                         fontWeight:

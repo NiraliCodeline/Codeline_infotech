@@ -9,6 +9,7 @@ import 'package:codeline_infotech/widgets/common_button.dart';
 import 'package:codeline_infotech/widgets/common_textformfeild.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sizer/sizer.dart';
@@ -130,7 +131,7 @@ class _AddNewStudentScreenState extends State<AddNewStudentScreen> {
 
     print("FileName:${fileName}");
     dio.FormData formData = new dio.FormData.fromMap({
-      "file": await dio.MultipartFile.fromFile(_image!.path,
+      "image_url": await dio.MultipartFile.fromFile(_image!.path,
           filename: _image!.path.split("/").last),
     });
     dio.Response response = await dio.Dio().post("${ApiRoutes.uploadAvatar}",
@@ -194,12 +195,14 @@ class _AddNewStudentScreenState extends State<AddNewStudentScreen> {
             )),
         actions: [
           Padding(
-            padding: EdgeInsets.only(right: width * 0.017.w),
-            child: Icon(
-              Icons.help_outline,
-              size: 22.sp,
-              color: AppColor.blackColor,
-            ),
+            padding: EdgeInsets.only(right: width * 0.008.w),
+            child: IconButton(
+                onPressed: () {},
+                icon: Icon(
+                  Icons.help_outline,
+                  size: 22.sp,
+                  color: AppColor.blackColor,
+                )),
           ),
         ],
       ),
@@ -216,26 +219,30 @@ class _AddNewStudentScreenState extends State<AddNewStudentScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      height: height * 0.0265.h,
-                      width: width * 0.10.w,
+                      height: height * 0.027.h,
+                      width: width * 0.11.w,
                       //color: Colors.green,
                       child: Stack(
                         children: [
-                          Container(
-                            height: height * 0.024.h,
-                            width: width * 0.10.w,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20.sp)),
-                            child: ClipRect(
-                              child: _image == null
-                                  ? Image.asset(
-                                      "assets/images/person.image.png",
-                                      fit: BoxFit.fill,
-                                    )
-                                  : Image.file(
-                                      _image!,
-                                      fit: BoxFit.fill,
-                                    ),
+                          Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Container(
+                              height: height * 0.024.h,
+                              width: width * 0.10.w,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20.sp)),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(20.sp),
+                                child: _image == null
+                                    ? Image.asset(
+                                        "assets/images/person.image.png",
+                                        fit: BoxFit.cover,
+                                      )
+                                    : Image.file(
+                                        _image!,
+                                        fit: BoxFit.cover,
+                                      ),
+                              ),
                             ),
                           ),
                           Align(
@@ -260,6 +267,30 @@ class _AddNewStudentScreenState extends State<AddNewStudentScreen> {
                               ),
                             ),
                           ),
+                          _image == null
+                              ? SizedBox()
+                              : Positioned(
+                                  right: 1,
+                                  top: 0,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        _image = null;
+                                      });
+                                    },
+                                    child: Container(
+                                      height: 22.sp,
+                                      width: 22.sp,
+                                      decoration: BoxDecoration(
+                                          color: Colors.red.shade700,
+                                          shape: BoxShape.circle),
+                                      child: Icon(
+                                        Icons.close,
+                                        size: 18.sp,
+                                        color: AppColor.whiteColor,
+                                      ),
+                                    ),
+                                  ))
                         ],
                       ),
                     ),
@@ -319,25 +350,47 @@ class _AddNewStudentScreenState extends State<AddNewStudentScreen> {
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: width * 0.017.w),
-                child: Common_TextFormFeild(
+                child: Container(
+                  child: TextFormField(
+                    inputFormatters: [
+                      LengthLimitingTextInputFormatter(10),
+                    ],
+                    controller: mobileNoController,
                     validator: (value) {
                       if (value!.length != 10) {
                         return 'Mobile Number must be of 10 digit';
                       }
                       return null;
                     },
-                    obscure: false,
-                    controller: mobileNoController,
-                    labelText: 'MOBILE NO.',
-                    prefixIcon: Padding(
-                      padding: EdgeInsets.all(11.0),
-                      child: Image(
-                        image: AssetImage("assets/images/Phone.png"),
-                        height: 5,
-                        width: 5,
-                        //fit: BoxFit.fill,
+                    decoration: InputDecoration(
+                      prefixIcon: Padding(
+                        padding: EdgeInsets.all(10.0),
+                        child: Image(
+                          image: AssetImage("assets/images/Phone.png"),
+                          height: 5,
+                          width: 5,
+                          //fit: BoxFit.fill,
+                        ),
                       ),
-                    )),
+                      contentPadding: EdgeInsets.symmetric(
+                          vertical: 19.0.sp, horizontal: 11.0.sp),
+                      labelText: 'MOBILE NO.',
+                      labelStyle: TextStyle(
+                          color: AppColor.secondaryColor,
+                          fontSize: 14.sp,
+                          fontFamily: "Inter",
+                          fontWeight: FontWeight.w500),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: AppColor.greyColor),
+                        borderRadius: BorderRadius.circular(10.0.sp),
+                      ),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: AppColor.greyColor),
+                        borderRadius: BorderRadius.circular(10.0.sp),
+                      ),
+                    ),
+                  ),
+                ),
               ),
               SizedBox(
                 height: height * 0.003.h,
@@ -603,7 +656,12 @@ class _AddNewStudentScreenState extends State<AddNewStudentScreen> {
                                     "COURSE ADDED-------${courseItems[index]}");
                                 controller.addCourse(courseItems[index]);
                               } else {
-                                removeCourse(index);
+                                courseItems.forEach((element) {
+                                  print("Element---------$element");
+                                  if (courseItems[index] == element) {
+                                    controller.removeCourse(element);
+                                  }
+                                });
                               }
                             },
                             child: Container(
@@ -1007,7 +1065,7 @@ class _AddNewStudentScreenState extends State<AddNewStudentScreen> {
                     child: Text(
                       "Cancel",
                       style: TextStyle(
-                        color: AppColor.primaryColor,
+                        color: AppColor.primaryColor.withOpacity(0.5),
                         fontSize: 15.sp,
                         fontWeight: FontWeight.w600,
                         fontFamily: "Inter",
@@ -1018,10 +1076,5 @@ class _AddNewStudentScreenState extends State<AddNewStudentScreen> {
       (_) => setState(() {}),
     );
     /*_addNewStudentController.removeInstallment(index);*/
-  }
-
-  void removeCourse(int index) {
-    // confirmation popup
-    _addNewStudentController.removeCourse(index);
   }
 }

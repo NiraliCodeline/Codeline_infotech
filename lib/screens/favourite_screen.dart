@@ -44,12 +44,14 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
               )),
           actions: [
             Padding(
-              padding: EdgeInsets.only(right: width * 0.017.w),
-              child: Icon(
-                Icons.help_outline,
-                size: 22.sp,
-                color: AppColor.blackColor,
-              ),
+              padding: EdgeInsets.only(right: width * 0.008.w),
+              child: IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.help_outline,
+                    size: 22.sp,
+                    color: AppColor.blackColor,
+                  )),
             ),
           ],
         ),
