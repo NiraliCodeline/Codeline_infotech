@@ -1,5 +1,5 @@
 import 'package:codeline_infotech/constant/colors.dart';
-import 'package:codeline_infotech/screens/all_lang_student_list.dart';
+import 'package:codeline_infotech/screens/home_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -11,20 +11,36 @@ import 'package:get_storage/get_storage.dart';
 import 'package:sizer/sizer.dart';
 
 import '../constant/progress_indicator.dart';
+import '../controllers/get_dashboard_details_controller.dart';
 import '../repo/two_phase_authentication_repo.dart';
 import '../widgets/common_button.dart';
 
-class TwoPhaseAuthentication extends StatelessWidget {
+class TwoPhaseAuthentication extends StatefulWidget {
   TwoPhaseAuthentication({Key? key, required this.token, required this.role})
       : super(key: key);
 
   final String token;
   final String role;
 
+  @override
+  State<TwoPhaseAuthentication> createState() => _TwoPhaseAuthenticationState();
+}
+
+class _TwoPhaseAuthenticationState extends State<TwoPhaseAuthentication> {
   final verificationController = TextEditingController();
 
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+
   RxBool isLoading = false.obs;
+
+  GetDashboardDetailsController getDashboardDetailsController =
+      Get.put(GetDashboardDetailsController());
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getDashboardDetailsController.fetchAllDashboardDetails();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -134,9 +150,15 @@ class TwoPhaseAuthentication extends StatelessWidget {
                                       /* await Future.delayed(
                                           Duration(minutes: 5));*/
                                       if (result["verify_code"] == 1) {
-                                        GetStorage().write('token', token);
-                                        GetStorage().write("role", role);
-                                        Get.offAll(AllLangStudentList());
+                                        GetStorage()
+                                            .write('token', widget.token);
+                                        GetStorage().write("role", widget.role);
+                                        getDashboardDetailsController
+                                            .fetchAllDashboardDetails()
+                                            .then((value) {
+                                          Get.offAll(HomeScreen());
+                                        });
+                                        // Get.offAll(HomeScreen());
                                       } else {
                                         isLoading.value = false;
                                         print("Wrong verified");

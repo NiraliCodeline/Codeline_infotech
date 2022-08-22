@@ -29,16 +29,25 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     super.initState();
     animationController =
-        AnimationController(vsync: this, duration: Duration(seconds: 4));
+        AnimationController(vsync: this, duration: Duration(seconds: 3));
     animation = Tween(begin: 0.0, end: 1.0).animate(animationController!);
     animationController?.forward();
+
+    var token = GetStorage().read('token');
+    if (token == null) {
+      Future.delayed(Duration(seconds: 3), () {
+        Get.offAll(LogInScreen());
+      });
+    } else {
+      getDashboardDetailsController.fetchAllDashboardDetails().then((value) {
+        Get.offAll(HomeScreen());
+      });
+    }
 
     /*Future<dynamic>.delayed(Duration(seconds: 3), () {
       var token = GetStorage().read('token');
       if (token == null) {
-        Future<dynamic>.delayed(Duration(seconds: 1), () {
-          Get.offAll(LogInScreen());
-        });
+        Get.offAll(LogInScreen());
       } else {
         getDashboardDetailsController.fetchAllDashboardDetails().then((value) {
           Get.offAll(HomeScreen());
@@ -48,12 +57,11 @@ class _SplashScreenState extends State<SplashScreen>
       token == null ? Get.offAll(LogInScreen()) : Get.offAll(HomeScreen());
     });*/
 
-    getDashboardDetailsController.fetchAllDashboardDetails().then((value) {
+    /*getDashboardDetailsController.fetchAllDashboardDetails().then((value) {
       var token = GetStorage().read('token');
-
-      print("TOKEN--------------${token}");
       token == null ? Get.offAll(LogInScreen()) : Get.offAll(HomeScreen());
-    });
+      print("TOKEN--------------${token}");
+    });*/
   }
 
   @override

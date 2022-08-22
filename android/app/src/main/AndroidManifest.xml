@@ -1,7 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.codeline_infotech">
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="codeline_infotech"
+        android:label="Codeline Infotech"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

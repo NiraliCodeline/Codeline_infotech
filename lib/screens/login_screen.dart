@@ -272,26 +272,7 @@ class _LogInScreenState extends State<LogInScreen> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SizedBox(
-            height: Get.height * 0.01.sp,
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: width * 0.04.sp),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                GestureDetector(
-                  onTap: () {},
-                  child: Icon(
-                    Icons.arrow_back_ios_outlined,
-                    size: 15.sp,
-                    color: AppColor.blackColor,
-                  ),
-                )
-              ],
-            ),
-          ),
-          SizedBox(
-            height: Get.height * 0.04.sp,
+            height: Get.height * 0.06.sp,
           ),
           Padding(
             padding: EdgeInsets.symmetric(

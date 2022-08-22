@@ -25,6 +25,8 @@ class GetDashboardDetailsController extends GetxController {
             "CompletedStudent:--------${allDashboardDetailsList!.completedStudent}");
         update();
       }
+    } catch (e) {
+      print(e);
     } finally {
       isLoading(false);
       update();
