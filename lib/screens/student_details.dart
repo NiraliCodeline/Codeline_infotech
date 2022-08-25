@@ -141,8 +141,8 @@ class _StudentDetailsState extends State<StudentDetails> {
                                       Padding(
                                         padding: EdgeInsets.only(top: 5.sp),
                                         child: Container(
-                                          height: height * 0.019.h,
-                                          width: width * 0.08.w,
+                                          height: 85.sp,
+                                          width: 85.sp,
                                           decoration: BoxDecoration(
                                               borderRadius:
                                                   BorderRadius.circular(10.sp),

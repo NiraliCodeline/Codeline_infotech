@@ -17,8 +17,6 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
-  String? userEmail;
-
   AnimationController? animationController;
   Animation<double>? animation;
 

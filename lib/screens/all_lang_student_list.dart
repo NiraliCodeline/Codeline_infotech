@@ -369,8 +369,8 @@ class _AllLangStudentListState extends State<AllLangStudentList> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Container(
-                            height: height * 0.019.h,
-                            width: width * 0.08.w,
+                            height: 80.sp,
+                            width: 80.sp,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10.sp),
                             ),
@@ -384,8 +384,8 @@ class _AllLangStudentListState extends State<AllLangStudentList> {
                                 fit: BoxFit.cover,
                                 image:
                                     NetworkImage(data[index].avatar.toString()),
-                                height: height * 0.019.h,
-                                width: width * 0.08.w,
+                                height: 80.sp,
+                                width: 80.sp,
                               ),
                             ),
                           ),

@@ -254,15 +254,6 @@ class _LogInScreenState extends State<LogInScreen> {
     );
   }
 
-  widgetCheck() {
-    return Container(
-      color: Colors.black.withOpacity(0.5),
-      child: Center(
-        child: CupertinoActivityIndicator(),
-      ),
-    );
-  }
-
   Widget symbol(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
