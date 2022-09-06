@@ -102,7 +102,7 @@ class _AllLangStudentListState extends State<AllLangStudentList> {
       ),
       body: GetBuilder(builder: (GetAllStudentsController controller) {
         if (controller.isLoading == true) {
-          print("controllerisLoading TRUe");
+          //print("controllerisLoading TRUe");
           return AppProgressLoader();
         }
 
