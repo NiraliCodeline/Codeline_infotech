@@ -127,8 +127,8 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                 MainAxisAlignment.start,
                                             children: [
                                               Container(
-                                                height: height * 0.019.h,
-                                                width: width * 0.08.w,
+                                                height: 80.sp,
+                                                width: 80.sp,
                                                 decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.circular(
@@ -136,7 +136,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                     image: DecorationImage(
                                                         image: NetworkImage(
                                                             "${data.avatar}"),
-                                                        fit: BoxFit.fill)),
+                                                        fit: BoxFit.cover)),
                                               ),
                                               SizedBox(
                                                 width: width * 0.035.sp,

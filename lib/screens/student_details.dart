@@ -149,7 +149,7 @@ class _StudentDetailsState extends State<StudentDetails> {
                                               image: DecorationImage(
                                                   image: NetworkImage(
                                                       "${getStudentsDetailsController.StudentDetailsList!.studentDetails!.avatar}"),
-                                                  fit: BoxFit.fill)),
+                                                  fit: BoxFit.cover)),
                                         ),
                                       ),
                                       SizedBox(

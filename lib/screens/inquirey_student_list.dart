@@ -1,8 +1,6 @@
 import 'package:codeline_infotech/constant/colors.dart';
 import 'package:codeline_infotech/models/req/start_demo_req_model.dart';
 import 'package:codeline_infotech/repo/start_demo_repo.dart';
-import 'package:codeline_infotech/screens/add_inquiry_screen.dart';
-import 'package:codeline_infotech/screens/demo_lecture_screen.dart';
 import 'package:codeline_infotech/screens/inquiry_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,6 +9,7 @@ import 'package:sizer/sizer.dart';
 
 import '../constant/progress_indicator.dart';
 import '../controllers/get_allInquiry_controller.dart';
+import 'add_inquiry_screen.dart';
 
 class InquiryStudentListScreen extends StatefulWidget {
   InquiryStudentListScreen({Key? key}) : super(key: key);
@@ -65,7 +64,7 @@ class _InquiryStudentListScreenState extends State<InquiryStudentListScreen> {
         backgroundColor: AppColor.whiteColor,
         leading: IconButton(
             onPressed: () {
-              Get.back();
+              Get.back(result: {'update': true});
             },
             icon: Image(
               height: 14.sp,
@@ -75,7 +74,7 @@ class _InquiryStudentListScreenState extends State<InquiryStudentListScreen> {
         actions: [
           IconButton(
               onPressed: () {
-                Get.to(DemoLectureScreen());
+                //Get.to(DemoLectureScreen());
               },
               icon: Image(
                 height: 20.sp,

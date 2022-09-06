@@ -1,6 +1,5 @@
 import 'package:codeline_infotech/constant/colors.dart';
 import 'package:codeline_infotech/screens/all_lang_student_list.dart';
-import 'package:codeline_infotech/screens/demo_lecture_screen.dart';
 import 'package:codeline_infotech/screens/favourite_screen.dart';
 import 'package:codeline_infotech/screens/inquirey_student_list.dart';
 import 'package:countup/countup.dart';
@@ -20,9 +19,15 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
+GetDashboardDetailsController getDashboardDetailsController =
+    Get.put(GetDashboardDetailsController());
+
 class _HomeScreenState extends State<HomeScreen> {
-  GetDashboardDetailsController getDashboardDetailsController =
-      Get.put(GetDashboardDetailsController());
+  @override
+  void initState() {
+    // TODO: implement initState
+    getDashboardDetailsController.fetchAllDashboardDetails();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -728,7 +733,12 @@ class MyDrawer extends StatelessWidget {
             child: ListTile(
               onTap: () {
                 Get.back();
-                Get.to(AllLangStudentList());
+                Get.to(AllLangStudentList())!.then((value) {
+                  if (value['update'])
+                    getDashboardDetailsController.fetchAllDashboardDetails();
+
+                  print("New API calls");
+                });
               },
               leading: Image(
                   image: AssetImage("assets/images/Graduate_Drawer.png"),
@@ -758,7 +768,12 @@ class MyDrawer extends StatelessWidget {
             child: ListTile(
               onTap: () {
                 Get.back();
-                Get.to(InquiryStudentListScreen());
+                Get.to(InquiryStudentListScreen())!.then((value) {
+                  if (value['update'])
+                    getDashboardDetailsController.fetchAllDashboardDetails();
+
+                  print("API calls");
+                });
               },
               leading: Image(
                   image: AssetImage("assets/images/Survey.png"),
@@ -817,8 +832,8 @@ class MyDrawer extends StatelessWidget {
             padding: EdgeInsets.only(left: 12.sp),
             child: ListTile(
               onTap: () {
-                Get.back();
-                Get.to(DemoLectureScreen());
+                /*Get.back();
+                Get.to(DemoLectureScreen());*/
               },
               leading: Image(
                   image: AssetImage("assets/images/Classroom.png"),

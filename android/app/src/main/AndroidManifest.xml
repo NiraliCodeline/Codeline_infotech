@@ -2,7 +2,7 @@
     package="com.example.codeline_infotech">
     <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="Codeline Infotech"
+        android:label="CLK Admin"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

@@ -85,7 +85,7 @@ class _SplashScreenState extends State<SplashScreen>
             child: FadeTransition(
               opacity: animation!,
               child: Container(
-                height: Get.height / 2.8.sp,
+                height: 190.sp,
                 width: Get.width.sp,
                 decoration: BoxDecoration(
                     image: DecorationImage(

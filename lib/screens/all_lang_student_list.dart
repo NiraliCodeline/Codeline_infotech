@@ -69,7 +69,7 @@ class _AllLangStudentListState extends State<AllLangStudentList> {
         backgroundColor: AppColor.whiteColor,
         leading: IconButton(
             onPressed: () {
-              Get.back();
+              Get.back(result: {'update': true});
             },
             icon: Image(
               height: 14.sp,
@@ -102,6 +102,7 @@ class _AllLangStudentListState extends State<AllLangStudentList> {
       ),
       body: GetBuilder(builder: (GetAllStudentsController controller) {
         if (controller.isLoading == true) {
+          print("controllerisLoading TRUe");
           return AppProgressLoader();
         }
 

@@ -84,6 +84,8 @@ class _LogInScreenState extends State<LogInScreen> {
                                         height: height * 0.006.h,
                                       ),
                                       Common_TextFormFeild(
+                                        keyboardType:
+                                            TextInputType.emailAddress,
                                         obscure: false,
                                         validator: (String? value) {
                                           if (value!.isEmpty) {

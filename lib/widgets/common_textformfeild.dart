@@ -11,7 +11,8 @@ class Common_TextFormFeild extends StatefulWidget {
       required this.validator,
       this.labelText,
       required this.obscure,
-      this.prefixIcon})
+      this.prefixIcon,
+      this.keyboardType})
       : super(key: key);
 
   final controller;
@@ -19,6 +20,7 @@ class Common_TextFormFeild extends StatefulWidget {
   final labelText;
   final bool obscure;
   final prefixIcon;
+  final keyboardType;
 
   @override
   State<Common_TextFormFeild> createState() => _Common_TextFormFeildState();
@@ -34,6 +36,7 @@ class _Common_TextFormFeildState extends State<Common_TextFormFeild> {
         obscureText: widget.obscure,
         controller: widget.controller,
         validator: widget.validator,
+        keyboardType: widget.keyboardType,
         decoration: InputDecoration(
           prefixIcon: widget.prefixIcon,
           contentPadding:
