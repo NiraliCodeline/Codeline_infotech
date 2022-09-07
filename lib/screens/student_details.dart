@@ -23,6 +23,10 @@ class StudentDetails extends StatefulWidget {
   State<StudentDetails> createState() => _StudentDetailsState();
 }
 
+DateTime? dateTime;
+
+var dateSelected;
+
 class _StudentDetailsState extends State<StudentDetails> {
   @override
   void initState() {
@@ -500,6 +504,9 @@ class _StudentDetailsState extends State<StudentDetails> {
                                                                   onTap: () {
                                                                     //add installment
 
+                                                                    print(
+                                                                        "UPDATE DATE-----------${getStdDetailsController.allInstallment![index].date!.split(" ")[0].split("-")[2]}-${getStdDetailsController.allInstallment![index].date!.split(" ")[0].split("-")[1]}-${getStdDetailsController.allInstallment![index].date!.split(" ")[0].split("-")[0]}");
+
                                                                     getStdDetailsController
                                                                         .allInstallment!
                                                                         .forEach(
@@ -546,6 +553,67 @@ class _StudentDetailsState extends State<StudentDetails> {
                                                                           "0"
                                                                       ? "N/A"
                                                                       : "${getStdDetailsController.allInstallment![index].date!.split(" ")[0].split("-")[2]}-${getStdDetailsController.allInstallment![index].date!.split(" ")[0].split("-")[1]}-${getStdDetailsController.allInstallment![index].date!.split(" ")[0].split("-")[0]}",
+                                                                  button:
+                                                                      IconButton(
+                                                                    onPressed:
+                                                                        () async {
+                                                                      DateTime?
+                                                                          _newDate =
+                                                                          await showDatePicker(
+                                                                        context:
+                                                                            context,
+                                                                        initialDate:
+                                                                            DateTime.now(),
+                                                                        firstDate:
+                                                                            DateTime(1900),
+                                                                        lastDate:
+                                                                            DateTime(3100),
+                                                                        builder:
+                                                                            (context,
+                                                                                child) {
+                                                                          return Theme(
+                                                                            data:
+                                                                                Theme.of(context).copyWith(
+                                                                              colorScheme: ColorScheme.light(
+                                                                                primary: AppColor.primaryColor, // <-- SEE HERE
+                                                                                onPrimary: AppColor.whiteColor, // <-- SEE HERE
+                                                                                onSurface: AppColor.blackColor, // <-- SEE HERE
+                                                                              ),
+                                                                              textButtonTheme: TextButtonThemeData(
+                                                                                style: TextButton.styleFrom(
+                                                                                  primary: AppColor.primaryColor, // button text color
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            child:
+                                                                                child!,
+                                                                          );
+                                                                        },
+                                                                      );
+                                                                      if (_newDate !=
+                                                                          null) {
+                                                                        setState(
+                                                                            () {
+                                                                          dateTime =
+                                                                              _newDate;
+                                                                          dateSelected =
+                                                                              "${dateTime!.year}-${dateTime!.month}-${dateTime!.day}";
+                                                                        });
+                                                                        print(
+                                                                            "DateSelected----------${dateSelected}");
+                                                                      }
+                                                                    },
+                                                                    icon: getStdDetailsController.allInstallment![index].completed ==
+                                                                            "0"
+                                                                        ? SizedBox()
+                                                                        : Icon(
+                                                                            Icons.edit,
+                                                                            size:
+                                                                                14.sp,
+                                                                            color:
+                                                                                AppColor.secondaryColor,
+                                                                          ),
+                                                                  ),
                                                                 ),
                                                               ));
                                                         },
@@ -571,6 +639,7 @@ class _StudentDetailsState extends State<StudentDetails> {
                                                       ),
                                                       onPressed: () async {
                                                         //update installment
+
                                                         Get.back();
                                                         await getStudentsDetailsController
                                                             .updateServerInstallment(
@@ -635,44 +704,44 @@ class _StudentDetailsState extends State<StudentDetails> {
                                           .allInstallments!
                                           .length,
                                       (index) => Step(
-                                          onTap: null,
-                                          title:
-                                              "${getStudentsDetailsController.StudentDetailsList!.studentDetails!.allInstallments![index].amount}",
-                                          iconStyle:
-                                              getStudentsDetailsController
-                                                          .StudentDetailsList!
-                                                          .studentDetails!
-                                                          .allInstallments![
-                                                              index]
-                                                          .completed ==
-                                                      "0"
-                                                  ? AppColor.whiteColor
-                                                  : AppColor.primaryColor,
-                                          icon: getStudentsDetailsController
-                                                      .StudentDetailsList!
-                                                      .studentDetails!
-                                                      .allInstallments![index]
-                                                      .completed ==
-                                                  "0"
-                                              ? null
-                                              : Icon(
-                                                  Icons.check,
-                                                  color: Colors.white,
-                                                  size: 13.sp,
-                                                ),
-                                          content: getStudentsDetailsController
-                                                      .StudentDetailsList!
-                                                      .studentDetails!
-                                                      .allInstallments![index]
-                                                      .completed ==
-                                                  "0"
-                                              ? "N/A"
-                                              : getStudentsDetailsController
-                                                  .StudentDetailsList!
-                                                  .studentDetails!
-                                                  .allInstallments![index]
-                                                  .date!
-                                                  .split(" ")[0]),
+                                        onTap: null,
+                                        title:
+                                            "${getStudentsDetailsController.StudentDetailsList!.studentDetails!.allInstallments![index].amount}",
+                                        iconStyle: getStudentsDetailsController
+                                                    .StudentDetailsList!
+                                                    .studentDetails!
+                                                    .allInstallments![index]
+                                                    .completed ==
+                                                "0"
+                                            ? AppColor.whiteColor
+                                            : AppColor.primaryColor,
+                                        icon: getStudentsDetailsController
+                                                    .StudentDetailsList!
+                                                    .studentDetails!
+                                                    .allInstallments![index]
+                                                    .completed ==
+                                                "0"
+                                            ? null
+                                            : Icon(
+                                                Icons.check,
+                                                color: Colors.white,
+                                                size: 13.sp,
+                                              ),
+                                        content: getStudentsDetailsController
+                                                    .StudentDetailsList!
+                                                    .studentDetails!
+                                                    .allInstallments![index]
+                                                    .completed ==
+                                                "0"
+                                            ? "N/A"
+                                            : getStudentsDetailsController
+                                                .StudentDetailsList!
+                                                .studentDetails!
+                                                .allInstallments![index]
+                                                .date!
+                                                .split(" ")[0],
+                                        button: SizedBox(),
+                                      ),
                                     )),
                               ),
                               SizedBox(
@@ -1157,9 +1226,7 @@ class Step extends StatefulWidget {
   final Color? iconStyle;
   final Function()? onTap;
   final icon;
-  /*final bool shimmer;
-  final bool isExpanded;
-  final Function(bool) onExpansion;*/
+  final Widget? button;
 
   const Step({
     this.title,
@@ -1167,6 +1234,8 @@ class Step extends StatefulWidget {
     this.iconStyle,
     this.onTap,
     this.icon,
+    this.button,
+
     //this.shimmer = false,
     //this.isExpanded = false,
     //this.onExpansion,
@@ -1223,8 +1292,16 @@ class _StepState extends State<Step> {
               ),
             ],
           ),
-          title: Text(widget.title!),
-          subtitle: Text(widget.content!)),
+          title: Text(
+            widget.title!,
+            style: TextStyle(fontSize: 14.sp, color: AppColor.blackColor),
+          ),
+          subtitle: Row(
+            children: [
+              Text(widget.content!),
+              widget.button!,
+            ],
+          )),
     );
   }
 }

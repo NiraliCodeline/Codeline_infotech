@@ -4,12 +4,14 @@ import 'package:codeline_infotech/screens/favourite_screen.dart';
 import 'package:codeline_infotech/screens/inquirey_student_list.dart';
 import 'package:countup/countup.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:sizer/sizer.dart';
 
 import '../controllers/get_dashboard_details_controller.dart';
+import '../widgets/common_button.dart';
 import 'login_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -632,6 +634,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
+final passcodeController = TextEditingController();
+
 class MyDrawer extends StatelessWidget {
   const MyDrawer({Key? key}) : super(key: key);
 
@@ -842,6 +846,131 @@ class MyDrawer extends StatelessWidget {
                   width: 26.sp),
               title: Text(
                 "Current Demo List",
+                style: TextStyle(
+                  color: AppColor.blackColor,
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w400,
+                  fontFamily: "Inter",
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 25.sp, right: 40.sp),
+            child: Divider(
+              height: 2,
+              color: AppColor.secondaryColor,
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 12.sp),
+            child: ListTile(
+              onTap: () {
+                Get.back();
+                //Get.to(FeesScreen());
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return SimpleDialog(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(13.sp)),
+                        children: [
+                          SizedBox(
+                            height: 2.h,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 5.w),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  " Passcode",
+                                  style: TextStyle(
+                                      color: AppColor.neavyBlueColor,
+                                      fontSize: 18.sp,
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: "Inter",
+                                      height: 0.8),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 2.h,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 5.w),
+                            child: Container(
+                              child: TextFormField(
+                                inputFormatters: [
+                                  LengthLimitingTextInputFormatter(4),
+                                ],
+                                controller: passcodeController,
+                                validator: (value) {
+                                  if (value!.length != 4) {
+                                    return 'Code must be of 4 digit';
+                                  }
+                                  return null;
+                                },
+                                decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.symmetric(
+                                      vertical: 14.0.sp, horizontal: 11.0.sp),
+                                  hintText: "PASS CODE",
+                                  hintStyle: TextStyle(
+                                      color: AppColor.secondaryColor,
+                                      fontSize: 12.sp,
+                                      fontFamily: "Inter",
+                                      fontWeight: FontWeight.w500),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: AppColor.greyColor),
+                                    borderRadius:
+                                        BorderRadius.circular(10.0.sp),
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: AppColor.greyColor),
+                                    borderRadius:
+                                        BorderRadius.circular(10.0.sp),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 3.h,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 7.w),
+                            child: CommonButton(
+                              height: 6.h,
+                              width: double.infinity,
+                              onPressed: () async {},
+                              child: Text(
+                                "Verification",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: "Inter",
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 2.h,
+                          ),
+                        ],
+                      );
+                    });
+              },
+              leading: Image(
+                  image: AssetImage("assets/images/Survey.png"),
+                  fit: BoxFit.fill,
+                  height: 26.sp,
+                  width: 26.sp),
+              title: Text(
+                "Fees Report",
                 style: TextStyle(
                   color: AppColor.blackColor,
                   fontSize: 14.sp,
