@@ -22,7 +22,7 @@ class GetStudentsDetailsController extends GetxController {
 
   @override
   void onInit() {
-    fetchAllStudentDetails();
+    //fetchAllStudentDetails();
 
     super.onInit();
   }

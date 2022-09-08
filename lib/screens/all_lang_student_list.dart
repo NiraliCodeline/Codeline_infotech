@@ -337,6 +337,9 @@ class _AllLangStudentListState extends State<AllLangStudentList> {
 
                 print("Get new API calls");
               });
+            } else {
+              Get.snackbar(
+                  "Message", "you doesn't permission to Add New Student..");
             }
           }),
     );

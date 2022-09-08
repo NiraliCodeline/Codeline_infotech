@@ -29,55 +29,44 @@ DateTime? dateTime;
 var dateSelected;
 
 class _StudentDetailsState extends State<StudentDetails> {
-  TextEditingController nameController = TextEditingController();
-  TextEditingController mailController = TextEditingController();
-  TextEditingController mobileNumberController = TextEditingController();
-  TextEditingController addressController = TextEditingController();
+  TextEditingController? nameController;
+  TextEditingController? mailController;
+  TextEditingController? mobileNumberController;
+  TextEditingController? addressController;
 
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   GetStudentsDetailsController getStudentsDetailsController =
       Get.put(GetStudentsDetailsController());
+
   @override
   void initState() {
-    getStudentsDetailsController.fetchAllStudentDetails(id: widget.studentId);
     getInfo();
-    // print(
-    //     'xghhhjhhh${getStudentsDetailsController.StudentDetailsList!.studentDetails!.fullName.toString()}');
-    // nameController.text = getStudentsDetailsController
-    //     .StudentDetailsList!.studentDetails!.fullName
-    //     .toString();
-    // mailController.text = getStudentsDetailsController
-    //     .StudentDetailsList!.studentDetails!.email
-    //     .toString();
-    // mobileNumberController.text = getStudentsDetailsController
-    //     .StudentDetailsList!.studentDetails!.mobile
-    //     .toString();
-    // addressController.text = getStudentsDetailsController
-    //     .StudentDetailsList!.studentDetails!.address
-    //     .toString();
-
-    super.initState();
   }
 
   getInfo() async {
-    print("heyyyyyyyy");
-    nameController.text = await getStudentsDetailsController
-        .StudentDetailsList!.studentDetails!.fullName
-        .toString();
-    mailController.text = await getStudentsDetailsController
-        .StudentDetailsList!.studentDetails!.email
-        .toString();
-    mobileNumberController.text = await getStudentsDetailsController
-        .StudentDetailsList!.studentDetails!.mobile
-        .toString();
-    addressController.text = await getStudentsDetailsController
-        .StudentDetailsList!.studentDetails!.address
-        .toString();
+    await getStudentsDetailsController.fetchAllStudentDetails(
+        id: widget.studentId);
+    nameController = TextEditingController(
+        text: getStudentsDetailsController
+            .StudentDetailsList!.studentDetails!.fullName);
+    mailController = TextEditingController(
+        text: getStudentsDetailsController
+            .StudentDetailsList!.studentDetails!.email);
+    mobileNumberController = TextEditingController(
+        text: getStudentsDetailsController
+            .StudentDetailsList!.studentDetails!.mobile);
+    addressController = TextEditingController(
+        text: getStudentsDetailsController
+            .StudentDetailsList!.studentDetails!.address);
+  }
+
+
+  getIcon(){
+    if()
   }
 
   @override
   Widget build(BuildContext context) {
-    print('${}');
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
 
@@ -112,6 +101,7 @@ class _StudentDetailsState extends State<StudentDetails> {
                   // row has two child icon and text.
                   child: GestureDetector(
                     onTap: () {
+                      Get.back();
                       showDialog(
                           context: context,
                           builder: (BuildContext context) {
@@ -279,7 +269,7 @@ class _StudentDetailsState extends State<StudentDetails> {
                                   ),
                                 ),
                                 SizedBox(
-                                  height: 2.h,
+                                  height: 3.h,
                                 ),
                                 Padding(
                                   padding:
@@ -844,7 +834,9 @@ class _StudentDetailsState extends State<StudentDetails> {
                                                                             "DateSelected----------${dateSelected}");
                                                                       }
                                                                     },
-                                                                    icon: getStdDetailsController.allInstallment![index].completed ==
+                                                                    icon:
+
+                                                                        /*getStdDetailsController.allInstallment![index].completed ==
                                                                             "0"
                                                                         ? SizedBox()
                                                                         : Icon(
@@ -853,7 +845,7 @@ class _StudentDetailsState extends State<StudentDetails> {
                                                                                 14.sp,
                                                                             color:
                                                                                 AppColor.secondaryColor,
-                                                                          ),
+                                                                          ),*/
                                                                   ),
                                                                 ),
                                                               ));
@@ -907,6 +899,9 @@ class _StudentDetailsState extends State<StudentDetails> {
                                               );
                                             },
                                           ).then((_) => setState(() {}));
+                                        } else {
+                                          Get.snackbar("Message",
+                                              "you doesn't permission to Add New Student..");
                                         }
                                       },
                                       child: Container(
@@ -1136,6 +1131,9 @@ class _StudentDetailsState extends State<StudentDetails> {
                                                         ])).then(
                                               (_) => setState(() {}),
                                             );
+                                          } else {
+                                            Get.snackbar("Message",
+                                                "you doesn't permission to Add New Student..");
                                           }
                                         },
                                         child: Container(
@@ -1336,6 +1334,9 @@ class _StudentDetailsState extends State<StudentDetails> {
                                                                     )
                                                                   ])).then(
                                                       (_) => setState(() {}));
+                                                } else {
+                                                  Get.snackbar("Message",
+                                                      "you doesn't permission to Add New Student..");
                                                 }
                                               },
                                               child: Container(

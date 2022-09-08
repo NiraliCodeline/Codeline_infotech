@@ -373,420 +373,438 @@ class _HomeScreenState extends State<HomeScreen> {
 final passcodeController = TextEditingController();
 
 class MyDrawer extends StatelessWidget {
-  const MyDrawer({Key? key}) : super(key: key);
+  MyDrawer({Key? key}) : super(key: key);
+
+  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    return Drawer(
-      child: ListView(
-        children: [
-          Container(
-            height: 200.sp,
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                Color(0xff17A2B8),
-                Color(0xff232C42),
-              ],
-            )),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 20.sp,
-                ),
-                Container(
-                  height: 100.sp,
-                  width: 100.sp,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border:
-                          Border.all(color: AppColor.whiteColor, width: 5.sp),
-                      image: DecorationImage(
-                          image: AssetImage("assets/images/Ellipse 164.png"),
-                          fit: BoxFit.fill)),
-                ),
-                SizedBox(
-                  height: 10.sp,
-                ),
-                Text(
-                  "Mr. Nevil Vaghasiya",
-                  style: TextStyle(
-                    color: AppColor.whiteColor,
-                    fontSize: 18.sp,
-                    fontWeight: FontWeight.w600,
-                    fontFamily: "Inter",
+    return Form(
+      key: _formkey,
+      child: Drawer(
+        child: ListView(
+          children: [
+            Container(
+              height: 200.sp,
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Color(0xff17A2B8),
+                  Color(0xff232C42),
+                ],
+              )),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 20.sp,
                   ),
-                ),
-                SizedBox(
-                  height: 3.sp,
-                ),
-                Text(
-                  "( Super Admin )",
+                  Container(
+                    height: 100.sp,
+                    width: 100.sp,
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border:
+                            Border.all(color: AppColor.whiteColor, width: 5.sp),
+                        image: DecorationImage(
+                            image: AssetImage("assets/images/Ellipse 164.png"),
+                            fit: BoxFit.fill)),
+                  ),
+                  SizedBox(
+                    height: 10.sp,
+                  ),
+                  Text(
+                    "Mr. Nevil Vaghasiya",
+                    style: TextStyle(
+                      color: AppColor.whiteColor,
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: "Inter",
+                    ),
+                  ),
+                  SizedBox(
+                    height: 3.sp,
+                  ),
+                  Text(
+                    "( Super Admin )",
+                    style: TextStyle(
+                      color: AppColor.whiteColor,
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w400,
+                      fontFamily: "Inter",
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 23.sp,
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 12.sp),
+              child: ListTile(
+                onTap: () {
+                  Get.back();
+                  Get.to(HomeScreen());
+                },
+                leading: Image(
+                    image: AssetImage("assets/images/Combo Chart.png"),
+                    fit: BoxFit.fill,
+                    height: 26.sp,
+                    width: 26.sp),
+                title: Text(
+                  "Dashboard",
                   style: TextStyle(
-                    color: AppColor.whiteColor,
+                    color: AppColor.blackColor,
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w400,
                     fontFamily: "Inter",
                   ),
                 ),
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 23.sp,
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 12.sp),
-            child: ListTile(
-              onTap: () {
-                Get.back();
-                Get.to(HomeScreen());
-              },
-              leading: Image(
-                  image: AssetImage("assets/images/Combo Chart.png"),
-                  fit: BoxFit.fill,
-                  height: 26.sp,
-                  width: 26.sp),
-              title: Text(
-                "Dashboard",
-                style: TextStyle(
-                  color: AppColor.blackColor,
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w400,
-                  fontFamily: "Inter",
-                ),
               ),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 25.sp, right: 40.sp),
-            child: Divider(
-              height: 2,
-              color: AppColor.secondaryColor,
+            Padding(
+              padding: EdgeInsets.only(left: 25.sp, right: 40.sp),
+              child: Divider(
+                height: 2,
+                color: AppColor.secondaryColor,
+              ),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 12.sp),
-            child: ListTile(
-              onTap: () {
-                Get.back();
-                Get.to(AllLangStudentList())!.then((value) {
-                  if (value['update'])
-                    getDashboardDetailsController.fetchAllDashboardDetails();
+            Padding(
+              padding: EdgeInsets.only(left: 12.sp),
+              child: ListTile(
+                onTap: () {
+                  Get.back();
+                  Get.to(AllLangStudentList())!.then((value) {
+                    if (value['update'])
+                      getDashboardDetailsController.fetchAllDashboardDetails();
 
-                  print("New API calls");
-                });
-              },
-              leading: Image(
-                  image: AssetImage("assets/images/Graduate_Drawer.png"),
-                  fit: BoxFit.fill,
-                  height: 26.sp,
-                  width: 26.sp),
-              title: Text(
-                "Student List",
-                style: TextStyle(
-                  color: AppColor.blackColor,
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w400,
-                  fontFamily: "Inter",
+                    print("New API calls");
+                  });
+                },
+                leading: Image(
+                    image: AssetImage("assets/images/Graduate_Drawer.png"),
+                    fit: BoxFit.fill,
+                    height: 26.sp,
+                    width: 26.sp),
+                title: Text(
+                  "Student List",
+                  style: TextStyle(
+                    color: AppColor.blackColor,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w400,
+                    fontFamily: "Inter",
+                  ),
                 ),
               ),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 25.sp, right: 40.sp),
-            child: Divider(
-              height: 2,
-              color: AppColor.secondaryColor,
+            Padding(
+              padding: EdgeInsets.only(left: 25.sp, right: 40.sp),
+              child: Divider(
+                height: 2,
+                color: AppColor.secondaryColor,
+              ),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 12.sp),
-            child: ListTile(
-              onTap: () {
-                Get.back();
-                Get.to(InquiryStudentListScreen())!.then((value) {
-                  if (value['update'])
-                    getDashboardDetailsController.fetchAllDashboardDetails();
+            Padding(
+              padding: EdgeInsets.only(left: 12.sp),
+              child: ListTile(
+                onTap: () {
+                  Get.back();
+                  Get.to(InquiryStudentListScreen())!.then((value) {
+                    if (value['update'])
+                      getDashboardDetailsController.fetchAllDashboardDetails();
 
-                  print("API calls");
-                });
-              },
-              leading: Image(
-                  image: AssetImage("assets/images/Survey.png"),
-                  fit: BoxFit.fill,
-                  height: 26.sp,
-                  width: 26.sp),
-              title: Text(
-                "Inquiry List",
-                style: TextStyle(
-                  color: AppColor.blackColor,
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w400,
-                  fontFamily: "Inter",
+                    print("API calls");
+                  });
+                },
+                leading: Image(
+                    image: AssetImage("assets/images/Survey.png"),
+                    fit: BoxFit.fill,
+                    height: 26.sp,
+                    width: 26.sp),
+                title: Text(
+                  "Inquiry List",
+                  style: TextStyle(
+                    color: AppColor.blackColor,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w400,
+                    fontFamily: "Inter",
+                  ),
                 ),
               ),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 25.sp, right: 40.sp),
-            child: Divider(
-              height: 2,
-              color: AppColor.secondaryColor,
+            Padding(
+              padding: EdgeInsets.only(left: 25.sp, right: 40.sp),
+              child: Divider(
+                height: 2,
+                color: AppColor.secondaryColor,
+              ),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 12.sp),
-            child: ListTile(
-              onTap: () {
-                Get.back();
-                Get.to(FavouriteScreen());
-              },
-              leading: Image(
-                  image: AssetImage("assets/images/Favorite Database.png"),
-                  fit: BoxFit.fill,
-                  height: 26.sp,
-                  width: 26.sp),
-              title: Text(
-                "Favourite Student",
-                style: TextStyle(
-                  color: AppColor.blackColor,
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w400,
-                  fontFamily: "Inter",
+            Padding(
+              padding: EdgeInsets.only(left: 12.sp),
+              child: ListTile(
+                onTap: () {
+                  Get.back();
+                  Get.to(FavouriteScreen());
+                },
+                leading: Image(
+                    image: AssetImage("assets/images/Favorite Database.png"),
+                    fit: BoxFit.fill,
+                    height: 26.sp,
+                    width: 26.sp),
+                title: Text(
+                  "Favourite Student",
+                  style: TextStyle(
+                    color: AppColor.blackColor,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w400,
+                    fontFamily: "Inter",
+                  ),
                 ),
               ),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 25.sp, right: 40.sp),
-            child: Divider(
-              height: 2,
-              color: AppColor.secondaryColor,
+            Padding(
+              padding: EdgeInsets.only(left: 25.sp, right: 40.sp),
+              child: Divider(
+                height: 2,
+                color: AppColor.secondaryColor,
+              ),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 12.sp),
-            child: ListTile(
-              onTap: () {
-                /*Get.back();
-                Get.to(DemoLectureScreen());*/
-              },
-              leading: Image(
-                  image: AssetImage("assets/images/Classroom.png"),
-                  fit: BoxFit.fill,
-                  height: 26.sp,
-                  width: 26.sp),
-              title: Text(
-                "Current Demo List",
-                style: TextStyle(
-                  color: AppColor.blackColor,
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w400,
-                  fontFamily: "Inter",
+            Padding(
+              padding: EdgeInsets.only(left: 12.sp),
+              child: ListTile(
+                onTap: () {
+                  /*Get.back();
+                  Get.to(DemoLectureScreen());*/
+                },
+                leading: Image(
+                    image: AssetImage("assets/images/Classroom.png"),
+                    fit: BoxFit.fill,
+                    height: 26.sp,
+                    width: 26.sp),
+                title: Text(
+                  "Current Demo List",
+                  style: TextStyle(
+                    color: AppColor.blackColor,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w400,
+                    fontFamily: "Inter",
+                  ),
                 ),
               ),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 25.sp, right: 40.sp),
-            child: Divider(
-              height: 2,
-              color: AppColor.secondaryColor,
+            Padding(
+              padding: EdgeInsets.only(left: 25.sp, right: 40.sp),
+              child: Divider(
+                height: 2,
+                color: AppColor.secondaryColor,
+              ),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 12.sp),
-            child: ListTile(
-              onTap: () {
-                Get.back();
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return SimpleDialog(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(13.sp)),
-                        children: [
-                          SizedBox(
-                            height: 2.h,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 5.w),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text(
-                                  " Passcode",
-                                  style: TextStyle(
-                                      color: AppColor.neavyBlueColor,
-                                      fontSize: 18.sp,
-                                      fontWeight: FontWeight.w600,
-                                      fontFamily: "Inter",
-                                      height: 0.8),
-                                ),
-                              ],
+            Padding(
+              padding: EdgeInsets.only(left: 12.sp),
+              child: ListTile(
+                onTap: () {
+                  Get.back();
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return SimpleDialog(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(13.sp)),
+                          children: [
+                            SizedBox(
+                              height: 2.h,
                             ),
-                          ),
-                          SizedBox(
-                            height: 2.h,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 5.w),
-                            child: Container(
-                              child: TextFormField(
-                                inputFormatters: [
-                                  LengthLimitingTextInputFormatter(4),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 5.w),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    " Passcode",
+                                    style: TextStyle(
+                                        color: AppColor.neavyBlueColor,
+                                        fontSize: 18.sp,
+                                        fontWeight: FontWeight.w600,
+                                        fontFamily: "Inter",
+                                        height: 0.8),
+                                  ),
                                 ],
-                                controller: passcodeController,
-                                validator: (value) {
-                                  if (value!.length != 4) {
-                                    return 'Code must be of 4 digit';
+                              ),
+                            ),
+                            SizedBox(
+                              height: 2.h,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 5.w),
+                              child: Container(
+                                child: TextFormField(
+                                  inputFormatters: [
+                                    LengthLimitingTextInputFormatter(4),
+                                  ],
+                                  controller: passcodeController,
+                                  validator: (value) {
+                                    if (value!.length != 4) {
+                                      return 'Code must be of 4 digit';
+                                    }
+                                    return null;
+                                  },
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.symmetric(
+                                        vertical: 14.0.sp, horizontal: 11.0.sp),
+                                    hintText: "PASS CODE",
+                                    hintStyle: TextStyle(
+                                        color: AppColor.secondaryColor,
+                                        fontSize: 12.sp,
+                                        fontFamily: "Inter",
+                                        fontWeight: FontWeight.w500),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: AppColor.greyColor),
+                                      borderRadius:
+                                          BorderRadius.circular(10.0.sp),
+                                    ),
+                                    border: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: AppColor.greyColor),
+                                      borderRadius:
+                                          BorderRadius.circular(10.0.sp),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 3.h,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 7.w),
+                              child: MaterialButton(
+                                height: 6.h,
+                                color: AppColor.primaryColor,
+                                minWidth: double.infinity,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.sp)),
+                                onPressed: () async {
+                                  FocusScope.of(context)
+                                      .requestFocus(new FocusNode());
+                                  if (_formkey.currentState!.validate()) {
+                                    if (passcodeController.text.trim() != "") {
+                                      Get.back();
+                                      isLoading.value = true;
+
+                                      var feesRes =
+                                          await FeesReportRepo.feesreportRepo(
+                                              passcode: passcodeController.text
+                                                  .trim()
+                                                  .toString());
+                                      if (feesRes['result']) {
+                                        print(
+                                            "Fees-------------${feesRes["data"]["Report"]["total_fees"]}");
+
+                                        Get.to(FeesScreen(
+                                          totalFees: feesRes["data"]["Report"]
+                                              ["total_fees"],
+                                          totalDepositFees: feesRes["data"]
+                                              ["Report"]["total_deposit_fees"],
+                                          totalPendingFees: feesRes["data"]
+                                              ["Report"]["total_pending_fees"],
+                                        ));
+                                        isLoading.value = false;
+                                        passcodeController.clear();
+                                      } else {
+                                        isLoading.value = false;
+                                        Get.snackbar(
+                                          "Error",
+                                          'This Passcode is not found! Please try again later',
+                                        );
+                                      }
+                                    } else {
+                                      isLoading.value = false;
+                                      Get.snackbar(
+                                          "Message", "Please Enter Value");
+                                    }
+                                  } else {
+                                    isLoading.value = false;
+                                    Get.snackbar(
+                                        "Message", "Please Enter Valid Value");
                                   }
-                                  return null;
                                 },
-                                decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(
-                                      vertical: 14.0.sp, horizontal: 11.0.sp),
-                                  hintText: "PASS CODE",
-                                  hintStyle: TextStyle(
-                                      color: AppColor.secondaryColor,
-                                      fontSize: 12.sp,
-                                      fontFamily: "Inter",
-                                      fontWeight: FontWeight.w500),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: AppColor.greyColor),
-                                    borderRadius:
-                                        BorderRadius.circular(10.0.sp),
-                                  ),
-                                  border: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: AppColor.greyColor),
-                                    borderRadius:
-                                        BorderRadius.circular(10.0.sp),
+                                child: Text(
+                                  "Verification",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: "Inter",
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                          SizedBox(
-                            height: 3.h,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 7.w),
-                            child: MaterialButton(
-                              height: 6.h,
-                              color: AppColor.primaryColor,
-                              minWidth: double.infinity,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.sp)),
-                              onPressed: () async {
-                                FocusScope.of(context)
-                                    .requestFocus(new FocusNode());
-                                Get.back();
-                                isLoading.value = true;
-
-                                var feesRes =
-                                    await FeesReportRepo.feesreportRepo(
-                                        passcode:
-                                            passcodeController.text.toString());
-                                if (feesRes['result']) {
-                                  print(
-                                      "Fees-------------${feesRes["data"]["Report"]["total_fees"]}");
-
-                                  Get.to(FeesScreen(
-                                    totalFees: feesRes["data"]["Report"]
-                                        ["total_fees"],
-                                    totalDepositFees: feesRes["data"]["Report"]
-                                        ["total_deposit_fees"],
-                                    totalPendingFees: feesRes["data"]["Report"]
-                                        ["total_pending_fees"],
-                                  ));
-                                  isLoading.value = false;
-                                  passcodeController.clear();
-                                } else {
-                                  isLoading.value = false;
-                                  Get.snackbar(
-                                    "Error",
-                                    'This Passcode is not found! Please try again later',
-                                  );
-                                }
-                              },
-                              child: Text(
-                                "Verification",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w600,
-                                  fontFamily: "Inter",
-                                ),
-                              ),
+                            SizedBox(
+                              height: 2.h,
                             ),
-                          ),
-                          SizedBox(
-                            height: 2.h,
-                          ),
-                        ],
-                      );
-                    });
-              },
-              leading: Image(
-                  image: AssetImage("assets/images/Survey.png"),
-                  fit: BoxFit.fill,
-                  height: 26.sp,
-                  width: 26.sp),
-              title: Text(
-                "Fees Report",
-                style: TextStyle(
-                  color: AppColor.blackColor,
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w400,
-                  fontFamily: "Inter",
+                          ],
+                        );
+                      });
+                },
+                leading: Image(
+                    image: AssetImage("assets/images/Survey.png"),
+                    fit: BoxFit.fill,
+                    height: 26.sp,
+                    width: 26.sp),
+                title: Text(
+                  "Fees Report",
+                  style: TextStyle(
+                    color: AppColor.blackColor,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w400,
+                    fontFamily: "Inter",
+                  ),
                 ),
               ),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 25.sp, right: 40.sp),
-            child: Divider(
-              height: 2,
-              color: AppColor.secondaryColor,
+            Padding(
+              padding: EdgeInsets.only(left: 25.sp, right: 40.sp),
+              child: Divider(
+                height: 2,
+                color: AppColor.secondaryColor,
+              ),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 12.sp),
-            child: ListTile(
-              onTap: () async {
-                await GetStorage().remove('token');
-                Get.offAll(LogInScreen());
-              },
-              leading: Image(
-                  image: AssetImage("assets/images/Shutdown.png"),
-                  fit: BoxFit.fill,
-                  height: 26.sp,
-                  width: 26.sp),
-              title: Text(
-                "Logout",
-                style: TextStyle(
-                  color: AppColor.blackColor,
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w400,
-                  fontFamily: "Inter",
+            Padding(
+              padding: EdgeInsets.only(left: 12.sp),
+              child: ListTile(
+                onTap: () async {
+                  await GetStorage().remove('token');
+                  Get.offAll(LogInScreen());
+                },
+                leading: Image(
+                    image: AssetImage("assets/images/Shutdown.png"),
+                    fit: BoxFit.fill,
+                    height: 26.sp,
+                    width: 26.sp),
+                title: Text(
+                  "Logout",
+                  style: TextStyle(
+                    color: AppColor.blackColor,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w400,
+                    fontFamily: "Inter",
+                  ),
                 ),
               ),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 25.sp, right: 40.sp),
-            child: Divider(
-              height: 2,
-              color: AppColor.secondaryColor,
+            Padding(
+              padding: EdgeInsets.only(left: 25.sp, right: 40.sp),
+              child: Divider(
+                height: 2,
+                color: AppColor.secondaryColor,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
