@@ -198,6 +198,7 @@ class _LogInScreenState extends State<LogInScreen> {
                                                       .requestFocus(
                                                           new FocusNode());
                                                   isLoading.value = true;
+
                                                   var loginRes = await LoginRepo.login(
                                                       username:
                                                           usernameTextController

@@ -9,12 +9,12 @@ import '../repo/get_students_details_repo.dart';
 import '../screens/student_details.dart';
 
 class GetStudentsDetailsController extends GetxController {
-  final id;
+  // final id;
   var isLoading = false.obs;
   var isInitialLoading = false.obs;
   GetStudentsDetailsResModel? StudentDetailsList;
 
-  GetStudentsDetailsController(this.id);
+  // GetStudentsDetailsController(this.id);
   //RxList<Datum> allData = <Datum>[].obs;
 
   List<AllInstallment>? allInstallment;
@@ -27,7 +27,7 @@ class GetStudentsDetailsController extends GetxController {
     super.onInit();
   }
 
-  void fetchAllStudentDetails() async {
+  Future fetchAllStudentDetails({int? id}) async {
     try {
       isInitialLoading(true);
       update();

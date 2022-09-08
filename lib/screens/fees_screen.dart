@@ -5,7 +5,16 @@ import 'package:sizer/sizer.dart';
 import '../constant/colors.dart';
 
 class FeesScreen extends StatefulWidget {
-  const FeesScreen({Key? key}) : super(key: key);
+  const FeesScreen(
+      {Key? key,
+      required this.totalFees,
+      required this.totalDepositFees,
+      required this.totalPendingFees})
+      : super(key: key);
+
+  final totalFees;
+  final totalDepositFees;
+  final totalPendingFees;
 
   @override
   State<FeesScreen> createState() => _FeesScreenState();
@@ -70,7 +79,7 @@ class _FeesScreenState extends State<FeesScreen> {
                 border: Border.all(color: AppColor.primaryColor, width: 2.sp)),
             child: Center(
               child: Text(
-                "10000",
+                "${widget.totalFees}",
                 style: TextStyle(
                   color: Color(0xff868585),
                   fontSize: 3.h,
@@ -107,7 +116,7 @@ class _FeesScreenState extends State<FeesScreen> {
                 border: Border.all(color: AppColor.primaryColor, width: 2.sp)),
             child: Center(
               child: Text(
-                "10000",
+                "${widget.totalDepositFees}",
                 style: TextStyle(
                   color: Color(0xff868585),
                   fontSize: 3.h,
@@ -144,7 +153,7 @@ class _FeesScreenState extends State<FeesScreen> {
                 border: Border.all(color: AppColor.primaryColor, width: 2.sp)),
             child: Center(
               child: Text(
-                "10000",
+                "${widget.totalPendingFees}",
                 style: TextStyle(
                   color: Color(0xff868585),
                   fontSize: 3.h,

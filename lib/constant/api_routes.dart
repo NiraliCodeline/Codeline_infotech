@@ -22,4 +22,5 @@ class ApiRoutes {
   static String getAllDemo = '${BaseUrl}GetAllDemo';
   static String startDemo = '${BaseUrl}StartDemo';
   static String updateIsCompleted = '${BaseUrl}UpdateIsCompleted';
+  static String feesReport = '${BaseUrl}FeesReport';
 }

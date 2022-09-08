@@ -4,6 +4,7 @@ import 'package:codeline_infotech/repo/update_Iscompleted_repo.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get_storage/get_storage.dart';
@@ -28,21 +29,60 @@ DateTime? dateTime;
 var dateSelected;
 
 class _StudentDetailsState extends State<StudentDetails> {
+  TextEditingController nameController = TextEditingController();
+  TextEditingController mailController = TextEditingController();
+  TextEditingController mobileNumberController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+
+  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+  GetStudentsDetailsController getStudentsDetailsController =
+      Get.put(GetStudentsDetailsController());
   @override
   void initState() {
-    print("heyyyyyyyy");
+    getStudentsDetailsController.fetchAllStudentDetails(id: widget.studentId);
+    getInfo();
+    // print(
+    //     'xghhhjhhh${getStudentsDetailsController.StudentDetailsList!.studentDetails!.fullName.toString()}');
+    // nameController.text = getStudentsDetailsController
+    //     .StudentDetailsList!.studentDetails!.fullName
+    //     .toString();
+    // mailController.text = getStudentsDetailsController
+    //     .StudentDetailsList!.studentDetails!.email
+    //     .toString();
+    // mobileNumberController.text = getStudentsDetailsController
+    //     .StudentDetailsList!.studentDetails!.mobile
+    //     .toString();
+    // addressController.text = getStudentsDetailsController
+    //     .StudentDetailsList!.studentDetails!.address
+    //     .toString();
+
     super.initState();
+  }
+
+  getInfo() async {
+    print("heyyyyyyyy");
+    nameController.text = await getStudentsDetailsController
+        .StudentDetailsList!.studentDetails!.fullName
+        .toString();
+    mailController.text = await getStudentsDetailsController
+        .StudentDetailsList!.studentDetails!.email
+        .toString();
+    mobileNumberController.text = await getStudentsDetailsController
+        .StudentDetailsList!.studentDetails!.mobile
+        .toString();
+    addressController.text = await getStudentsDetailsController
+        .StudentDetailsList!.studentDetails!.address
+        .toString();
   }
 
   @override
   Widget build(BuildContext context) {
+    print('${}');
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
 
-    GetStudentsDetailsController getStudentsDetailsController =
-        Get.put(GetStudentsDetailsController(widget.studentId));
-
     return Scaffold(
+        key: _formkey,
         backgroundColor: AppColor.whiteColor,
         appBar: AppBar(
           elevation: 0.0,
@@ -70,12 +110,213 @@ class _StudentDetailsState extends State<StudentDetails> {
                 PopupMenuItem(
                   value: 1,
                   // row has two child icon and text.
-                  child: Text("Update",
-                      style: TextStyle(
-                          fontFamily: 'Inter',
-                          color: AppColor.secondaryColor,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14.sp)),
+                  child: GestureDetector(
+                    onTap: () {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return SimpleDialog(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(13.sp)),
+                              children: [
+                                SizedBox(
+                                  height: 3.h,
+                                ),
+                                Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 5.w),
+                                  child: Container(
+                                    child: TextFormField(
+                                      controller: nameController,
+                                      decoration: InputDecoration(
+                                        contentPadding: EdgeInsets.symmetric(
+                                            vertical: 14.0.sp,
+                                            horizontal: 11.0.sp),
+                                        hintText: "NAME",
+                                        hintStyle: TextStyle(
+                                            color: AppColor.secondaryColor,
+                                            fontSize: 12.sp,
+                                            fontFamily: "Inter",
+                                            fontWeight: FontWeight.w500),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: AppColor.greyColor),
+                                          borderRadius:
+                                              BorderRadius.circular(10.0.sp),
+                                        ),
+                                        border: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: AppColor.greyColor),
+                                          borderRadius:
+                                              BorderRadius.circular(10.0.sp),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 2.h,
+                                ),
+                                Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 5.w),
+                                  child: Container(
+                                    child: TextFormField(
+                                      validator: (String? value) {
+                                        if (value!.isEmpty) {
+                                          return 'Please a Enter';
+                                        }
+                                        if (!RegExp(r'\S+@\S+\.\S+')
+                                            .hasMatch(value)) {
+                                          return 'Please a valid Email';
+                                        }
+                                        return null;
+                                      },
+                                      controller: mailController,
+                                      decoration: InputDecoration(
+                                        contentPadding: EdgeInsets.symmetric(
+                                            vertical: 14.0.sp,
+                                            horizontal: 11.0.sp),
+                                        hintText: "EMAIL ADDRESS",
+                                        hintStyle: TextStyle(
+                                            color: AppColor.secondaryColor,
+                                            fontSize: 12.sp,
+                                            fontFamily: "Inter",
+                                            fontWeight: FontWeight.w500),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: AppColor.greyColor),
+                                          borderRadius:
+                                              BorderRadius.circular(10.0.sp),
+                                        ),
+                                        border: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: AppColor.greyColor),
+                                          borderRadius:
+                                              BorderRadius.circular(10.0.sp),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 2.h,
+                                ),
+                                Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 5.w),
+                                  child: Container(
+                                    child: TextFormField(
+                                      inputFormatters: [
+                                        LengthLimitingTextInputFormatter(10),
+                                      ],
+                                      controller: mobileNumberController,
+                                      validator: (value) {
+                                        if (value!.length != 4) {
+                                          return 'Code must be of 4 digit';
+                                        }
+                                        return null;
+                                      },
+                                      decoration: InputDecoration(
+                                        contentPadding: EdgeInsets.symmetric(
+                                            vertical: 14.0.sp,
+                                            horizontal: 11.0.sp),
+                                        hintText: "MOBILE NO.",
+                                        hintStyle: TextStyle(
+                                            color: AppColor.secondaryColor,
+                                            fontSize: 12.sp,
+                                            fontFamily: "Inter",
+                                            fontWeight: FontWeight.w500),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: AppColor.greyColor),
+                                          borderRadius:
+                                              BorderRadius.circular(10.0.sp),
+                                        ),
+                                        border: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: AppColor.greyColor),
+                                          borderRadius:
+                                              BorderRadius.circular(10.0.sp),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 2.h,
+                                ),
+                                Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 5.w),
+                                  child: Container(
+                                    child: TextFormField(
+                                      controller: addressController,
+                                      decoration: InputDecoration(
+                                        contentPadding: EdgeInsets.symmetric(
+                                            vertical: 14.0.sp,
+                                            horizontal: 11.0.sp),
+                                        hintText: "ADDRESS",
+                                        hintStyle: TextStyle(
+                                            color: AppColor.secondaryColor,
+                                            fontSize: 12.sp,
+                                            fontFamily: "Inter",
+                                            fontWeight: FontWeight.w500),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: AppColor.greyColor),
+                                          borderRadius:
+                                              BorderRadius.circular(10.0.sp),
+                                        ),
+                                        border: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: AppColor.greyColor),
+                                          borderRadius:
+                                              BorderRadius.circular(10.0.sp),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 2.h,
+                                ),
+                                Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 7.w),
+                                  child: MaterialButton(
+                                    height: 6.h,
+                                    color: AppColor.primaryColor,
+                                    minWidth: double.infinity,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.sp)),
+                                    onPressed: () {},
+                                    child: Text(
+                                      "Update",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w600,
+                                        fontFamily: "Inter",
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 3.h,
+                                ),
+                              ],
+                            );
+                          });
+                    },
+                    child: Text("Update",
+                        style: TextStyle(
+                            fontFamily: 'Inter',
+                            color: AppColor.secondaryColor,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14.sp)),
+                  ),
                 ),
                 // popupmenu item 2
                 PopupMenuItem(
