@@ -6,12 +6,12 @@ import 'package:get/get.dart';
 import '../models/req/update_batch_res_model.dart';
 import '../models/res/get_students_details_res_model.dart';
 import '../repo/get_students_details_repo.dart';
-import '../screens/student_details.dart';
 
 class GetStudentsDetailsController extends GetxController {
   // final id;
   var isLoading = false.obs;
   var isInitialLoading = false.obs;
+
   GetStudentsDetailsResModel? StudentDetailsList;
 
   // GetStudentsDetailsController(this.id);
@@ -80,9 +80,11 @@ class GetStudentsDetailsController extends GetxController {
             "0" &&
         index == 0) {
       allInstallment![index].completed = isDone;
-      allInstallment![index].date = dateTime == null
-          ? DateTime.now().toString().split(".")[0]
-          : dateSelected;
+      allInstallment![index].date = DateTime.now().toString().split(".")[0];
+      // allInstallment![index].date = dateTime == null
+      //     ? DateTime.now().toString().split(".")[0]
+      //     : dateSelected;
+
       update();
     } else if (StudentDetailsList!
                 .studentDetails!.allInstallments![index].completed ==
@@ -91,9 +93,11 @@ class GetStudentsDetailsController extends GetxController {
                 .studentDetails!.allInstallments![index - 1].completed !=
             "0") {
       allInstallment![index].completed = isDone;
-      allInstallment![index].date = dateTime == null
-          ? DateTime.now().toString().split(".")[0]
-          : dateSelected;
+      allInstallment![index].date = DateTime.now().toString().split(".")[0];
+      // allInstallment![index].date = dateTime == null
+      //     ? DateTime.now().toString().split(".")[0]
+      //     : dateSelected;
+
       update();
     }
   }

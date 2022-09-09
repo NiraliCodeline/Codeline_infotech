@@ -842,7 +842,8 @@ class _AddNewStudentScreenState extends State<AddNewStudentScreen> {
                                           padding: EdgeInsets.symmetric(
                                               horizontal: width * 0.02.w),
                                           child: TextFormField(
-                                            keyboardType: TextInputType.number,
+                                            // keyboardType: TextInputType
+                                            //     .number,
                                             obscureText: false,
                                             controller: amountController,
                                             // validator: widget.validator,
@@ -907,9 +908,44 @@ class _AddNewStudentScreenState extends State<AddNewStudentScreen> {
                                               if (amountController.text
                                                       .trim() !=
                                                   "") {
-                                                _addNewStudentController
-                                                    .addInstallment(int.parse(
-                                                        amountController.text));
+                                                //amountController.text = "1000";
+                                                print(
+                                                    'Asssssssss${amountController.text.split('x')}');
+                                                var first = amountController
+                                                    .text
+                                                    .split('x')
+                                                    .first;
+                                                print(
+                                                    'first${amountController.text.split('x').first}');
+                                                var last = int.parse(
+                                                    amountController.text
+                                                        .split('x')
+                                                        .last);
+                                                print(
+                                                    'last${amountController.text.split('x').last.runtimeType}');
+                                                var length = amountController
+                                                    .text
+                                                    .split('x')
+                                                    .length;
+                                                print('length$length');
+
+                                                if (length == 1) {
+                                                  _addNewStudentController
+                                                      .addInstallment(int.parse(
+                                                          amountController
+                                                              .text));
+                                                  print('if');
+                                                } else {
+                                                  for (var i = 0;
+                                                      i < last;
+                                                      i++) {
+                                                    _addNewStudentController
+                                                        .addInstallment(
+                                                            int.parse(first));
+                                                    print('index$i');
+                                                  }
+                                                }
+
                                                 amountController.clear();
                                                 Get.back();
                                               }

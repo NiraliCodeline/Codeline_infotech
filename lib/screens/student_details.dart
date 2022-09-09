@@ -60,11 +60,6 @@ class _StudentDetailsState extends State<StudentDetails> {
             .StudentDetailsList!.studentDetails!.address);
   }
 
-
-  getIcon(){
-    if()
-  }
-
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -734,7 +729,6 @@ class _StudentDetailsState extends State<StudentDetails> {
                                                                 (index) => Step(
                                                                   onTap: () {
                                                                     //add installment
-
                                                                     print(
                                                                         "UPDATE DATE-----------${getStdDetailsController.allInstallment![index].date!.split(" ")[0].split("-")[2]}-${getStdDetailsController.allInstallment![index].date!.split(" ")[0].split("-")[1]}-${getStdDetailsController.allInstallment![index].date!.split(" ")[0].split("-")[0]}");
 
@@ -784,69 +778,59 @@ class _StudentDetailsState extends State<StudentDetails> {
                                                                           "0"
                                                                       ? "N/A"
                                                                       : "${getStdDetailsController.allInstallment![index].date!.split(" ")[0].split("-")[2]}-${getStdDetailsController.allInstallment![index].date!.split(" ")[0].split("-")[1]}-${getStdDetailsController.allInstallment![index].date!.split(" ")[0].split("-")[0]}",
-                                                                  button:
-                                                                      IconButton(
-                                                                    onPressed:
-                                                                        () async {
-                                                                      DateTime?
-                                                                          _newDate =
-                                                                          await showDatePicker(
-                                                                        context:
-                                                                            context,
-                                                                        initialDate:
-                                                                            DateTime.now(),
-                                                                        firstDate:
-                                                                            DateTime(1900),
-                                                                        lastDate:
-                                                                            DateTime(3100),
-                                                                        builder:
-                                                                            (context,
-                                                                                child) {
-                                                                          return Theme(
-                                                                            data:
-                                                                                Theme.of(context).copyWith(
-                                                                              colorScheme: ColorScheme.light(
-                                                                                primary: AppColor.primaryColor, // <-- SEE HERE
-                                                                                onPrimary: AppColor.whiteColor, // <-- SEE HERE
-                                                                                onSurface: AppColor.blackColor, // <-- SEE HERE
-                                                                              ),
-                                                                              textButtonTheme: TextButtonThemeData(
-                                                                                style: TextButton.styleFrom(
-                                                                                  primary: AppColor.primaryColor, // button text color
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                            child:
-                                                                                child!,
-                                                                          );
-                                                                        },
-                                                                      );
-                                                                      if (_newDate !=
-                                                                          null) {
-                                                                        setState(
-                                                                            () {
-                                                                          dateTime =
-                                                                              _newDate;
-                                                                          dateSelected =
-                                                                              "${dateTime!.year}-${dateTime!.month}-${dateTime!.day}";
-                                                                        });
-                                                                        print(
-                                                                            "DateSelected----------${dateSelected}");
-                                                                      }
-                                                                    },
-                                                                    icon:
-
-                                                                        /*getStdDetailsController.allInstallment![index].completed ==
-                                                                            "0"
-                                                                        ? SizedBox()
-                                                                        : Icon(
+                                                                  button: /*getStdDetailsController
+                                                                              .allInstallment![index]
+                                                                              .completed ==
+                                                                          "1"
+                                                                      ? IconButton(
+                                                                          onPressed:
+                                                                              () async {
+                                                                            DateTime?
+                                                                                _newDate =
+                                                                                await showDatePicker(
+                                                                              context: context,
+                                                                              initialDate: DateTime.now(),
+                                                                              firstDate: DateTime(1900),
+                                                                              lastDate: DateTime(3100),
+                                                                              builder: (context, child) {
+                                                                                return Theme(
+                                                                                  data: Theme.of(context).copyWith(
+                                                                                    colorScheme: ColorScheme.light(
+                                                                                      primary: AppColor.primaryColor, // <-- SEE HERE
+                                                                                      onPrimary: AppColor.whiteColor, // <-- SEE HERE
+                                                                                      onSurface: AppColor.blackColor, // <-- SEE HERE
+                                                                                    ),
+                                                                                    textButtonTheme: TextButtonThemeData(
+                                                                                      style: TextButton.styleFrom(
+                                                                                        primary: AppColor.primaryColor, // button text color
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                  child: child!,
+                                                                                );
+                                                                              },
+                                                                            );
+                                                                            if (_newDate !=
+                                                                                null) {
+                                                                              setState(() {
+                                                                                dateTime = _newDate;
+                                                                                dateSelected = "${dateTime!.year}-${dateTime!.month}-${dateTime!.day}";
+                                                                                getStudentsDetailsController.update();
+                                                                              });
+                                                                              print("DateSelected----------${dateSelected}");
+                                                                            }
+                                                                          },
+                                                                          icon:
+                                                                              Icon(
                                                                             Icons.edit,
                                                                             size:
                                                                                 14.sp,
                                                                             color:
                                                                                 AppColor.secondaryColor,
-                                                                          ),*/
-                                                                  ),
+                                                                          ),
+                                                                        )
+                                                                      :*/
+                                                                      SizedBox(),
                                                                 ),
                                                               ));
                                                         },

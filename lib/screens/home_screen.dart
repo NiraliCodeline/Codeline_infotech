@@ -690,46 +690,41 @@ class MyDrawer extends StatelessWidget {
                                 onPressed: () async {
                                   FocusScope.of(context)
                                       .requestFocus(new FocusNode());
-                                  if (_formkey.currentState!.validate()) {
-                                    if (passcodeController.text.trim() != "") {
-                                      Get.back();
-                                      isLoading.value = true;
 
-                                      var feesRes =
-                                          await FeesReportRepo.feesreportRepo(
-                                              passcode: passcodeController.text
-                                                  .trim()
-                                                  .toString());
-                                      if (feesRes['result']) {
-                                        print(
-                                            "Fees-------------${feesRes["data"]["Report"]["total_fees"]}");
+                                  if (passcodeController.text.trim() != "") {
+                                    Get.back();
+                                    isLoading.value = true;
 
-                                        Get.to(FeesScreen(
-                                          totalFees: feesRes["data"]["Report"]
-                                              ["total_fees"],
-                                          totalDepositFees: feesRes["data"]
-                                              ["Report"]["total_deposit_fees"],
-                                          totalPendingFees: feesRes["data"]
-                                              ["Report"]["total_pending_fees"],
-                                        ));
-                                        isLoading.value = false;
-                                        passcodeController.clear();
-                                      } else {
-                                        isLoading.value = false;
-                                        Get.snackbar(
-                                          "Error",
-                                          'This Passcode is not found! Please try again later',
-                                        );
-                                      }
+                                    var feesRes =
+                                        await FeesReportRepo.feesreportRepo(
+                                            passcode: passcodeController.text
+                                                .trim()
+                                                .toString());
+                                    if (feesRes['result']) {
+                                      print(
+                                          "Fees-------------${feesRes["data"]["Report"]["total_fees"]}");
+
+                                      Get.to(FeesScreen(
+                                        totalFees: feesRes["data"]["Report"]
+                                            ["total_fees"],
+                                        totalDepositFees: feesRes["data"]
+                                            ["Report"]["total_deposit_fees"],
+                                        totalPendingFees: feesRes["data"]
+                                            ["Report"]["total_pending_fees"],
+                                      ));
+                                      isLoading.value = false;
+                                      passcodeController.clear();
                                     } else {
                                       isLoading.value = false;
                                       Get.snackbar(
-                                          "Message", "Please Enter Value");
+                                        "Error",
+                                        'This Passcode is not found! Please try again later',
+                                      );
                                     }
                                   } else {
                                     isLoading.value = false;
                                     Get.snackbar(
-                                        "Message", "Please Enter Valid Value");
+                                        "Message", "Please Enter Value");
                                   }
                                 },
                                 child: Text(
