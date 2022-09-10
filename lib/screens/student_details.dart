@@ -828,8 +828,8 @@ class _StudentDetailsState extends State<StudentDetails> {
                                                                       : "${getStdDetailsController.allInstallment![index].date!.split(" ")[0].split("-")[2]}-${getStdDetailsController.allInstallment![index].date!.split(" ")[0].split("-")[1]}-${getStdDetailsController.allInstallment![index].date!.split(" ")[0].split("-")[0]}",
                                                                   button: getStdDetailsController.allInstallment![index].completed ==
                                                                               "0" &&
-                                                                          getStdDetailsController.allInstallment![index - 1].completed ==
-                                                                              "1"
+                                                                          (index == 0 ||
+                                                                              getStdDetailsController.allInstallment![index - 1].completed == "1")
                                                                       ? IconButton(
                                                                           onPressed:
                                                                               () async {
@@ -1004,12 +1004,7 @@ class _StudentDetailsState extends State<StudentDetails> {
                                                     .completed ==
                                                 "0"
                                             ? "N/A"
-                                            : getStudentsDetailsController
-                                                .StudentDetailsList!
-                                                .studentDetails!
-                                                .allInstallments![index]
-                                                .date!
-                                                .split(" ")[0],
+                                            : "${getStudentsDetailsController.StudentDetailsList!.studentDetails!.allInstallments![index].date!.split(" ")[0].split("-")[2]}-${getStudentsDetailsController.StudentDetailsList!.studentDetails!.allInstallments![index].date!.split(" ")[0].split("-")[1]}-${getStudentsDetailsController.StudentDetailsList!.studentDetails!.allInstallments![index].date!.split(" ")[0].split("-")[0]}",
                                         button: SizedBox(),
                                       ),
                                     )),
