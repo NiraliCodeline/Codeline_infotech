@@ -2,29 +2,29 @@ import 'dart:convert';
 
 import 'package:codeline_infotech/api_handler/handlers.dart';
 import 'package:codeline_infotech/constant/api_routes.dart';
-import 'package:codeline_infotech/models/req/update_batch_res_model.dart';
 
+import '../models/req/update_student_details_req_model.dart';
 import '../screens/splash_screen.dart';
 
-class UpdateBatchRepo {
-  static Future<bool> updateCurrentBatchRepo(
-      UpdateBatchReqModel updateBatchResModel) async {
+class UpdateStudentDetailsRepo {
+  static Future<bool> updateStudentDetailsrepo(
+      UpdateStudentDetailsReqModel updateStudentDetailsReqModel) async {
     //Map<String, String> header = {"Authorization": '${ApiRoutes.dataToken}'};
     Map<String, String> header = {"Authorization": '${bearerToken}'};
 
     var response = await API.apiHandlers(
-        Url: '${ApiRoutes.updateBatch}',
+        Url: '${ApiRoutes.updateStudentDetails}',
         apiTypes: ApiTypes.Post,
-        reqBody: updateBatchResModel.toJson(),
+        reqBody: updateStudentDetailsReqModel.toJson(),
         header: header);
 
-    //print("STUDENT-ID-----------${ApiRoutes.allStudentsDetails}$id");
-    print("UpdateBatch RESPONSE------------${response}");
-    //("URL--------------${ApiRoutes.allStudentsDetails}");
+    print("UpdateStudentDetailsRESPONSE------------${response}");
+    print(
+        "UpdateStudentDetailsURL--------------${ApiRoutes.updateStudentDetails}");
 
     if (response != null) {
       var responseData = jsonDecode(response);
-      if (responseData['update_Course'] == "successfully") return true;
+      if (responseData['update_details'] == "successfully") return true;
       return false;
     } else {
       return false;

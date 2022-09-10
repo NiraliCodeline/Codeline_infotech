@@ -3,11 +3,12 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import '../constant/api_routes.dart';
+import '../screens/splash_screen.dart';
 
 Future<String?> uploadUserImage({String? fileName, var image}) async {
-  print(ApiRoutes.dataToken);
   Map<String, String> header = {
-    "Authorization": '${ApiRoutes.dataToken}',
+    //"Authorization": '${ApiRoutes.dataToken}',
+    "Authorization": '${bearerToken}',
     "Content-Type": "multipart/form-data"
   };
   var mulReq = await http.MultipartFile.fromPath("file", image!.path);

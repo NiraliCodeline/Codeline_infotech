@@ -4,11 +4,13 @@ import 'package:codeline_infotech/constant/api_routes.dart';
 
 import '../api_handler/handlers.dart';
 import '../models/req/add_new_Inquiry_req_model.dart';
+import '../screens/splash_screen.dart';
 
 class AddNewInquiryRepo {
   static Future<bool> addNewInquiryrepo(
       AddNewInquiryReqModel addNewInquiryReqModel) async {
-    Map<String, String> header = {"Authorization": '${ApiRoutes.dataToken}'};
+    //Map<String, String> header = {"Authorization": '${ApiRoutes.dataToken}'};
+    Map<String, String> header = {"Authorization": '${bearerToken}'};
 
     var response = await API.apiHandlers(
         Url: '${ApiRoutes.addNewInquiry}',

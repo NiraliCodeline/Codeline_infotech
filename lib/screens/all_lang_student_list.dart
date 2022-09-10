@@ -363,7 +363,12 @@ class _AllLangStudentListState extends State<AllLangStudentList> {
                   print("Std_id: ${data![index!].studentId!}");
 
                   Get.to(StudentDetails(
-                      studentId: int.parse(data[index].studentId!)));
+                          studentId: int.parse(data[index].studentId!)))!
+                      .then((value) {
+                    if (value['update']) getAllStudentsController.onInit();
+
+                    print("Get new API calls");
+                  });
                 },
                 child: Container(
                   height: height * 0.02.h,

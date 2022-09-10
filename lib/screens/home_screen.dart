@@ -104,20 +104,32 @@ class _HomeScreenState extends State<HomeScreen> {
                               children: [
                                 Column(
                                   children: [
-                                    Container(
-                                      height: 12.h,
-                                      width: 12.h,
-                                      decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          border: Border.all(
-                                              color: AppColor.primaryColor,
-                                              width: 4.2.sp)),
-                                      child: Center(
-                                        child: Image.asset(
-                                          "assets/images/012-girl 1.png",
-                                          fit: BoxFit.fill,
-                                          height: 6.h,
-                                          width: 6.h,
+                                    GestureDetector(
+                                      onTap: () {
+                                        Get.to(AllLangStudentList())!
+                                            .then((value) {
+                                          if (value['update'])
+                                            getDashboardDetailsController
+                                                .fetchAllDashboardDetails();
+
+                                          print("New API calls");
+                                        });
+                                      },
+                                      child: Container(
+                                        height: 12.h,
+                                        width: 12.h,
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                                color: AppColor.primaryColor,
+                                                width: 4.2.sp)),
+                                        child: Center(
+                                          child: Image.asset(
+                                            "assets/images/012-girl 1.png",
+                                            fit: BoxFit.fill,
+                                            height: 6.h,
+                                            width: 6.h,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -161,20 +173,32 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                                 Column(
                                   children: [
-                                    Container(
-                                      height: 12.h,
-                                      width: 12.h,
-                                      decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          border: Border.all(
-                                              color: AppColor.primaryColor,
-                                              width: 4.2.sp)),
-                                      child: Center(
-                                        child: Image.asset(
-                                          "assets/images/029-survey 1.png",
-                                          fit: BoxFit.fill,
-                                          height: 6.h,
-                                          width: 6.h,
+                                    GestureDetector(
+                                      onTap: () {
+                                        Get.to(InquiryStudentListScreen())!
+                                            .then((value) {
+                                          if (value['update'])
+                                            getDashboardDetailsController
+                                                .fetchAllDashboardDetails();
+
+                                          print("API calls");
+                                        });
+                                      },
+                                      child: Container(
+                                        height: 12.h,
+                                        width: 12.h,
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                                color: AppColor.primaryColor,
+                                                width: 4.2.sp)),
+                                        child: Center(
+                                          child: Image.asset(
+                                            "assets/images/029-survey 1.png",
+                                            fit: BoxFit.fill,
+                                            height: 6.h,
+                                            width: 6.h,
+                                          ),
                                         ),
                                       ),
                                     ),

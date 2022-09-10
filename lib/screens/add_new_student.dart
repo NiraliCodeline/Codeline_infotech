@@ -6,6 +6,7 @@ import 'package:codeline_infotech/constant/colors.dart';
 import 'package:codeline_infotech/constant/progress_indicator.dart';
 import 'package:codeline_infotech/controllers/add_new_student_controller.dart';
 import 'package:codeline_infotech/models/req/add_new_student_req_model.dart';
+import 'package:codeline_infotech/screens/splash_screen.dart';
 import 'package:codeline_infotech/widgets/common_button.dart';
 import 'package:codeline_infotech/widgets/common_textformfeild.dart';
 import 'package:dio/dio.dart' as dio;
@@ -126,9 +127,8 @@ class _AddNewStudentScreenState extends State<AddNewStudentScreen> {
   }
 
   Future<String?> uploadUserImage({String? fileName}) async {
-    print(ApiRoutes.dataToken);
     Map<String, String> header = {
-      "Authorization": '${ApiRoutes.dataToken}',
+      "Authorization": '${bearerToken}',
       "Content-Type": "multipart/form-data"
     };
 

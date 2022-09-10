@@ -6,11 +6,13 @@ import 'package:get/get.dart';
 import '../models/req/update_batch_res_model.dart';
 import '../models/res/get_students_details_res_model.dart';
 import '../repo/get_students_details_repo.dart';
+import '../screens/student_details.dart';
 
 class GetStudentsDetailsController extends GetxController {
   // final id;
   var isLoading = false.obs;
   var isInitialLoading = false.obs;
+  RxBool iconSeen = false.obs;
 
   GetStudentsDetailsResModel? StudentDetailsList;
 
@@ -74,16 +76,19 @@ class GetStudentsDetailsController extends GetxController {
     }
   }
 
-  void updateLocalInstallment(
-      {required int index, required String isDone}) async {
+  void updateLocalInstallment({
+    required int index,
+    required String isDone,
+  }) async {
     if (StudentDetailsList!.studentDetails!.allInstallments![index].completed ==
             "0" &&
         index == 0) {
+      iconSeen = true.obs;
       allInstallment![index].completed = isDone;
-      allInstallment![index].date = DateTime.now().toString().split(".")[0];
-      // allInstallment![index].date = dateTime == null
-      //     ? DateTime.now().toString().split(".")[0]
-      //     : dateSelected;
+      //allInstallment![index].date = DateTime.now().toString().split(".")[0];
+      allInstallment![index].date = dateTime == null
+          ? DateTime.now().toString().split(".")[0]
+          : dateSelected;
 
       update();
     } else if (StudentDetailsList!
@@ -92,12 +97,16 @@ class GetStudentsDetailsController extends GetxController {
         StudentDetailsList!
                 .studentDetails!.allInstallments![index - 1].completed !=
             "0") {
+      iconSeen = true.obs;
       allInstallment![index].completed = isDone;
-      allInstallment![index].date = DateTime.now().toString().split(".")[0];
-      // allInstallment![index].date = dateTime == null
-      //     ? DateTime.now().toString().split(".")[0]
-      //     : dateSelected;
+      //allInstallment![index].date = DateTime.now().toString().split(".")[0];
+      allInstallment![index].date = dateTime == null
+          ? DateTime.now().toString().split(".")[0]
+          : dateSelected;
 
+      update();
+    } else {
+      iconSeen = false.obs;
       update();
     }
   }

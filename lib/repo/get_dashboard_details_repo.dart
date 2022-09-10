@@ -2,10 +2,12 @@ import 'package:codeline_infotech/api_handler/handlers.dart';
 import 'package:codeline_infotech/constant/api_routes.dart';
 
 import '../models/res/get_dashboard_details_res_model.dart';
+import '../screens/splash_screen.dart';
 
 class GetDashboardDetailsRepo {
   static Future<GetDashboardDetailsResModel?> getDashboardDetailsrepo() async {
-    Map<String, String> header = {"Authorization": '${ApiRoutes.dataToken}'};
+    //Map<String, String> header = {"Authorization": '${ApiRoutes.dataToken}'};
+    Map<String, String> header = {"Authorization": '${bearerToken}'};
 
     var response = await API.apiHandlers(
         Url: ApiRoutes.getDashboardDetails,

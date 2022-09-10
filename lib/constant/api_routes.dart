@@ -1,8 +1,5 @@
 class ApiRoutes {
-  static var dataToken =
-      "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI0IiwidXNlcm5hbWUiOiJtYWxhbmluaWtzQGdtYWlsLmNvbSIsInVzZXJUeXBlIjoiYWRtaW4ifQ.R6dHZTsnrH2x3hgWDFJUlo0cGF6IiBvUFAaVflj2ljo";
-
-  static String BaseUrl = 'https://codelineinfotech.com/api/';
+  static String BaseUrl = 'https://codelineinfotech.com/test/api/';
   static String Login = 'Login';
   static String allStudents = '${BaseUrl}GetAllStudent';
   static String allStudentsDetails = '${BaseUrl}GetStudentDetails/';
@@ -23,4 +20,5 @@ class ApiRoutes {
   static String startDemo = '${BaseUrl}StartDemo';
   static String updateIsCompleted = '${BaseUrl}UpdateIsCompleted';
   static String feesReport = '${BaseUrl}FeesReport';
+  static String updateStudentDetails = '${BaseUrl}UpdateStudentDetails';
 }

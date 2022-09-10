@@ -4,10 +4,13 @@ import 'package:codeline_infotech/api_handler/handlers.dart';
 import 'package:codeline_infotech/constant/api_routes.dart';
 import 'package:codeline_infotech/models/req/update_current_course_req_model.dart';
 
+import '../screens/splash_screen.dart';
+
 class UpdateCurrentCourseRepo {
   static Future<bool> updateCurrentCourserepo(
       UpdateCurrentCourseReqModel updateCurrentCourseReqModel) async {
-    Map<String, String> header = {"Authorization": '${ApiRoutes.dataToken}'};
+    //Map<String, String> header = {"Authorization": '${ApiRoutes.dataToken}'};
+    Map<String, String> header = {"Authorization": '${bearerToken}'};
 
     var response = await API.apiHandlers(
         Url: '${ApiRoutes.updateCurrentCourse}',

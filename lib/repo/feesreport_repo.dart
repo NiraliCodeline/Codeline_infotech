@@ -2,11 +2,13 @@ import 'dart:convert';
 
 import '../api_handler/handlers.dart';
 import '../constant/api_routes.dart';
+import '../screens/splash_screen.dart';
 
 class FeesReportRepo {
   static Future<Map<String, dynamic>> feesreportRepo(
       {required String passcode}) async {
-    Map<String, String> header = {"Authorization": '${ApiRoutes.dataToken}'};
+    //Map<String, String> header = {"Authorization": '${ApiRoutes.dataToken}'};
+    Map<String, String> header = {"Authorization": '${bearerToken}'};
 
     var response = await API.apiHandlers(
       Url: ApiRoutes.feesReport,

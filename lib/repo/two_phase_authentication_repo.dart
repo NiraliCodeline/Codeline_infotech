@@ -2,11 +2,13 @@ import 'dart:convert';
 
 import '../api_handler/handlers.dart';
 import '../constant/api_routes.dart';
+import '../screens/splash_screen.dart';
 
 class TwoPhaseAuthenticationRepo {
   static Future<Map<String, dynamic>> twoPhaseAuthMethod(
       {required String code}) async {
-    Map<String, String> header = {"Authorization": '${ApiRoutes.dataToken}'};
+    //Map<String, String> header = {"Authorization": '${ApiRoutes.dataToken}'};
+    Map<String, String> header = {"Authorization": '${bearerToken}'};
 
     var response = await API.apiHandlers(
         Url: "${ApiRoutes.verifyCode}",

@@ -4,11 +4,13 @@ import 'package:codeline_infotech/api_handler/handlers.dart';
 import 'package:codeline_infotech/constant/api_routes.dart';
 
 import '../models/req/update_Isfavourite_res_Model.dart';
+import '../screens/splash_screen.dart';
 
 class UpdateIsfavouriteRepo {
   static Future<bool> updateIsfavouriterepo(
       UpdateIsFavouriteResModel updateIsFavouriteResModel) async {
-    Map<String, String> header = {"Authorization": '${ApiRoutes.dataToken}'};
+    //Map<String, String> header = {"Authorization": '${ApiRoutes.dataToken}'};
+    Map<String, String> header = {"Authorization": '${bearerToken}'};
 
     var response = await API.apiHandlers(
         Url: '${ApiRoutes.updateIsFavourite}',

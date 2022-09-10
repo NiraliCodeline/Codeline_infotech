@@ -1,4 +1,5 @@
 import 'package:codeline_infotech/constant/colors.dart';
+import 'package:codeline_infotech/repo/loginRepo.dart';
 import 'package:codeline_infotech/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,6 +8,8 @@ import 'package:sizer/sizer.dart';
 
 import '../controllers/get_dashboard_details_controller.dart';
 import 'login_screen.dart';
+
+String? bearerToken;
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -31,12 +34,18 @@ class _SplashScreenState extends State<SplashScreen>
     animation = Tween(begin: 0.0, end: 1.0).animate(animationController!);
     animationController?.forward();
 
-    var token = GetStorage().read('token');
-    if (token == null) {
+    var tokenRead = GetStorage().read('token');
+
+    print("Read Token-----------${tokenRead}");
+
+    if (tokenRead == null) {
       Future.delayed(Duration(seconds: 3), () {
         Get.offAll(LogInScreen());
+        bearerToken = token;
       });
     } else {
+      bearerToken = "Bearer ${tokenRead}";
+      print("SplashBearerToken---------${bearerToken}");
       getDashboardDetailsController.fetchAllDashboardDetails().then((value) {
         Get.offAll(HomeScreen());
       });

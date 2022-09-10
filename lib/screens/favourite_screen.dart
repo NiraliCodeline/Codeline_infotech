@@ -1,6 +1,5 @@
 import 'package:codeline_infotech/constant/colors.dart';
 import 'package:codeline_infotech/constant/progress_indicator.dart';
-import 'package:codeline_infotech/screens/student_details.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -115,11 +114,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                       padding: EdgeInsets.symmetric(
                                           horizontal: width * 0.017.w),
                                       child: GestureDetector(
-                                        onTap: () {
-                                          Get.to(StudentDetails(
-                                            studentId: 12,
-                                          ));
-                                        },
+                                        onTap: () {},
                                         child: Container(
                                           height: height * 0.02.h,
                                           child: Row(

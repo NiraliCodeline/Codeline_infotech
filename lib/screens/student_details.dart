@@ -1,6 +1,7 @@
 import 'package:codeline_infotech/constant/colors.dart';
 import 'package:codeline_infotech/controllers/get_students_details_controller.dart';
 import 'package:codeline_infotech/repo/update_Iscompleted_repo.dart';
+import 'package:codeline_infotech/repo/update_student_details_repo.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ import 'package:sizer/sizer.dart';
 import '../constant/progress_indicator.dart';
 import '../models/req/update_Iscompleted_req_model.dart';
 import '../models/req/update_current_course_req_model.dart';
+import '../models/req/update_student_details_req_model.dart';
 import '../repo/update_current_course_repo.dart';
 
 class StudentDetails extends StatefulWidget {
@@ -27,6 +29,8 @@ class StudentDetails extends StatefulWidget {
 DateTime? dateTime;
 
 var dateSelected;
+
+RxBool updateLoading = false.obs;
 
 class _StudentDetailsState extends State<StudentDetails> {
   TextEditingController? nameController;
@@ -73,7 +77,7 @@ class _StudentDetailsState extends State<StudentDetails> {
           backgroundColor: AppColor.whiteColor,
           leading: IconButton(
               onPressed: () {
-                Get.back();
+                Get.back(result: {'update': true});
               },
               icon: Image(
                 height: 14.sp,
@@ -92,217 +96,271 @@ class _StudentDetailsState extends State<StudentDetails> {
               itemBuilder: (context) => [
                 // popupmenu item 1
                 PopupMenuItem(
-                  value: 1,
-                  // row has two child icon and text.
-                  child: GestureDetector(
-                    onTap: () {
-                      Get.back();
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return SimpleDialog(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(13.sp)),
-                              children: [
-                                SizedBox(
-                                  height: 3.h,
-                                ),
-                                Padding(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 5.w),
-                                  child: Container(
-                                    child: TextFormField(
-                                      controller: nameController,
-                                      decoration: InputDecoration(
-                                        contentPadding: EdgeInsets.symmetric(
-                                            vertical: 14.0.sp,
-                                            horizontal: 11.0.sp),
-                                        hintText: "NAME",
-                                        hintStyle: TextStyle(
-                                            color: AppColor.secondaryColor,
-                                            fontSize: 12.sp,
-                                            fontFamily: "Inter",
-                                            fontWeight: FontWeight.w500),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: AppColor.greyColor),
-                                          borderRadius:
-                                              BorderRadius.circular(10.0.sp),
-                                        ),
-                                        border: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: AppColor.greyColor),
-                                          borderRadius:
-                                              BorderRadius.circular(10.0.sp),
+                    value: 1,
+                    // row has two child icon and text.
+                    child: GestureDetector(
+                      onTap: () {
+                        Get.back();
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return SimpleDialog(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(13.sp)),
+                                children: [
+                                  SizedBox(
+                                    height: 3.h,
+                                  ),
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 5.w),
+                                    child: Container(
+                                      child: TextFormField(
+                                        controller: nameController,
+                                        decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.symmetric(
+                                              vertical: 14.0.sp,
+                                              horizontal: 11.0.sp),
+                                          hintText: "NAME",
+                                          hintStyle: TextStyle(
+                                              color: AppColor.secondaryColor,
+                                              fontSize: 12.sp,
+                                              fontFamily: "Inter",
+                                              fontWeight: FontWeight.w500),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: AppColor.greyColor),
+                                            borderRadius:
+                                                BorderRadius.circular(10.0.sp),
+                                          ),
+                                          border: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: AppColor.greyColor),
+                                            borderRadius:
+                                                BorderRadius.circular(10.0.sp),
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                SizedBox(
-                                  height: 2.h,
-                                ),
-                                Padding(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 5.w),
-                                  child: Container(
-                                    child: TextFormField(
-                                      validator: (String? value) {
-                                        if (value!.isEmpty) {
-                                          return 'Please a Enter';
-                                        }
-                                        if (!RegExp(r'\S+@\S+\.\S+')
-                                            .hasMatch(value)) {
-                                          return 'Please a valid Email';
-                                        }
-                                        return null;
-                                      },
-                                      controller: mailController,
-                                      decoration: InputDecoration(
-                                        contentPadding: EdgeInsets.symmetric(
-                                            vertical: 14.0.sp,
-                                            horizontal: 11.0.sp),
-                                        hintText: "EMAIL ADDRESS",
-                                        hintStyle: TextStyle(
-                                            color: AppColor.secondaryColor,
-                                            fontSize: 12.sp,
-                                            fontFamily: "Inter",
-                                            fontWeight: FontWeight.w500),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: AppColor.greyColor),
-                                          borderRadius:
-                                              BorderRadius.circular(10.0.sp),
-                                        ),
-                                        border: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: AppColor.greyColor),
-                                          borderRadius:
-                                              BorderRadius.circular(10.0.sp),
+                                  SizedBox(
+                                    height: 2.h,
+                                  ),
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 5.w),
+                                    child: Container(
+                                      child: TextFormField(
+                                        validator: (String? value) {
+                                          if (value!.isEmpty) {
+                                            return 'Please a Enter';
+                                          }
+                                          if (!RegExp(r'\S+@\S+\.\S+')
+                                              .hasMatch(value)) {
+                                            return 'Please a valid Email';
+                                          }
+                                          return null;
+                                        },
+                                        controller: mailController,
+                                        decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.symmetric(
+                                              vertical: 14.0.sp,
+                                              horizontal: 11.0.sp),
+                                          hintText: "EMAIL ADDRESS",
+                                          hintStyle: TextStyle(
+                                              color: AppColor.secondaryColor,
+                                              fontSize: 12.sp,
+                                              fontFamily: "Inter",
+                                              fontWeight: FontWeight.w500),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: AppColor.greyColor),
+                                            borderRadius:
+                                                BorderRadius.circular(10.0.sp),
+                                          ),
+                                          border: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: AppColor.greyColor),
+                                            borderRadius:
+                                                BorderRadius.circular(10.0.sp),
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                SizedBox(
-                                  height: 2.h,
-                                ),
-                                Padding(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 5.w),
-                                  child: Container(
-                                    child: TextFormField(
-                                      inputFormatters: [
-                                        LengthLimitingTextInputFormatter(10),
-                                      ],
-                                      controller: mobileNumberController,
-                                      validator: (value) {
-                                        if (value!.length != 4) {
-                                          return 'Code must be of 4 digit';
-                                        }
-                                        return null;
-                                      },
-                                      decoration: InputDecoration(
-                                        contentPadding: EdgeInsets.symmetric(
-                                            vertical: 14.0.sp,
-                                            horizontal: 11.0.sp),
-                                        hintText: "MOBILE NO.",
-                                        hintStyle: TextStyle(
-                                            color: AppColor.secondaryColor,
-                                            fontSize: 12.sp,
-                                            fontFamily: "Inter",
-                                            fontWeight: FontWeight.w500),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: AppColor.greyColor),
-                                          borderRadius:
-                                              BorderRadius.circular(10.0.sp),
-                                        ),
-                                        border: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: AppColor.greyColor),
-                                          borderRadius:
-                                              BorderRadius.circular(10.0.sp),
+                                  SizedBox(
+                                    height: 2.h,
+                                  ),
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 5.w),
+                                    child: Container(
+                                      child: TextFormField(
+                                        inputFormatters: [
+                                          LengthLimitingTextInputFormatter(10),
+                                        ],
+                                        controller: mobileNumberController,
+                                        validator: (value) {
+                                          if (value!.length != 10) {
+                                            return 'Code must be of 10 digit';
+                                          }
+                                          return null;
+                                        },
+                                        decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.symmetric(
+                                              vertical: 14.0.sp,
+                                              horizontal: 11.0.sp),
+                                          hintText: "MOBILE NO.",
+                                          hintStyle: TextStyle(
+                                              color: AppColor.secondaryColor,
+                                              fontSize: 12.sp,
+                                              fontFamily: "Inter",
+                                              fontWeight: FontWeight.w500),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: AppColor.greyColor),
+                                            borderRadius:
+                                                BorderRadius.circular(10.0.sp),
+                                          ),
+                                          border: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: AppColor.greyColor),
+                                            borderRadius:
+                                                BorderRadius.circular(10.0.sp),
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                SizedBox(
-                                  height: 2.h,
-                                ),
-                                Padding(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 5.w),
-                                  child: Container(
-                                    child: TextFormField(
-                                      controller: addressController,
-                                      decoration: InputDecoration(
-                                        contentPadding: EdgeInsets.symmetric(
-                                            vertical: 14.0.sp,
-                                            horizontal: 11.0.sp),
-                                        hintText: "ADDRESS",
-                                        hintStyle: TextStyle(
-                                            color: AppColor.secondaryColor,
-                                            fontSize: 12.sp,
-                                            fontFamily: "Inter",
-                                            fontWeight: FontWeight.w500),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: AppColor.greyColor),
-                                          borderRadius:
-                                              BorderRadius.circular(10.0.sp),
-                                        ),
-                                        border: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: AppColor.greyColor),
-                                          borderRadius:
-                                              BorderRadius.circular(10.0.sp),
+                                  SizedBox(
+                                    height: 2.h,
+                                  ),
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 5.w),
+                                    child: Container(
+                                      child: TextFormField(
+                                        controller: addressController,
+                                        decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.symmetric(
+                                              vertical: 14.0.sp,
+                                              horizontal: 11.0.sp),
+                                          hintText: "ADDRESS",
+                                          hintStyle: TextStyle(
+                                              color: AppColor.secondaryColor,
+                                              fontSize: 12.sp,
+                                              fontFamily: "Inter",
+                                              fontWeight: FontWeight.w500),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: AppColor.greyColor),
+                                            borderRadius:
+                                                BorderRadius.circular(10.0.sp),
+                                          ),
+                                          border: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: AppColor.greyColor),
+                                            borderRadius:
+                                                BorderRadius.circular(10.0.sp),
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                SizedBox(
-                                  height: 3.h,
-                                ),
-                                Padding(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 7.w),
-                                  child: MaterialButton(
-                                    height: 6.h,
-                                    color: AppColor.primaryColor,
-                                    minWidth: double.infinity,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10.sp)),
-                                    onPressed: () {},
-                                    child: Text(
-                                      "Update",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: "Inter",
-                                      ),
-                                    ),
+                                  SizedBox(
+                                    height: 3.h,
                                   ),
-                                ),
-                                SizedBox(
-                                  height: 3.h,
-                                ),
-                              ],
-                            );
-                          });
-                    },
-                    child: Text("Update",
-                        style: TextStyle(
-                            fontFamily: 'Inter',
-                            color: AppColor.secondaryColor,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14.sp)),
-                  ),
-                ),
+                                  updateLoading.value
+                                      ? AppProgressLoader()
+                                      : Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 7.w),
+                                          child: MaterialButton(
+                                            height: 6.h,
+                                            color: AppColor.primaryColor,
+                                            minWidth: double.infinity,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        10.sp)),
+                                            onPressed: () async {
+                                              FocusScope.of(context)
+                                                  .requestFocus(
+                                                      new FocusNode());
+                                              updateLoading.value = true;
+                                              print(
+                                                  "loader-------${getStudentsDetailsController.isLoading.value}");
+                                              UpdateStudentDetailsReqModel
+                                                  updateStudentDetailsReqModel =
+                                                  UpdateStudentDetailsReqModel(
+                                                      studentId: int.parse(
+                                                          getStudentsDetailsController
+                                                              .StudentDetailsList!
+                                                              .studentDetails!
+                                                              .studentId!),
+                                                      fullName:
+                                                          nameController!.text,
+                                                      email:
+                                                          mailController!.text,
+                                                      phoneNo:
+                                                          mobileNumberController!
+                                                              .text,
+                                                      address:
+                                                          addressController!
+                                                              .text);
+
+                                              bool result =
+                                                  await UpdateStudentDetailsRepo
+                                                      .updateStudentDetailsrepo(
+                                                          updateStudentDetailsReqModel);
+                                              if (result == true) {
+                                                print(
+                                                    "DetailsUPDATE SUCCESSFULLY-------->>>>>>>");
+                                                Get.back(
+                                                    result: {'update': true});
+                                                updateLoading.value = false;
+                                              } else {
+                                                print(
+                                                    "DetailsUPDATE FAILED-------->>>>>>>");
+                                                updateLoading.value = false;
+                                                Get.snackbar("Message",
+                                                    "Update Failed.....");
+                                              }
+                                            },
+                                            child: Text(
+                                              "Update",
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 14.sp,
+                                                fontWeight: FontWeight.w600,
+                                                fontFamily: "Inter",
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                  SizedBox(
+                                    height: 3.h,
+                                  ),
+                                ],
+                              );
+                            }).then((value) {
+                          if (value['update'])
+                            getStudentsDetailsController.fetchAllStudentDetails(
+                                id: int.parse(getStudentsDetailsController
+                                    .StudentDetailsList!
+                                    .studentDetails!
+                                    .studentId!));
+
+                          print("Get new API calls");
+                        });
+                      },
+                      child: Text("Update",
+                          style: TextStyle(
+                              fontFamily: 'Inter',
+                              color: AppColor.secondaryColor,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14.sp)),
+                    )),
                 // popupmenu item 2
                 PopupMenuItem(
                   value: 2,
@@ -729,16 +787,6 @@ class _StudentDetailsState extends State<StudentDetails> {
                                                                 (index) => Step(
                                                                   onTap: () {
                                                                     //add installment
-                                                                    print(
-                                                                        "UPDATE DATE-----------${getStdDetailsController.allInstallment![index].date!.split(" ")[0].split("-")[2]}-${getStdDetailsController.allInstallment![index].date!.split(" ")[0].split("-")[1]}-${getStdDetailsController.allInstallment![index].date!.split(" ")[0].split("-")[0]}");
-
-                                                                    getStdDetailsController
-                                                                        .allInstallment!
-                                                                        .forEach(
-                                                                            (element) {
-                                                                      print(
-                                                                          "this:${element.completed}");
-                                                                    });
 
                                                                     getStdDetailsController.updateLocalInstallment(
                                                                         index:
@@ -778,10 +826,10 @@ class _StudentDetailsState extends State<StudentDetails> {
                                                                           "0"
                                                                       ? "N/A"
                                                                       : "${getStdDetailsController.allInstallment![index].date!.split(" ")[0].split("-")[2]}-${getStdDetailsController.allInstallment![index].date!.split(" ")[0].split("-")[1]}-${getStdDetailsController.allInstallment![index].date!.split(" ")[0].split("-")[0]}",
-                                                                  button: /*getStdDetailsController
-                                                                              .allInstallment![index]
-                                                                              .completed ==
-                                                                          "1"
+                                                                  button: getStdDetailsController.allInstallment![index].completed ==
+                                                                              "0" &&
+                                                                          getStdDetailsController.allInstallment![index - 1].completed ==
+                                                                              "1"
                                                                       ? IconButton(
                                                                           onPressed:
                                                                               () async {
@@ -813,10 +861,13 @@ class _StudentDetailsState extends State<StudentDetails> {
                                                                             if (_newDate !=
                                                                                 null) {
                                                                               setState(() {
-                                                                                dateTime = _newDate;
-                                                                                dateSelected = "${dateTime!.year}-${dateTime!.month}-${dateTime!.day}";
-                                                                                getStudentsDetailsController.update();
+                                                                                if (getStdDetailsController.allInstallment![index].completed == "0" && getStdDetailsController.allInstallment![index + 1].completed == "0") {
+                                                                                  dateTime = _newDate;
+                                                                                  dateSelected = "${dateTime!.year}-${dateTime!.month}-${dateTime!.day}";
+                                                                                  getStudentsDetailsController.update();
+                                                                                }
                                                                               });
+                                                                              getStdDetailsController.updateLocalInstallment(index: index, isDone: (getStdDetailsController.allInstallment![index].completed) == "0" ? "1" : "0");
                                                                               print("DateSelected----------${dateSelected}");
                                                                             }
                                                                           },
@@ -829,8 +880,7 @@ class _StudentDetailsState extends State<StudentDetails> {
                                                                                 AppColor.secondaryColor,
                                                                           ),
                                                                         )
-                                                                      :*/
-                                                                      SizedBox(),
+                                                                      : SizedBox(),
                                                                 ),
                                                               ));
                                                         },
