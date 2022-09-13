@@ -113,7 +113,7 @@ class _StudentDetailsState extends State<StudentDetails> {
                                   ),
                                   Padding(
                                     padding:
-                                        EdgeInsets.symmetric(horizontal: 5.w),
+                                        EdgeInsets.symmetric(horizontal: 8.w),
                                     child: Container(
                                       child: TextFormField(
                                         controller: nameController,
@@ -148,7 +148,7 @@ class _StudentDetailsState extends State<StudentDetails> {
                                   ),
                                   Padding(
                                     padding:
-                                        EdgeInsets.symmetric(horizontal: 5.w),
+                                        EdgeInsets.symmetric(horizontal: 8.w),
                                     child: Container(
                                       child: TextFormField(
                                         validator: (String? value) {
@@ -193,7 +193,7 @@ class _StudentDetailsState extends State<StudentDetails> {
                                   ),
                                   Padding(
                                     padding:
-                                        EdgeInsets.symmetric(horizontal: 5.w),
+                                        EdgeInsets.symmetric(horizontal: 8.w),
                                     child: Container(
                                       child: TextFormField(
                                         inputFormatters: [
@@ -237,7 +237,7 @@ class _StudentDetailsState extends State<StudentDetails> {
                                   ),
                                   Padding(
                                     padding:
-                                        EdgeInsets.symmetric(horizontal: 5.w),
+                                        EdgeInsets.symmetric(horizontal: 8.w),
                                     child: Container(
                                       child: TextFormField(
                                         controller: addressController,
@@ -274,7 +274,7 @@ class _StudentDetailsState extends State<StudentDetails> {
                                       ? AppProgressLoader()
                                       : Padding(
                                           padding: EdgeInsets.symmetric(
-                                              horizontal: 7.w),
+                                              horizontal: 8.w),
                                           child: MaterialButton(
                                             height: 6.h,
                                             color: AppColor.primaryColor,
@@ -331,7 +331,7 @@ class _StudentDetailsState extends State<StudentDetails> {
                                               "Update",
                                               style: TextStyle(
                                                 color: Colors.white,
-                                                fontSize: 14.sp,
+                                                fontSize: 13.sp,
                                                 fontWeight: FontWeight.w600,
                                                 fontFamily: "Inter",
                                               ),
@@ -861,7 +861,7 @@ class _StudentDetailsState extends State<StudentDetails> {
                                                                             if (_newDate !=
                                                                                 null) {
                                                                               setState(() {
-                                                                                if (getStdDetailsController.allInstallment![index].completed == "0" && getStdDetailsController.allInstallment![index + 1].completed == "0") {
+                                                                                if (getStdDetailsController.allInstallment![index].completed == "0" && (getStdDetailsController.allInstallment![index].completed == "0" || getStdDetailsController.allInstallment![index + 1].completed == "0")) {
                                                                                   dateTime = _newDate;
                                                                                   dateSelected = "${dateTime!.year}-${dateTime!.month}-${dateTime!.day}";
                                                                                   getStudentsDetailsController.update();
