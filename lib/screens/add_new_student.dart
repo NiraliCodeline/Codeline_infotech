@@ -327,7 +327,9 @@ class _AddNewStudentScreenState extends State<AddNewStudentScreen> {
                                 padding: EdgeInsets.symmetric(
                                     horizontal: width * 0.017.w),
                                 child: Common_TextFormFeild(
-                                    validator: (String) {},
+                                    validator: (String) {
+                                      return String;
+                                    },
                                     obscure: false,
                                     controller: fullnameController,
                                     labelText: 'STUDENT FULL NAME',
@@ -456,7 +458,7 @@ class _AddNewStudentScreenState extends State<AddNewStudentScreen> {
                                             textButtonTheme:
                                                 TextButtonThemeData(
                                               style: TextButton.styleFrom(
-                                                primary: AppColor
+                                                foregroundColor: AppColor
                                                     .primaryColor, // button text color
                                               ),
                                             ),
@@ -530,7 +532,9 @@ class _AddNewStudentScreenState extends State<AddNewStudentScreen> {
                                   child: TextFormField(
                                     obscureText: false,
                                     controller: addressController,
-                                    validator: (String) {},
+                                    validator: (String) {
+                                      return String;
+                                    },
                                     maxLines: 5,
                                     minLines: 1,
                                     keyboardType: TextInputType.multiline,
@@ -825,7 +829,9 @@ class _AddNewStudentScreenState extends State<AddNewStudentScreen> {
                                 padding: EdgeInsets.symmetric(
                                     horizontal: width * 0.017.w),
                                 child: Common_TextFormFeild(
-                                  validator: (String) {},
+                                  validator: (String) {
+                                    return String;
+                                  },
                                   obscure: false,
                                   controller: feesController,
                                   keyboardType: TextInputType.number,

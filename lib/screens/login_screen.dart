@@ -3,7 +3,6 @@ import 'package:codeline_infotech/constant/progress_indicator.dart';
 import 'package:codeline_infotech/repo/loginRepo.dart';
 import 'package:codeline_infotech/screens/reset_password_screen.dart';
 import 'package:codeline_infotech/screens/two_phase_authentication.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -134,6 +133,7 @@ class _LogInScreenState extends State<LogInScreen> {
                                                       if (value.length < 5) {
                                                         return 'Must be more than 5 charater';
                                                       }
+                                                      return null;
                                                     },
                                                     decoration: InputDecoration(
                                                       contentPadding:

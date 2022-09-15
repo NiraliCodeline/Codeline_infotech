@@ -3,7 +3,6 @@ import 'package:codeline_infotech/controllers/get_all_students_controller.dart';
 import 'package:codeline_infotech/screens/add_new_student.dart';
 import 'package:codeline_infotech/screens/favourite_screen.dart';
 import 'package:codeline_infotech/screens/student_details.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';

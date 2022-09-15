@@ -194,12 +194,6 @@ class _InquiryStudentListScreenState extends State<InquiryStudentListScreen> {
                                         physics: BouncingScrollPhysics(),
                                         itemBuilder:
                                             (BuildContext context, int index) {
-                                          DateTime? now = controller
-                                              .searchResult[index].inquiryDate;
-                                          String formattedDate =
-                                              DateFormat('yyyy-MM-dd')
-                                                  .format(now!);
-
                                           var value =
                                               controller.searchResult[index];
 

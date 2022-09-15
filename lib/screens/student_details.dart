@@ -3,11 +3,9 @@ import 'package:codeline_infotech/controllers/get_students_details_controller.da
 import 'package:codeline_infotech/repo/update_Iscompleted_repo.dart';
 import 'package:codeline_infotech/repo/update_student_details_repo.dart';
 import 'package:dotted_line/dotted_line.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
@@ -47,6 +45,7 @@ class _StudentDetailsState extends State<StudentDetails> {
 
   @override
   void initState() {
+    super.initState();
     connectivityController.startMonitoring();
     getInfo();
   }
@@ -897,7 +896,7 @@ class _StudentDetailsState extends State<StudentDetails> {
                                                                                             ),
                                                                                             textButtonTheme: TextButtonThemeData(
                                                                                               style: TextButton.styleFrom(
-                                                                                                primary: AppColor.primaryColor, // button text color
+                                                                                                foregroundColor: AppColor.primaryColor, // button text color
                                                                                               ),
                                                                                             ),
                                                                                           ),

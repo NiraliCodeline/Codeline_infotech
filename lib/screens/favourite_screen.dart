@@ -1,11 +1,8 @@
 import 'package:codeline_infotech/constant/colors.dart';
 import 'package:codeline_infotech/constant/progress_indicator.dart';
 import 'package:codeline_infotech/screens/home_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:sizer/sizer.dart';
 
 import '../controllers/get_all_fev_student_controller.dart';

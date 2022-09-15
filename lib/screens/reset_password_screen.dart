@@ -1,11 +1,8 @@
 import 'package:codeline_infotech/constant/colors.dart';
 import 'package:codeline_infotech/screens/all_lang_student_list.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:sizer/sizer.dart';
 
 import '../controllers/internet_connectivity_controller.dart';
@@ -88,7 +85,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                 ),
                                 Common_TextFormFeild(
                                   obscure: false,
-                                  validator: (String) {},
+                                  validator: (String) {
+                                    return null;
+                                  },
                                   controller: otp,
                                   labelText: "OTP",
                                 ),
@@ -97,7 +96,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                 ),
                                 Common_TextFormFeild(
                                   obscure: true,
-                                  validator: (String) {},
+                                  validator: (String) {
+                                    return null;
+                                  },
                                   controller: newPassword,
                                   labelText: "NEW PASSWORD",
                                 ),
@@ -106,7 +107,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                 ),
                                 Common_TextFormFeild(
                                   obscure: true,
-                                  validator: (String) {},
+                                  validator: (String) {
+                                    return null;
+                                  },
                                   controller: confirmPassword,
                                   labelText: "CONFIRM PASSWORD",
                                 ),

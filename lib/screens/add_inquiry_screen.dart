@@ -57,7 +57,6 @@ class _AddInquiryScreenState extends State<AddInquiryScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     connectivityController.startMonitoring();
     CounsellerDropDown();
@@ -159,7 +158,9 @@ class _AddInquiryScreenState extends State<AddInquiryScreen> {
                                     height: height * 0.007.h,
                                   ),
                                   Common_TextFormFeild(
-                                    validator: (String) {},
+                                    validator: (String) {
+                                      return String;
+                                    },
                                     obscure: false,
                                     controller: stdNameController,
                                     labelText: 'STUDENT FULL NAME',
@@ -278,7 +279,7 @@ class _AddInquiryScreenState extends State<AddInquiryScreen> {
                                               textButtonTheme:
                                                   TextButtonThemeData(
                                                 style: TextButton.styleFrom(
-                                                  primary: AppColor
+                                                  foregroundColor: AppColor
                                                       .primaryColor, // button text color
                                                 ),
                                               ),
@@ -345,7 +346,9 @@ class _AddInquiryScreenState extends State<AddInquiryScreen> {
                                     height: height * 0.003.h,
                                   ),
                                   Common_TextFormFeild(
-                                    validator: (String) {},
+                                    validator: (String) {
+                                      return String;
+                                    },
                                     obscure: false,
                                     controller: educationController,
                                     labelText: 'EDUCATION DETAILS',
@@ -364,7 +367,9 @@ class _AddInquiryScreenState extends State<AddInquiryScreen> {
                                     height: height * 0.003.h,
                                   ),
                                   Common_TextFormFeild(
-                                    validator: (String) {},
+                                    validator: (String) {
+                                      return String;
+                                    },
                                     obscure: false,
                                     controller: referenceController,
                                     labelText: 'HOW DID YOU KNOW ABOUT US?',
