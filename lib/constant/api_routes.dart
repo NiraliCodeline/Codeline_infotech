@@ -1,5 +1,6 @@
 class ApiRoutes {
   static String BaseUrl = 'https://codelineinfotech.com/test/api/';
+  //static String BaseUrl = 'https://codelineinfotech.com/api/';
   static String Login = 'Login';
   static String allStudents = '${BaseUrl}GetAllStudent';
   static String allStudentsDetails = '${BaseUrl}GetStudentDetails/';

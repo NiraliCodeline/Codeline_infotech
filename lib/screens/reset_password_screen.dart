@@ -8,118 +8,152 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:sizer/sizer.dart';
 
+import '../controllers/internet_connectivity_controller.dart';
 import '../widgets/common_button.dart';
 import '../widgets/common_textformfeild.dart';
 
-class ResetPasswordScreen extends StatelessWidget {
+class ResetPasswordScreen extends StatefulWidget {
   ResetPasswordScreen({Key? key}) : super(key: key);
 
+  @override
+  State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
+}
+
+class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   final otp = TextEditingController();
+
   final newPassword = TextEditingController();
+
   final confirmPassword = TextEditingController();
+
+  ConnectivityProvider connectivityController = Get.put(ConnectivityProvider());
+
+  @override
+  void initState() {
+    super.initState();
+    connectivityController.startMonitoring();
+  }
 
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
 
-    return Scaffold(
-      backgroundColor: AppColor.backgroundColor,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              symbol(context),
-              Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(40.0.sp),
-                    topRight: Radius.circular(40.0.sp),
-                  ),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: width * 0.02.w),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: height * 0.006.h,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            "FORGOT",
-                            style: TextStyle(
-                                color: AppColor.neavyBlueColor,
-                                fontSize: 30.sp,
-                                fontWeight: FontWeight.w600,
-                                fontFamily: "Inter",
-                                height: 0.8),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: height * 0.004.h,
-                      ),
-                      Common_TextFormFeild(
-                        obscure: false,
-                        validator: (String) {},
-                        controller: otp,
-                        labelText: "OTP",
-                      ),
-                      SizedBox(
-                        height: height * 0.003.h,
-                      ),
-                      Common_TextFormFeild(
-                        obscure: true,
-                        validator: (String) {},
-                        controller: newPassword,
-                        labelText: "NEW PASSWORD",
-                      ),
-                      SizedBox(
-                        height: height * 0.003.h,
-                      ),
-                      Common_TextFormFeild(
-                        obscure: true,
-                        validator: (String) {},
-                        controller: confirmPassword,
-                        labelText: "CONFIRM PASSWORD",
-                      ),
-                      SizedBox(
-                        height: height * 0.003.h,
-                      ),
-                      CommonButton(
-                        height: height * 0.011.h,
-                        width: width * 0.30.w,
-                        onPressed: () {
-                          Get.to(AllLangStudentList());
-                        },
-                        child: Text(
-                          "Reset Password",
-                          style: TextStyle(
+    return GetBuilder<ConnectivityProvider>(
+      builder: (controller) {
+        return controller.isOnline
+            ? Scaffold(
+                backgroundColor: AppColor.backgroundColor,
+                body: SafeArea(
+                  child: SingleChildScrollView(
+                    physics: BouncingScrollPhysics(),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        symbol(context),
+                        Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
                             color: Colors.white,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w600,
-                            fontFamily: "Inter",
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(40.0.sp),
+                              topRight: Radius.circular(40.0.sp),
+                            ),
                           ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: height * 0.005.h,
-                      ),
-                    ],
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: width * 0.02.w),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: height * 0.006.h,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "FORGOT",
+                                      style: TextStyle(
+                                          color: AppColor.neavyBlueColor,
+                                          fontSize: 30.sp,
+                                          fontWeight: FontWeight.w600,
+                                          fontFamily: "Inter",
+                                          height: 0.8),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: height * 0.004.h,
+                                ),
+                                Common_TextFormFeild(
+                                  obscure: false,
+                                  validator: (String) {},
+                                  controller: otp,
+                                  labelText: "OTP",
+                                ),
+                                SizedBox(
+                                  height: height * 0.003.h,
+                                ),
+                                Common_TextFormFeild(
+                                  obscure: true,
+                                  validator: (String) {},
+                                  controller: newPassword,
+                                  labelText: "NEW PASSWORD",
+                                ),
+                                SizedBox(
+                                  height: height * 0.003.h,
+                                ),
+                                Common_TextFormFeild(
+                                  obscure: true,
+                                  validator: (String) {},
+                                  controller: confirmPassword,
+                                  labelText: "CONFIRM PASSWORD",
+                                ),
+                                SizedBox(
+                                  height: height * 0.003.h,
+                                ),
+                                CommonButton(
+                                  height: height * 0.011.h,
+                                  width: width * 0.30.w,
+                                  onPressed: () {
+                                    Get.to(AllLangStudentList());
+                                  },
+                                  child: Text(
+                                    "Reset Password",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: "Inter",
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: height * 0.005.h,
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ))
+            : Scaffold(
+                body: Center(
+                  child: Text(
+                    "No Internet..",
+                    style: TextStyle(
+                      color: AppColor.blackColor,
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: "Inter",
+                    ),
                   ),
                 ),
-              )
-            ],
-          ),
-        ),
-      ),
+              );
+      },
     );
   }
 

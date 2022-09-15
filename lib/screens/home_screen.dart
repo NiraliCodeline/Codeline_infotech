@@ -14,6 +14,7 @@ import 'package:sizer/sizer.dart';
 
 import '../constant/progress_indicator.dart';
 import '../controllers/get_dashboard_details_controller.dart';
+import '../controllers/internet_connectivity_controller.dart';
 import 'login_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -26,370 +27,404 @@ class HomeScreen extends StatefulWidget {
 GetDashboardDetailsController getDashboardDetailsController =
     Get.put(GetDashboardDetailsController());
 
+ConnectivityProvider connectivityController = Get.put(ConnectivityProvider());
+
 RxBool isLoading = false.obs;
 
 class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     // TODO: implement initState
+    connectivityController.startMonitoring();
     getDashboardDetailsController.fetchAllDashboardDetails();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      backgroundColor: AppColor.backgroundColor,
-      appBar: AppBar(
-        elevation: 0.0,
-        backgroundColor: AppColor.backgroundColor,
-        iconTheme: IconThemeData(color: AppColor.blackColor),
-      ),
-      drawer: MyDrawer(),
-      body: GetBuilder<GetDashboardDetailsController>(
-        builder: (controller) {
-          return Stack(
-            children: [
-              SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Center(
-                      child: SvgPicture.asset(
-                        "assets/images/SplashScreen_Icon.svg",
-                        fit: BoxFit.fill,
-                        height: 20.h,
-                        width: 20.h,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 7.2.h,
-                    ),
-                    //Spacer(),
-                    Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: AppColor.whiteColor,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(40.0.sp),
-                          topRight: Radius.circular(40.0.sp),
-                        ),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            height: 3.h,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 30.sp),
-                            child: Text(
-                              "Welcome, Admin",
-                              style: TextStyle(
-                                color: AppColor.blackColor,
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.w600,
-                                fontFamily: "Inter",
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 3.h,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 30.sp, right: 30.sp),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        Get.to(AllLangStudentList())!
-                                            .then((value) {
-                                          if (value['update'])
-                                            getDashboardDetailsController
-                                                .fetchAllDashboardDetails();
-
-                                          print("New API calls");
-                                        });
-                                      },
-                                      child: Container(
-                                        height: 12.h,
-                                        width: 12.h,
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            border: Border.all(
-                                                color: AppColor.primaryColor,
-                                                width: 4.2.sp)),
-                                        child: Center(
-                                          child: Image.asset(
-                                            "assets/images/012-girl 1.png",
-                                            fit: BoxFit.fill,
-                                            height: 6.h,
-                                            width: 6.h,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 1.h,
-                                    ),
-                                    Countup(
-                                      begin: 0,
-                                      end: getDashboardDetailsController
-                                          .allDashboardDetailsList!
-                                          .totalStudent!
-                                          .toDouble(),
-                                      duration: Duration(milliseconds: 2500),
-                                      separator: ',',
-                                      style: TextStyle(
-                                        color: AppColor.blackColor,
-                                        fontSize: 3.5.h,
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: "Inter",
-                                      ),
-                                    ),
-                                    Text(
-                                      "Total Student",
-                                      style: TextStyle(
-                                        color: Color(0xff868585),
-                                        fontSize: 2.5.h,
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: "Inter",
-                                      ),
-                                    ),
-                                    Text(
-                                      "Count",
-                                      style: TextStyle(
-                                        color: Color(0xff868585),
-                                        fontSize: 2.5.h,
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: "Inter",
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                Column(
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        Get.to(InquiryStudentListScreen())!
-                                            .then((value) {
-                                          if (value['update'])
-                                            getDashboardDetailsController
-                                                .fetchAllDashboardDetails();
-
-                                          print("API calls");
-                                        });
-                                      },
-                                      child: Container(
-                                        height: 12.h,
-                                        width: 12.h,
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            border: Border.all(
-                                                color: AppColor.primaryColor,
-                                                width: 4.2.sp)),
-                                        child: Center(
-                                          child: Image.asset(
-                                            "assets/images/029-survey 1.png",
-                                            fit: BoxFit.fill,
-                                            height: 6.h,
-                                            width: 6.h,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 1.h,
-                                    ),
-                                    Countup(
-                                      begin: 0,
-                                      end: getDashboardDetailsController
-                                          .allDashboardDetailsList!
-                                          .totalInquiry!
-                                          .toDouble(),
-                                      duration: Duration(milliseconds: 2500),
-                                      separator: ',',
-                                      style: TextStyle(
-                                        color: AppColor.blackColor,
-                                        fontSize: 3.5.h,
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: "Inter",
-                                      ),
-                                    ),
-                                    Text(
-                                      "Total Student",
-                                      style: TextStyle(
-                                        color: Color(0xff868585),
-                                        fontSize: 2.5.h,
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: "Inter",
-                                      ),
-                                    ),
-                                    Text(
-                                      "Inquiry",
-                                      style: TextStyle(
-                                        color: Color(0xff868585),
-                                        fontSize: 2.5.h,
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: "Inter",
-                                      ),
-                                    )
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 3.h,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 30.sp, right: 30.sp),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  children: [
-                                    Container(
-                                      height: 12.h,
-                                      width: 12.h,
-                                      decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          border: Border.all(
-                                              color: AppColor.primaryColor,
-                                              width: 4.2.sp)),
-                                      child: Center(
-                                        child: Image.asset(
-                                          "assets/images/001-desk 1.png",
-                                          fit: BoxFit.fill,
-                                          height: 6.h,
-                                          width: 6.h,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 1.h,
-                                    ),
-                                    Countup(
-                                      begin: 0,
-                                      end: getDashboardDetailsController
-                                          .allDashboardDetailsList!.currentDemo!
-                                          .toDouble(),
-                                      duration: Duration(milliseconds: 2500),
-                                      separator: ',',
-                                      style: TextStyle(
-                                        color: AppColor.blackColor,
-                                        fontSize: 3.5.h,
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: "Inter",
-                                      ),
-                                    ),
-                                    Text(
-                                      "Current Demo",
-                                      style: TextStyle(
-                                        color: Color(0xff868585),
-                                        fontSize: 2.5.h,
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: "Inter",
-                                      ),
-                                    ),
-                                    Text(
-                                      "Student",
-                                      style: TextStyle(
-                                        color: Color(0xff868585),
-                                        fontSize: 2.5.h,
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: "Inter",
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                Column(
-                                  children: [
-                                    Container(
-                                      height: 12.h,
-                                      width: 12.h,
-                                      decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          border: Border.all(
-                                              color: AppColor.primaryColor,
-                                              width: 4.2.sp)),
-                                      child: Center(
-                                        child: Image.asset(
-                                          "assets/images/026-favourite 1.png",
-                                          fit: BoxFit.fill,
-                                          height: 6.h,
-                                          width: 6.h,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 1.h,
-                                    ),
-                                    Countup(
-                                      begin: 0,
-                                      end: getDashboardDetailsController
-                                          .allDashboardDetailsList!
-                                          .completedStudent!
-                                          .toDouble(),
-                                      duration: Duration(milliseconds: 2500),
-                                      separator: ',',
-                                      style: TextStyle(
-                                        color: AppColor.blackColor,
-                                        fontSize: 3.5.h,
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: "Inter",
-                                      ),
-                                    ),
-                                    Text(
-                                      "Completed",
-                                      style: TextStyle(
-                                        color: Color(0xff868585),
-                                        fontSize: 2.5.h,
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: "Inter",
-                                      ),
-                                    ),
-                                    Text(
-                                      "Student",
-                                      style: TextStyle(
-                                        color: Color(0xff868585),
-                                        fontSize: 2.5.h,
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: "Inter",
-                                      ),
-                                    )
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 2.h,
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
+    return GetBuilder<ConnectivityProvider>(
+      builder: (controller) {
+        return controller.isOnline
+            ? Scaffold(
+                resizeToAvoidBottomInset: true,
+                backgroundColor: AppColor.backgroundColor,
+                appBar: AppBar(
+                  elevation: 0.0,
+                  backgroundColor: AppColor.backgroundColor,
+                  iconTheme: IconThemeData(color: AppColor.blackColor),
                 ),
-              ),
-              Obx(() {
-                return isLoading.value
-                    ? Container(
-                        color: Colors.white.withOpacity(0.8),
-                        child: Center(
-                          child: AppProgressLoader(),
+                drawer: MyDrawer(),
+                body: GetBuilder<GetDashboardDetailsController>(
+                  builder: (controller) {
+                    return Stack(
+                      children: [
+                        SingleChildScrollView(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Center(
+                                child: SvgPicture.asset(
+                                  "assets/images/SplashScreen_Icon.svg",
+                                  fit: BoxFit.fill,
+                                  height: 20.h,
+                                  width: 20.h,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 7.2.h,
+                              ),
+                              //Spacer(),
+                              Container(
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  color: AppColor.whiteColor,
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(40.0.sp),
+                                    topRight: Radius.circular(40.0.sp),
+                                  ),
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      height: 3.h,
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(left: 30.sp),
+                                      child: Text(
+                                        "Welcome, Admin",
+                                        style: TextStyle(
+                                          color: AppColor.blackColor,
+                                          fontSize: 18.sp,
+                                          fontWeight: FontWeight.w600,
+                                          fontFamily: "Inter",
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 3.h,
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 30.sp, right: 30.sp),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Column(
+                                            children: [
+                                              GestureDetector(
+                                                onTap: () {
+                                                  Get.to(AllLangStudentList())!
+                                                      .then((value) {
+                                                    if (value['update'])
+                                                      getDashboardDetailsController
+                                                          .fetchAllDashboardDetails();
+
+                                                    print("New API calls");
+                                                  });
+                                                },
+                                                child: Container(
+                                                  height: 12.h,
+                                                  width: 12.h,
+                                                  decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      border: Border.all(
+                                                          color: AppColor
+                                                              .primaryColor,
+                                                          width: 4.2.sp)),
+                                                  child: Center(
+                                                    child: Image.asset(
+                                                      "assets/images/012-girl 1.png",
+                                                      fit: BoxFit.fill,
+                                                      height: 6.h,
+                                                      width: 6.h,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 1.h,
+                                              ),
+                                              Countup(
+                                                begin: 0,
+                                                end: getDashboardDetailsController
+                                                    .allDashboardDetailsList!
+                                                    .totalStudent!
+                                                    .toDouble(),
+                                                duration: Duration(
+                                                    milliseconds: 2500),
+                                                separator: ',',
+                                                style: TextStyle(
+                                                  color: AppColor.blackColor,
+                                                  fontSize: 3.5.h,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontFamily: "Inter",
+                                                ),
+                                              ),
+                                              Text(
+                                                "Total Student",
+                                                style: TextStyle(
+                                                  color: Color(0xff868585),
+                                                  fontSize: 2.5.h,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontFamily: "Inter",
+                                                ),
+                                              ),
+                                              Text(
+                                                "Count",
+                                                style: TextStyle(
+                                                  color: Color(0xff868585),
+                                                  fontSize: 2.5.h,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontFamily: "Inter",
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                          Column(
+                                            children: [
+                                              GestureDetector(
+                                                onTap: () {
+                                                  Get.to(InquiryStudentListScreen())!
+                                                      .then((value) {
+                                                    if (value['update'])
+                                                      getDashboardDetailsController
+                                                          .fetchAllDashboardDetails();
+
+                                                    print("API calls");
+                                                  });
+                                                },
+                                                child: Container(
+                                                  height: 12.h,
+                                                  width: 12.h,
+                                                  decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      border: Border.all(
+                                                          color: AppColor
+                                                              .primaryColor,
+                                                          width: 4.2.sp)),
+                                                  child: Center(
+                                                    child: Image.asset(
+                                                      "assets/images/029-survey 1.png",
+                                                      fit: BoxFit.fill,
+                                                      height: 6.h,
+                                                      width: 6.h,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 1.h,
+                                              ),
+                                              Countup(
+                                                begin: 0,
+                                                end: getDashboardDetailsController
+                                                    .allDashboardDetailsList!
+                                                    .totalInquiry!
+                                                    .toDouble(),
+                                                duration: Duration(
+                                                    milliseconds: 2500),
+                                                separator: ',',
+                                                style: TextStyle(
+                                                  color: AppColor.blackColor,
+                                                  fontSize: 3.5.h,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontFamily: "Inter",
+                                                ),
+                                              ),
+                                              Text(
+                                                "Total Student",
+                                                style: TextStyle(
+                                                  color: Color(0xff868585),
+                                                  fontSize: 2.5.h,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontFamily: "Inter",
+                                                ),
+                                              ),
+                                              Text(
+                                                "Inquiry",
+                                                style: TextStyle(
+                                                  color: Color(0xff868585),
+                                                  fontSize: 2.5.h,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontFamily: "Inter",
+                                                ),
+                                              )
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 3.h,
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 30.sp, right: 30.sp),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Column(
+                                            children: [
+                                              Container(
+                                                height: 12.h,
+                                                width: 12.h,
+                                                decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    border: Border.all(
+                                                        color: AppColor
+                                                            .primaryColor,
+                                                        width: 4.2.sp)),
+                                                child: Center(
+                                                  child: Image.asset(
+                                                    "assets/images/001-desk 1.png",
+                                                    fit: BoxFit.fill,
+                                                    height: 6.h,
+                                                    width: 6.h,
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 1.h,
+                                              ),
+                                              Countup(
+                                                begin: 0,
+                                                end: getDashboardDetailsController
+                                                    .allDashboardDetailsList!
+                                                    .currentDemo!
+                                                    .toDouble(),
+                                                duration: Duration(
+                                                    milliseconds: 2500),
+                                                separator: ',',
+                                                style: TextStyle(
+                                                  color: AppColor.blackColor,
+                                                  fontSize: 3.5.h,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontFamily: "Inter",
+                                                ),
+                                              ),
+                                              Text(
+                                                "Current Demo",
+                                                style: TextStyle(
+                                                  color: Color(0xff868585),
+                                                  fontSize: 2.5.h,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontFamily: "Inter",
+                                                ),
+                                              ),
+                                              Text(
+                                                "Student",
+                                                style: TextStyle(
+                                                  color: Color(0xff868585),
+                                                  fontSize: 2.5.h,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontFamily: "Inter",
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                          Column(
+                                            children: [
+                                              Container(
+                                                height: 12.h,
+                                                width: 12.h,
+                                                decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    border: Border.all(
+                                                        color: AppColor
+                                                            .primaryColor,
+                                                        width: 4.2.sp)),
+                                                child: Center(
+                                                  child: Image.asset(
+                                                    "assets/images/026-favourite 1.png",
+                                                    fit: BoxFit.fill,
+                                                    height: 6.h,
+                                                    width: 6.h,
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 1.h,
+                                              ),
+                                              Countup(
+                                                begin: 0,
+                                                end: getDashboardDetailsController
+                                                    .allDashboardDetailsList!
+                                                    .completedStudent!
+                                                    .toDouble(),
+                                                duration: Duration(
+                                                    milliseconds: 2500),
+                                                separator: ',',
+                                                style: TextStyle(
+                                                  color: AppColor.blackColor,
+                                                  fontSize: 3.5.h,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontFamily: "Inter",
+                                                ),
+                                              ),
+                                              Text(
+                                                "Completed",
+                                                style: TextStyle(
+                                                  color: Color(0xff868585),
+                                                  fontSize: 2.5.h,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontFamily: "Inter",
+                                                ),
+                                              ),
+                                              Text(
+                                                "Student",
+                                                style: TextStyle(
+                                                  color: Color(0xff868585),
+                                                  fontSize: 2.5.h,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontFamily: "Inter",
+                                                ),
+                                              )
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 2.h,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      )
-                    : SizedBox();
-              })
-            ],
-          );
-        },
-      ),
+                        Obx(() {
+                          return isLoading.value
+                              ? Container(
+                                  color: Colors.white.withOpacity(0.8),
+                                  child: Center(
+                                    child: AppProgressLoader(),
+                                  ),
+                                )
+                              : SizedBox();
+                        })
+                      ],
+                    );
+                  },
+                ),
+              )
+            : Scaffold(
+                body: Center(
+                  child: Text(
+                    "No Internet..",
+                    style: TextStyle(
+                      color: AppColor.blackColor,
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: "Inter",
+                    ),
+                  ),
+                ),
+              );
+      },
     );
   }
 }

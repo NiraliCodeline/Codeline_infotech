@@ -7,6 +7,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:sizer/sizer.dart';
 
 import '../controllers/get_dashboard_details_controller.dart';
+import '../controllers/internet_connectivity_controller.dart';
 import 'login_screen.dart';
 
 String? bearerToken;
@@ -26,9 +27,12 @@ class _SplashScreenState extends State<SplashScreen>
   GetDashboardDetailsController getDashboardDetailsController =
       Get.put(GetDashboardDetailsController());
 
+  ConnectivityProvider connectivityController = Get.put(ConnectivityProvider());
+
   @override
   void initState() {
     super.initState();
+    connectivityController.startMonitoring();
     animationController =
         AnimationController(vsync: this, duration: Duration(seconds: 3));
     animation = Tween(begin: 0.0, end: 1.0).animate(animationController!);

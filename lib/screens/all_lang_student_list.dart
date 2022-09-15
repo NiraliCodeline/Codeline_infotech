@@ -14,6 +14,7 @@ import 'package:sizer/sizer.dart';
 
 import '../constant/colors.dart';
 import '../constant/progress_indicator.dart';
+import '../controllers/internet_connectivity_controller.dart';
 import '../models/req/update_Isfavourite_res_Model.dart';
 import '../repo/update_Isfavourite_repo.dart';
 
@@ -37,6 +38,8 @@ class _AllLangStudentListState extends State<AllLangStudentList> {
   GetAllFevStudentController getAllFevStudentController =
       Get.put(GetAllFevStudentController());
 
+  ConnectivityProvider connectivityController = Get.put(ConnectivityProvider());
+
   String isSelected = 'All';
   var isItemSelected = 0;
 
@@ -47,6 +50,7 @@ class _AllLangStudentListState extends State<AllLangStudentList> {
   @override
   void initState() {
     super.initState();
+    connectivityController.startMonitoring();
     autoScrollController = AutoScrollController(
         viewportBoundaryGetter: () =>
             Rect.fromLTRB(0, 0, 0, MediaQuery.of(context).padding.bottom),
@@ -62,286 +66,327 @@ class _AllLangStudentListState extends State<AllLangStudentList> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    return Scaffold(
-      backgroundColor: AppColor.whiteColor,
-      appBar: AppBar(
-        elevation: 0.0,
-        backgroundColor: AppColor.whiteColor,
-        leading: IconButton(
-            onPressed: () {
-              Get.back(result: {'update': true});
-            },
-            icon: Image(
-              height: 14.sp,
-              width: 154.sp,
-              image: AssetImage("assets/images/Vector.png"),
-            )),
-        actions: [
-          IconButton(
-            onPressed: () {
-              getAllFevStudentController.onInit();
-              Get.to(FavouriteScreen());
-            },
-            icon: Icon(
-              Icons.favorite_outline_rounded,
-              size: 20.sp,
-              color: AppColor.blackColor,
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(right: width * 0.010.w),
-            child: IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.help_outline,
-                  size: 20.sp,
-                  color: AppColor.blackColor,
-                )),
-          ),
-        ],
-      ),
-      body: GetBuilder(builder: (GetAllStudentsController controller) {
-        if (controller.isLoading == true) {
-          //print("controllerisLoading TRUe");
-          return AppProgressLoader();
-        }
-
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: height * 0.002.h,
-            ),
-            Padding(
-                padding: EdgeInsets.symmetric(horizontal: width * 0.017.w),
-                child: Container(
-                  child: Focus(
-                    autofocus: true,
-                    onFocusChange: (hasFocus) {
-                      if (hasFocus) {
-                        print("Hello $hasFocus");
-                      } else {
-                        print("Hello $hasFocus");
-                      }
-                    },
-                    child: TextFormField(
-                      onChanged: onSearchTextChanged,
-                      controller: searchController,
-                      decoration: InputDecoration(
-                        suffixIcon: IconButton(
-                          icon: const Icon(Icons.close),
-                          onPressed: () {
-                            searchController.clear();
-                            onSearchTextChanged('');
-                            FocusScope.of(context).unfocus();
-                          },
-                        ),
-                        prefixIcon: Padding(
-                          padding: EdgeInsets.all(12.0),
-                          child: Image(
-                            image: AssetImage("assets/images/icons.png"),
-                            height: 5,
-                            width: 5,
-                            //fit: BoxFit.fill,
-                          ),
-                        ),
-                        contentPadding: EdgeInsets.symmetric(
-                            vertical: 17.0.sp, horizontal: 11.0.sp),
-                        hintText: "Search Student",
-                        hintStyle: TextStyle(
-                            color: AppColor.secondaryColor,
-                            fontSize: 14.sp,
-                            fontFamily: "Inter",
-                            fontWeight: FontWeight.w500),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: AppColor.greyColor),
-                          borderRadius: BorderRadius.circular(10.0.sp),
-                        ),
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(color: AppColor.greyColor),
-                          borderRadius: BorderRadius.circular(10.0.sp),
-                        ),
+    return GetBuilder<ConnectivityProvider>(
+      builder: (controller) {
+        return controller.isOnline
+            ? Scaffold(
+                backgroundColor: AppColor.whiteColor,
+                appBar: AppBar(
+                  elevation: 0.0,
+                  backgroundColor: AppColor.whiteColor,
+                  leading: IconButton(
+                      onPressed: () {
+                        Get.back(result: {'update': true});
+                      },
+                      icon: Image(
+                        height: 14.sp,
+                        width: 154.sp,
+                        image: AssetImage("assets/images/Vector.png"),
+                      )),
+                  actions: [
+                    IconButton(
+                      onPressed: () {
+                        getAllFevStudentController.onInit();
+                        Get.to(FavouriteScreen());
+                      },
+                      icon: Icon(
+                        Icons.favorite_outline_rounded,
+                        size: 20.sp,
+                        color: AppColor.blackColor,
                       ),
                     ),
-                  ),
-                )),
-            SizedBox(
-              height: height * 0.003.h,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: width * 0.017.w),
-              child: Container(
-                  height: height * 0.0082.h,
-                  child: ListView(
-                    physics: BouncingScrollPhysics(),
-                    scrollDirection: scrollDirection,
-                    controller: autoScrollController,
-                    children: List.generate(items.length, (index) {
-                      return AutoScrollTag(
-                        key: ValueKey(index),
-                        controller: autoScrollController!,
-                        index: index,
-                        child: GestureDetector(
-                          onTap: items[index] == ""
-                              ? null
-                              : () {
-                                  setState(() {
-                                    isSelected = items[index];
-                                    isItemSelected = index;
-                                  });
-                                  _scrollToIndex(isItemSelected);
-                                },
+                    Padding(
+                      padding: EdgeInsets.only(right: width * 0.010.w),
+                      child: IconButton(
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.help_outline,
+                            size: 20.sp,
+                            color: AppColor.blackColor,
+                          )),
+                    ),
+                  ],
+                ),
+                body:
+                    GetBuilder(builder: (GetAllStudentsController controller) {
+                  if (controller.isLoading == true) {
+                    //print("controllerisLoading TRUe");
+                    return AppProgressLoader();
+                  }
+
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: height * 0.002.h,
+                      ),
+                      Padding(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: width * 0.017.w),
                           child: Container(
-                            margin: EdgeInsets.only(right: width * 0.016.w),
-                            height: height * 0.008.h,
-                            width: width * 0.10.w,
-                            decoration: BoxDecoration(
-                              color: items[index] == ""
-                                  ? AppColor.greyColor.withOpacity(0.0)
-                                  : isSelected == items[index]
-                                      ? AppColor.primaryColor
-                                      : AppColor.backgroundColor,
-                              borderRadius: BorderRadius.circular(10.sp),
-                            ),
-                            child: Center(
-                              child: Text(
-                                "${items[index]}",
-                                style: TextStyle(
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w500,
-                                  fontFamily: "Inter",
-                                  color: items[index] == ""
-                                      ? AppColor.greyColor.withOpacity(0.0)
-                                      : isSelected == items[index]
-                                          ? Colors.white
-                                          : Colors.grey,
+                            child: Focus(
+                              autofocus: true,
+                              onFocusChange: (hasFocus) {
+                                if (hasFocus) {
+                                  print("Hello $hasFocus");
+                                } else {
+                                  print("Hello $hasFocus");
+                                }
+                              },
+                              child: TextFormField(
+                                onChanged: onSearchTextChanged,
+                                controller: searchController,
+                                decoration: InputDecoration(
+                                  suffixIcon: IconButton(
+                                    icon: const Icon(Icons.close),
+                                    onPressed: () {
+                                      searchController.clear();
+                                      onSearchTextChanged('');
+                                      FocusScope.of(context).unfocus();
+                                    },
+                                  ),
+                                  prefixIcon: Padding(
+                                    padding: EdgeInsets.all(12.0),
+                                    child: Image(
+                                      image:
+                                          AssetImage("assets/images/icons.png"),
+                                      height: 5,
+                                      width: 5,
+                                      //fit: BoxFit.fill,
+                                    ),
+                                  ),
+                                  contentPadding: EdgeInsets.symmetric(
+                                      vertical: 17.0.sp, horizontal: 11.0.sp),
+                                  hintText: "Search Student",
+                                  hintStyle: TextStyle(
+                                      color: AppColor.secondaryColor,
+                                      fontSize: 14.sp,
+                                      fontFamily: "Inter",
+                                      fontWeight: FontWeight.w500),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: AppColor.greyColor),
+                                    borderRadius:
+                                        BorderRadius.circular(10.0.sp),
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: AppColor.greyColor),
+                                    borderRadius:
+                                        BorderRadius.circular(10.0.sp),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ),
-                      );
-                    }),
-                  )),
-            ),
-            SizedBox(
-              height: height * 0.004.h,
-            ),
-            Flexible(
-              child: getAllStudentsController.searchResult.isNotEmpty ||
-                      searchController.text.isNotEmpty
-                  ? getAllStudentsController.searchResult.isEmpty
-                      ? Center(
-                          child: Text(
-                            "No Student Found",
-                            style: TextStyle(
-                                fontSize: 13.sp,
-                                fontWeight: FontWeight.w400,
-                                fontFamily: "Inter",
-                                color:
-                                    AppColor.secondaryColor.withOpacity(0.8)),
-                          ),
-                        )
-                      : ListView.builder(
-                          itemCount: isSelected != 'All'
-                              ? controller.searchResult
-                                  .where((element) =>
-                                      element.currentCourse == isSelected)
-                                  .toList()
-                                  .length
-                              : controller.searchResult.length,
-                          shrinkWrap: true,
-                          physics: BouncingScrollPhysics(),
-                          itemBuilder: (BuildContext context, int index) {
-                            DateTime? now =
-                                controller.searchResult[index].joiningDate;
-                            String formattedDate =
-                                DateFormat('yyyy-MM-dd').format(now!);
+                          )),
+                      SizedBox(
+                        height: height * 0.003.h,
+                      ),
+                      Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: width * 0.017.w),
+                        child: Container(
+                            height: height * 0.0082.h,
+                            child: ListView(
+                              physics: BouncingScrollPhysics(),
+                              scrollDirection: scrollDirection,
+                              controller: autoScrollController,
+                              children: List.generate(items.length, (index) {
+                                return AutoScrollTag(
+                                  key: ValueKey(index),
+                                  controller: autoScrollController!,
+                                  index: index,
+                                  child: GestureDetector(
+                                    onTap: items[index] == ""
+                                        ? null
+                                        : () {
+                                            setState(() {
+                                              isSelected = items[index];
+                                              isItemSelected = index;
+                                            });
+                                            _scrollToIndex(isItemSelected);
+                                          },
+                                    child: Container(
+                                      margin: EdgeInsets.only(
+                                          right: width * 0.016.w),
+                                      height: height * 0.008.h,
+                                      width: width * 0.10.w,
+                                      decoration: BoxDecoration(
+                                        color: items[index] == ""
+                                            ? AppColor.greyColor
+                                                .withOpacity(0.0)
+                                            : isSelected == items[index]
+                                                ? AppColor.primaryColor
+                                                : AppColor.backgroundColor,
+                                        borderRadius:
+                                            BorderRadius.circular(10.sp),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          "${items[index]}",
+                                          style: TextStyle(
+                                            fontSize: 12.sp,
+                                            fontWeight: FontWeight.w500,
+                                            fontFamily: "Inter",
+                                            color: items[index] == ""
+                                                ? AppColor.greyColor
+                                                    .withOpacity(0.0)
+                                                : isSelected == items[index]
+                                                    ? Colors.white
+                                                    : Colors.grey,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }),
+                            )),
+                      ),
+                      SizedBox(
+                        height: height * 0.004.h,
+                      ),
+                      Flexible(
+                        child: getAllStudentsController
+                                    .searchResult.isNotEmpty ||
+                                searchController.text.isNotEmpty
+                            ? getAllStudentsController.searchResult.isEmpty
+                                ? Center(
+                                    child: Text(
+                                      "No Student Found",
+                                      style: TextStyle(
+                                          fontSize: 13.sp,
+                                          fontWeight: FontWeight.w400,
+                                          fontFamily: "Inter",
+                                          color: AppColor.secondaryColor
+                                              .withOpacity(0.8)),
+                                    ),
+                                  )
+                                : ListView.builder(
+                                    itemCount: isSelected != 'All'
+                                        ? controller.searchResult
+                                            .where((element) =>
+                                                element.currentCourse ==
+                                                isSelected)
+                                            .toList()
+                                            .length
+                                        : controller.searchResult.length,
+                                    shrinkWrap: true,
+                                    physics: BouncingScrollPhysics(),
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      DateTime? now = controller
+                                          .searchResult[index].joiningDate;
+                                      String formattedDate =
+                                          DateFormat('yyyy-MM-dd').format(now!);
 
-                            var value = controller.searchResult[index];
+                                      var value =
+                                          controller.searchResult[index];
 
-                            return buildGestureDetector(
-                                data: isSelected != 'All'
-                                    ? controller.searchResult
+                                      return buildGestureDetector(
+                                          data: isSelected != 'All'
+                                              ? controller.searchResult
+                                                  .where((element) =>
+                                                      element.currentCourse ==
+                                                      isSelected)
+                                                  .toList()
+                                              : controller.searchResult,
+                                          index: index,
+                                          formattedDate: formattedDate,
+                                          value: value);
+                                    },
+                                  )
+                            : ListView.builder(
+                                itemCount: isSelected != 'All'
+                                    ? controller.allStudentList!.data!
                                         .where((element) =>
                                             element.currentCourse == isSelected)
                                         .toList()
-                                    : controller.searchResult,
-                                index: index,
-                                formattedDate: formattedDate,
-                                value: value);
-                          },
-                        )
-                  : ListView.builder(
-                      itemCount: isSelected != 'All'
-                          ? controller.allStudentList!.data!
-                              .where((element) =>
-                                  element.currentCourse == isSelected)
-                              .toList()
-                              .length
-                          : controller.allStudentList!.data!.length,
-                      shrinkWrap: true,
-                      physics: BouncingScrollPhysics(),
-                      itemBuilder: (BuildContext context, int index) {
-                        DateTime? now = getAllStudentsController
-                            .allStudentList!.data![index].joiningDate;
-                        String formattedDate =
-                            DateFormat('yyyy-MM-dd').format(now!);
+                                        .length
+                                    : controller.allStudentList!.data!.length,
+                                shrinkWrap: true,
+                                physics: BouncingScrollPhysics(),
+                                itemBuilder: (BuildContext context, int index) {
+                                  DateTime? now = getAllStudentsController
+                                      .allStudentList!.data![index].joiningDate;
+                                  String formattedDate =
+                                      DateFormat('yyyy-MM-dd').format(now!);
 
-                        var value = controller.allStudentList!.data![index];
+                                  var value =
+                                      controller.allStudentList!.data![index];
 
-                        return controller.allStudentList!.data!.isEmpty
-                            ? Center(
-                                child: Text(
-                                  "No Student Found",
-                                  style: TextStyle(
-                                      fontSize: 13.sp,
-                                      fontWeight: FontWeight.w400,
-                                      fontFamily: "Inter",
-                                      color: AppColor.secondaryColor
-                                          .withOpacity(0.8)),
-                                ),
-                              )
-                            : buildGestureDetector(
-                                data: isSelected != 'All'
-                                    ? (controller.allStudentList!.data!
-                                        .where((element) =>
-                                            element.currentCourse == isSelected)
-                                        .toList())
-                                    : controller.allStudentList!.data!,
-                                index: index,
-                                formattedDate: formattedDate,
-                                value: value);
-                      },
+                                  return controller
+                                          .allStudentList!.data!.isEmpty
+                                      ? Center(
+                                          child: Text(
+                                            "No Student Found",
+                                            style: TextStyle(
+                                                fontSize: 13.sp,
+                                                fontWeight: FontWeight.w400,
+                                                fontFamily: "Inter",
+                                                color: AppColor.secondaryColor
+                                                    .withOpacity(0.8)),
+                                          ),
+                                        )
+                                      : buildGestureDetector(
+                                          data: isSelected != 'All'
+                                              ? (controller
+                                                  .allStudentList!.data!
+                                                  .where((element) =>
+                                                      element.currentCourse ==
+                                                      isSelected)
+                                                  .toList())
+                                              : controller
+                                                  .allStudentList!.data!,
+                                          index: index,
+                                          formattedDate: formattedDate,
+                                          value: value);
+                                },
+                              ),
+                      ),
+                      SizedBox(
+                        height: height * 0.004.h,
+                      ),
+                    ],
+                  );
+                }),
+                floatingActionButton: FloatingActionButton(
+                    elevation: 0.0,
+                    backgroundColor: AppColor.primaryColor,
+                    child: Icon(
+                      Icons.add,
+                      size: 30.sp,
+                      color: AppColor.whiteColor,
                     ),
-            ),
-            SizedBox(
-              height: height * 0.004.h,
-            ),
-          ],
-        );
-      }),
-      floatingActionButton: FloatingActionButton(
-          elevation: 0.0,
-          backgroundColor: AppColor.primaryColor,
-          child: Icon(
-            Icons.add,
-            size: 30.sp,
-            color: AppColor.whiteColor,
-          ),
-          onPressed: () async {
-            if (GetStorage().read("role") == "admin" ||
-                GetStorage().read("role") == "hr") {
-              Get.to(AddNewStudentScreen())!.then((value) {
-                if (value['update']) getAllStudentsController.onInit();
+                    onPressed: () async {
+                      if (GetStorage().read("role") == "admin" ||
+                          GetStorage().read("role") == "hr") {
+                        Get.to(AddNewStudentScreen())!.then((value) {
+                          if (value['update'])
+                            getAllStudentsController.onInit();
 
-                print("Get new API calls");
-              });
-            } else {
-              Get.snackbar(
-                  "Message", "you doesn't permission to Add New Student..");
-            }
-          }),
+                          print("Get new API calls");
+                        });
+                      } else {
+                        Get.snackbar("Message",
+                            "you doesn't permission to Add New Student..");
+                      }
+                    }),
+              )
+            : Scaffold(
+                body: Center(
+                  child: Text(
+                    "No Internet..",
+                    style: TextStyle(
+                      color: AppColor.blackColor,
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: "Inter",
+                    ),
+                  ),
+                ),
+              );
+      },
     );
   }
 
