@@ -4,6 +4,7 @@ import 'package:codeline_infotech/screens/all_lang_student_list.dart';
 import 'package:codeline_infotech/screens/favourite_screen.dart';
 import 'package:codeline_infotech/screens/fees_screen.dart';
 import 'package:codeline_infotech/screens/inquirey_student_list.dart';
+import 'package:codeline_infotech/screens/rateus_screen.dart';
 import 'package:countup/countup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,7 +12,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:sizer/sizer.dart';
-
 import '../constant/progress_indicator.dart';
 import '../controllers/get_dashboard_details_controller.dart';
 import '../controllers/internet_connectivity_controller.dart';
@@ -442,6 +442,7 @@ class MyDrawer extends StatelessWidget {
       key: _formkey,
       child: Drawer(
         child: ListView(
+          physics: BouncingScrollPhysics(),
           children: [
             Container(
               height: 200.sp,
@@ -811,6 +812,36 @@ class MyDrawer extends StatelessWidget {
                     width: 26.sp),
                 title: Text(
                   "Fees Report",
+                  style: TextStyle(
+                    color: AppColor.blackColor,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w400,
+                    fontFamily: "Inter",
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 25.sp, right: 40.sp),
+              child: Divider(
+                height: 2,
+                color: AppColor.secondaryColor,
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 12.sp),
+              child: ListTile(
+                onTap: () {
+                  Get.back();
+                  Get.to(RateUsScreen());
+                },
+                leading: Image(
+                    image: AssetImage("assets/images/Classroom.png"),
+                    fit: BoxFit.fill,
+                    height: 26.sp,
+                    width: 26.sp),
+                title: Text(
+                  "Rate us",
                   style: TextStyle(
                     color: AppColor.blackColor,
                     fontSize: 14.sp,

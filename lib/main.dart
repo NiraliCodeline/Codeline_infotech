@@ -1,3 +1,4 @@
+import 'package:codeline_infotech/screens/rateus_screen.dart';
 import 'package:codeline_infotech/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
