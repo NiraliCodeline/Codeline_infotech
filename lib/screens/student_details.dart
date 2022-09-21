@@ -311,101 +311,122 @@ class _StudentDetailsState extends State<StudentDetails> {
                                           SizedBox(
                                             height: 3.h,
                                           ),
-                                          updateLoading.value
-                                              ? AppProgressLoader()
-                                              : Padding(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: 8.w),
-                                                  child: MaterialButton(
-                                                    height: 6.h,
-                                                    color:
-                                                        AppColor.primaryColor,
-                                                    minWidth: double.infinity,
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10.sp)),
-                                                    onPressed: () async {
-                                                      FocusScope.of(context)
-                                                          .requestFocus(
-                                                              new FocusNode());
-                                                      updateLoading.value =
-                                                          true;
-                                                      print(
-                                                          "loader-------${getStudentsDetailsController.isLoading.value}");
-                                                      UpdateStudentDetailsReqModel
-                                                          updateStudentDetailsReqModel =
-                                                          UpdateStudentDetailsReqModel(
-                                                              studentId: int.parse(
-                                                                  getStudentsDetailsController
-                                                                      .StudentDetailsList!
-                                                                      .studentDetails!
-                                                                      .studentId!),
-                                                              fullName:
-                                                                  nameController!
-                                                                      .text,
-                                                              email:
-                                                                  mailController!
-                                                                      .text,
-                                                              phoneNo:
-                                                                  mobileNumberController!
-                                                                      .text,
-                                                              address:
-                                                                  addressController!
-                                                                      .text);
+                                          Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 8.w),
+                                            child: MaterialButton(
+                                              height: 6.h,
+                                              color: AppColor.primaryColor,
+                                              minWidth: double.infinity,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.sp)),
+                                              onPressed: () async {
+                                                FocusScope.of(context)
+                                                    .requestFocus(
+                                                        new FocusNode());
+                                                updateLoading.value = true;
+                                                print(
+                                                    "loader-------${getStudentsDetailsController.isLoading.value}");
+                                                UpdateStudentDetailsReqModel
+                                                    updateStudentDetailsReqModel =
+                                                    UpdateStudentDetailsReqModel();
+                                                /*UpdateStudentDetailsReqModel(
+                                                        studentId: int.parse(
+                                                            getStudentsDetailsController
+                                                                .StudentDetailsList!
+                                                                .studentDetails!
+                                                                .studentId!),
+                                                        fullName:
+                                                            nameController!
+                                                                .text,
+                                                        email: mailController!
+                                                            .text,
+                                                        phoneNo:
+                                                            mobileNumberController!
+                                                                .text,
+                                                        address:
+                                                            addressController!
+                                                                .text);*/
+                                                updateStudentDetailsReqModel
+                                                        .studentId =
+                                                    int.parse(
+                                                        getStudentsDetailsController
+                                                            .StudentDetailsList!
+                                                            .studentDetails!
+                                                            .studentId!);
+                                                updateStudentDetailsReqModel
+                                                        .fullName =
+                                                    nameController!.text;
+                                                updateStudentDetailsReqModel
+                                                        .email =
+                                                    mailController!.text;
+                                                updateStudentDetailsReqModel
+                                                        .phoneNo =
+                                                    mobileNumberController!
+                                                        .text;
+                                                updateStudentDetailsReqModel
+                                                        .address =
+                                                    addressController!.text;
 
-                                                      bool result =
-                                                          await UpdateStudentDetailsRepo
-                                                              .updateStudentDetailsrepo(
-                                                                  updateStudentDetailsReqModel);
-                                                      if (result == true) {
-                                                        print(
-                                                            "DetailsUPDATE SUCCESSFULLY-------->>>>>>>");
-                                                        Get.back(result: {
-                                                          'update': true
-                                                        });
-                                                        updateLoading.value =
-                                                            false;
-                                                      } else {
-                                                        print(
-                                                            "DetailsUPDATE FAILED-------->>>>>>>");
-                                                        updateLoading.value =
-                                                            false;
-                                                        Get.snackbar("Message",
-                                                            "Update Failed.....");
-                                                      }
-                                                    },
-                                                    child: Text(
-                                                      "Update",
-                                                      style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 13.sp,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        fontFamily: "Inter",
-                                                      ),
-                                                    ),
-                                                  ),
+                                                Get.back();
+                                                getStudentsDetailsController
+                                                    .isLoading.value = true;
+
+                                                /*bool result =*/
+                                                await UpdateStudentDetailsRepo
+                                                    .updateStudentDetailsrepo(
+                                                        updateStudentDetailsReqModel);
+
+                                                getStudentsDetailsController
+                                                    .updateStudentDetails(
+                                                        updateName: nameController!
+                                                            .text,
+                                                        updateEmail:
+                                                            mailController!
+                                                                .text,
+                                                        updatePhoneNumber:
+                                                            mobileNumberController!
+                                                                .text,
+                                                        updateAddress:
+                                                            addressController!
+                                                                .text);
+
+                                                getStudentsDetailsController
+                                                    .isLoading.value = false;
+
+                                                /*if (result == true) {
+                                                  print(
+                                                      "DetailsUPDATE SUCCESSFULLY-------->>>>>>>");
+                                                  Get.back(
+                                                      result: {'update': true});
+                                                  updateLoading.value = false;
+                                                } else {
+                                                  print(
+                                                      "DetailsUPDATE FAILED-------->>>>>>>");
+                                                  updateLoading.value = false;
+                                                  Get.snackbar("Message",
+                                                      "Update Failed.....");
+                                                }*/
+                                              },
+                                              child: Text(
+                                                "Update",
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 13.sp,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontFamily: "Inter",
                                                 ),
+                                              ),
+                                            ),
+                                          ),
                                           SizedBox(
                                             height: 3.h,
                                           ),
                                         ],
                                       );
-                                    }).then((value) {
-                                  if (value['update'])
-                                    getStudentsDetailsController
-                                        .fetchAllStudentDetails(
-                                            id: int.parse(
-                                                getStudentsDetailsController
-                                                    .StudentDetailsList!
-                                                    .studentDetails!
-                                                    .studentId!));
-
-                                  print("Get new API calls");
-                                });
+                                    });
                               },
                               child: Text("Update",
                                   style: TextStyle(

@@ -667,143 +667,150 @@ class MyDrawer extends StatelessWidget {
               child: ListTile(
                 onTap: () {
                   Get.back();
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return SimpleDialog(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(13.sp)),
-                          children: [
-                            SizedBox(
-                              height: 2.h,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 5.w),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    " Passcode",
-                                    style: TextStyle(
-                                        color: AppColor.neavyBlueColor,
-                                        fontSize: 18.sp,
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: "Inter",
-                                        height: 0.8),
-                                  ),
-                                ],
+                  if (GetStorage().read("role") == "admin") {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return SimpleDialog(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(13.sp)),
+                            children: [
+                              SizedBox(
+                                height: 2.h,
                               ),
-                            ),
-                            SizedBox(
-                              height: 2.h,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 5.w),
-                              child: Container(
-                                child: TextFormField(
-                                  inputFormatters: [
-                                    LengthLimitingTextInputFormatter(4),
-                                  ],
-                                  controller: passcodeController,
-                                  validator: (value) {
-                                    if (value!.length != 4) {
-                                      return 'Code must be of 4 digit';
-                                    }
-                                    return null;
-                                  },
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.symmetric(
-                                        vertical: 14.0.sp, horizontal: 11.0.sp),
-                                    hintText: "PASS CODE",
-                                    hintStyle: TextStyle(
-                                        color: AppColor.secondaryColor,
-                                        fontSize: 12.sp,
-                                        fontFamily: "Inter",
-                                        fontWeight: FontWeight.w500),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: AppColor.greyColor),
-                                      borderRadius:
-                                          BorderRadius.circular(10.0.sp),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 5.w),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      " Passcode",
+                                      style: TextStyle(
+                                          color: AppColor.neavyBlueColor,
+                                          fontSize: 18.sp,
+                                          fontWeight: FontWeight.w600,
+                                          fontFamily: "Inter",
+                                          height: 0.8),
                                     ),
-                                    border: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: AppColor.greyColor),
-                                      borderRadius:
-                                          BorderRadius.circular(10.0.sp),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 2.h,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 5.w),
+                                child: Container(
+                                  child: TextFormField(
+                                    inputFormatters: [
+                                      LengthLimitingTextInputFormatter(4),
+                                    ],
+                                    controller: passcodeController,
+                                    validator: (value) {
+                                      if (value!.length != 4) {
+                                        return 'Code must be of 4 digit';
+                                      }
+                                      return null;
+                                    },
+                                    decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.symmetric(
+                                          vertical: 14.0.sp,
+                                          horizontal: 11.0.sp),
+                                      hintText: "PASS CODE",
+                                      hintStyle: TextStyle(
+                                          color: AppColor.secondaryColor,
+                                          fontSize: 12.sp,
+                                          fontFamily: "Inter",
+                                          fontWeight: FontWeight.w500),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: AppColor.greyColor),
+                                        borderRadius:
+                                            BorderRadius.circular(10.0.sp),
+                                      ),
+                                      border: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: AppColor.greyColor),
+                                        borderRadius:
+                                            BorderRadius.circular(10.0.sp),
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                            SizedBox(
-                              height: 3.h,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 7.w),
-                              child: MaterialButton(
-                                height: 6.h,
-                                color: AppColor.primaryColor,
-                                minWidth: double.infinity,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.sp)),
-                                onPressed: () async {
-                                  FocusScope.of(context)
-                                      .requestFocus(new FocusNode());
+                              SizedBox(
+                                height: 3.h,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 7.w),
+                                child: MaterialButton(
+                                  height: 6.h,
+                                  color: AppColor.primaryColor,
+                                  minWidth: double.infinity,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(10.sp)),
+                                  onPressed: () async {
+                                    FocusScope.of(context)
+                                        .requestFocus(new FocusNode());
 
-                                  if (passcodeController.text.trim() != "") {
-                                    Get.back();
-                                    isLoading.value = true;
+                                    if (passcodeController.text.trim() != "") {
+                                      Get.back();
+                                      isLoading.value = true;
 
-                                    var feesRes =
-                                        await FeesReportRepo.feesreportRepo(
-                                            passcode: passcodeController.text
-                                                .trim()
-                                                .toString());
-                                    if (feesRes['result']) {
-                                      print(
-                                          "Fees-------------${feesRes["data"]["Report"]["total_fees"]}");
+                                      var feesRes =
+                                          await FeesReportRepo.feesreportRepo(
+                                              passcode: passcodeController.text
+                                                  .trim()
+                                                  .toString());
+                                      if (feesRes['result']) {
+                                        print(
+                                            "Fees-------------${feesRes["data"]["Report"]["total_fees"]}");
 
-                                      Get.to(FeesScreen(
-                                        totalFees: feesRes["data"]["Report"]
-                                            ["total_fees"],
-                                        totalDepositFees: feesRes["data"]
-                                            ["Report"]["total_deposit_fees"],
-                                        totalPendingFees: feesRes["data"]
-                                            ["Report"]["total_pending_fees"],
-                                      ));
-                                      isLoading.value = false;
-                                      passcodeController.clear();
+                                        Get.to(FeesScreen(
+                                          totalFees: feesRes["data"]["Report"]
+                                              ["total_fees"],
+                                          totalDepositFees: feesRes["data"]
+                                              ["Report"]["total_deposit_fees"],
+                                          totalPendingFees: feesRes["data"]
+                                              ["Report"]["total_pending_fees"],
+                                        ));
+                                        isLoading.value = false;
+                                        passcodeController.clear();
+                                      } else {
+                                        isLoading.value = false;
+                                        Get.snackbar(
+                                          "Error",
+                                          'This Passcode is not found! Please try again later',
+                                        );
+                                      }
                                     } else {
                                       isLoading.value = false;
                                       Get.snackbar(
-                                        "Error",
-                                        'This Passcode is not found! Please try again later',
-                                      );
+                                          "Message", "Please Enter Value");
                                     }
-                                  } else {
-                                    isLoading.value = false;
-                                    Get.snackbar(
-                                        "Message", "Please Enter Value");
-                                  }
-                                },
-                                child: Text(
-                                  "Verification",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: "Inter",
+                                  },
+                                  child: Text(
+                                    "Verification",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: "Inter",
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            SizedBox(
-                              height: 2.h,
-                            ),
-                          ],
-                        );
-                      });
+                              SizedBox(
+                                height: 2.h,
+                              ),
+                            ],
+                          );
+                        });
+                  } else {
+                    Get.snackbar("Message",
+                        "you doesn't permission to see Fees Details");
+                  }
                 },
                 leading: Image(
                     image: AssetImage("assets/images/Survey.png"),

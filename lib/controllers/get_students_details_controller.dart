@@ -169,6 +169,19 @@ class GetStudentsDetailsController extends GetxController {
     update();
   }
 
+  void updateStudentDetails({
+    required String updateName,
+    required String updateEmail,
+    required String updatePhoneNumber,
+    required String updateAddress,
+  }) {
+    StudentDetailsList!.studentDetails!.fullName = updateName;
+    StudentDetailsList!.studentDetails!.email = updateEmail;
+    StudentDetailsList!.studentDetails!.mobile = updatePhoneNumber;
+    StudentDetailsList!.studentDetails!.address = updateAddress;
+    update();
+  }
+
   void resetBatch() {
     allbatch = List.generate(
         StudentDetailsList!.studentDetails!.batch!.length,
