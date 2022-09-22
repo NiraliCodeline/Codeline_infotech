@@ -8,7 +8,7 @@ class Common_TextFormFeild extends StatefulWidget {
   Common_TextFormFeild(
       {Key? key,
       this.controller,
-      required this.validator,
+      this.validator,
       this.labelText,
       required this.obscure,
       this.prefixIcon,
@@ -16,7 +16,7 @@ class Common_TextFormFeild extends StatefulWidget {
       : super(key: key);
 
   final controller;
-  final String? Function(String?) validator;
+  final String? Function(String?)? validator;
   final labelText;
   final bool obscure;
   final prefixIcon;
